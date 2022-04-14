@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"gardenai/server/migrations"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -9,7 +10,7 @@ import (
 
 var DB *gorm.DB
 
-func InitDatabase() {
+func connect() {
 	dsn := "host=localhost user=admin password=password123 dbname=gardenai port=5432 sslmode=disable"
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
@@ -22,4 +23,9 @@ func InitDatabase() {
 	}
 
 	DB = db
+}
+
+func Setup() {
+	connect()
+	migrations.Run(DB)
 }
