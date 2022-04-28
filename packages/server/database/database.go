@@ -1,8 +1,8 @@
 package database
 
 import (
-	"fmt"
 	"gardenai/server/migrations"
+	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -19,13 +19,13 @@ func connect() {
 	}), &gorm.Config{})
 
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	DB = db
 }
 
-func Setup() {
+func Configure() {
 	connect()
 	migrations.Run(DB)
 }

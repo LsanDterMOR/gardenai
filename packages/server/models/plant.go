@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
 type GrowthRate uint
 type SunExposure uint
@@ -19,12 +21,12 @@ const (
 )
 
 const (
-	FibrousDeep	RootType = iota + 1
-	FibrousShallow 
+	FibrousDeep RootType = iota + 1
+	FibrousShallow
 )
 
 type Plant struct {
-	ID               uint
+	gorm.Model
 	CommonName       *string
 	ScientificName   string
 	PlantType        string
@@ -40,7 +42,5 @@ type Plant struct {
 	MaxpH            uint
 	MinUSDAZone      uint
 	MaxUSDAZone      uint
-	RootType 		 RootType
-	CreatedAt        time.Time
-	UpdatedAt        time.Time
+	RootType         RootType
 }
