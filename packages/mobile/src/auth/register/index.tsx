@@ -25,9 +25,9 @@ const Register = (props: RegisterProps) => {
           width={274.23}
         />
       </View>
-      <TextInput style={styles.Input} placeholder="username" onChangeText={setUsername}></TextInput>
-      <TextInput style={styles.Input} secureTextEntry={true} placeholder="password" onChangeText={setPassword}></TextInput>
-      <TextInput style={styles.Input} secureTextEntry={true} placeholder="confirm password" onChangeText={setConfirmPassword}></TextInput>
+      <TextInput style={styles.Input} placeholder="username" placeholderTextColor="#000" onChangeText={setUsername}></TextInput>
+      <TextInput style={styles.Input} secureTextEntry={true} placeholder="password" placeholderTextColor="#000" onChangeText={setPassword}></TextInput>
+      <TextInput style={styles.Input} secureTextEntry={true} placeholder="confirm password" placeholderTextColor="#000" onChangeText={setConfirmPassword}></TextInput>
       <View style={styles.loginBtn}>
         <RegisterBtn eventPush={moveToLogin}/>
       </View>

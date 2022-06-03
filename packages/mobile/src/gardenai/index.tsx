@@ -15,7 +15,7 @@ const Gardenai = (props: GardenaiProps) => {
             onPress={()=> props.navigation.navigate("Camera")}/>
           <Button
             title="Press me"
-            onPress={()=> props.navigation.navigate("GardenGenerator")}/>
+            onPress={()=> props.navigation.navigate("CreateGarden")}/>
       </View>
     );
   }

@@ -1,15 +1,14 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import { createNativeStackNavigator  } from '@react-navigation/native-stack';
-import Login from './auth/login/index';
-import Register from './auth/register/index';
+import Login from './auth/login';
+import Register from './auth/register';
 import Gardenai from './gardenai/index';
-import CameraGardenai from './gardenai/camera/index';
-import GardenGenerator from './gardenai/gardenGeneration/intex'
-
+import CameraGardenai from './gardenai/camera';
+import CreateGarden from './gardenai/createGarden'
+import ListOfPlants from './gardenai/listOfPlants'
 
 const Stack = createNativeStackNavigator();
-
 const AppNavigator = () => (
    <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Login'>
@@ -17,8 +16,10 @@ const AppNavigator = () => (
          <Stack.Screen name="Register" component={Register} />
          <Stack.Screen name="Gardenai" component={Gardenai} />
          <Stack.Screen name="Camera" component={CameraGardenai} />
-         <Stack.Screen name="GardenGenerator" component={GardenGenerator} />
+         <Stack.Screen name="CreateGarden" component={CreateGarden} />
+         <Stack.Screen name="ListOfPlants" component={ListOfPlants} />
       </Stack.Navigator>
    </NavigationContainer>
 )
+
 export default AppNavigator

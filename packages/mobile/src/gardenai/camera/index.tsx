@@ -3,7 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from
 import { Camera, PermissionStatus } from "expo-camera";
 import { GestureEvent, PanGestureHandler, PanGestureHandlerEventPayload } from 'react-native-gesture-handler';
 
-const GardenaiCamera = () => {
+interface GardenaiCameraProps {
+  navigation : any;
+}
+
+const GardenaiCamera = (props : GardenaiCameraProps) => {
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [base64Image, setBase64Image] = useState<string |null>();
@@ -41,15 +45,13 @@ const GardenaiCamera = () => {
   }
   const savePhoto = async() => {
     console.log(imgPath);
+    props.navigation.navigate("CreateGarden")
   }
 
   const onPress = (event: GestureEvent<PanGestureHandlerEventPayload>) => {
     const { x, y, translationX, translationY } = event.nativeEvent;
-    console.log("x ", x);
-    console.log("y ", y);
     if (!start) setStart({ x: y, y: x });
     setDimensions({ w: translationX, h: translationY });
-    
   };
 
   const onEnd = () => {
@@ -66,37 +68,24 @@ const GardenaiCamera = () => {
         <View>
             <View>
               <PanGestureHandler onGestureEvent={onPress} onEnded={onEnd}>
-              <View style={{ width: '100%', height: '100%', backgroundColor: 'red' }}>
-
-                <ImageBackground style={styles.image} source={{ uri: base64Image }}>
-                  <View
-                    style={{
-                      position: 'absolute',
-                      backgroundColor: "blue",
-                      top: start?.x ?? end?.x,
-                      left: start?.y ?? end?.y,
-                      width: dimensions?.w ?? 0,
-                      height: dimensions?.h ?? 0,}}
-                />
-                </ImageBackground>
-                </View>
+                <ImageBackground style={styles.image} source={{ uri: base64Image }} />
             </PanGestureHandler>
           </View>
           
-          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+          <View style={{ position: 'absolute', bottom:5, flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
             <TouchableOpacity
               onPress={retakePicture}
-              style={{ width: 130, height: 40, alignItems: 'center', borderRadius: 4 }}>
-                <Text style={{ color: '#000', fontSize: 20}}>
+              style={{ width: 130, height: 40, alignItems: 'center', borderRadius: 4, flex:1, }}>
+                <Text style={{ color: '#FFF', fontSize: 20}}>
                   Re-take
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={savePhoto}
-              style={{ width: 130, height: 40, alignItems: 'center', borderRadius: 4}}>
+              style={{ width: 130, height: 40, alignItems: 'center', borderRadius: 4, flex:1}}>
                 <Text
                   style={{
-                    color: '#000',
+                    color: '#FFF',
                     fontSize: 20
                   }}>
                   save photo
@@ -141,7 +130,7 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    height: "95%",
+    height: "100%",
   },
 });
 

@@ -37,8 +37,8 @@ const Login = (props: LoginProps) => {
           width={274.23}
         />
       </View>
-      <TextInput style={styles.Input} placeholder="email" keyboardType="email-address" onChangeText={text => validateEmail(text)}></TextInput>  
-      <TextInput style={styles.Input} secureTextEntry={true} placeholder="password" onChangeText={setPassword}></TextInput>
+      <TextInput style={styles.Input} placeholder="email" placeholderTextColor="#000" keyboardType="email-address" onChangeText={text => validateEmail(text)}></TextInput>  
+      <TextInput style={styles.Input} secureTextEntry={true} placeholder="password" placeholderTextColor="#000" onChangeText={setPassword}></TextInput>
       {
         !isEmail ? <Text style={styles.errorText}>Ceci n'est pas un mail valide</Text> : null
       }
