@@ -36,7 +36,6 @@ const GardenaiCamera = (props : GardenaiCameraProps) => {
     if (photo?.base64) {
       setBase64Image("data:image/jpg;base64," + photo.base64);
     }
-    console.log("base64Image => ", base64Image)
     setImgPath(photo?.base64);
   };
   const retakePicture = () => {
@@ -44,7 +43,7 @@ const GardenaiCamera = (props : GardenaiCameraProps) => {
     
   }
   const savePhoto = async() => {
-    console.log(imgPath);
+    console.log("base64Image => ", base64Image)
     props.navigation.navigate("CreateGarden")
   }
 

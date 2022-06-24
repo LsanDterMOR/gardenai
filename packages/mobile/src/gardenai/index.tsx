@@ -26,7 +26,7 @@ const Gardenai = (props: GardenaiProps) => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',   
-      // backgroundColor: "#FFF9F5"
+      backgroundColor: "#FFF9F5"
     },
   });
   

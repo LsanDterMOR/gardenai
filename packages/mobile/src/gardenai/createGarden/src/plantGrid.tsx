@@ -58,7 +58,7 @@ function removeCart(e : number) {
                   <Text style={{color:"white", position:'absolute', right: -1,top: -7, }} onPress={() => {removeCart(i)}} >x</Text>
                   <Text style={{color:"white", }}>{item.name}</Text>
               </View>
-              <TextInput style={[styles.Input,]} placeholder="test" placeholderTextColor="#000" keyboardType="number-pad" onChangeText={() => removeCart(i)}></TextInput>          
+              <TextInput style={[styles.Input,]} placeholder="1" placeholderTextColor="#000" keyboardType="number-pad" onChangeText={() => removeCart(i)}></TextInput>          
           </View>
         )}
       </SafeAreaView>
@@ -95,8 +95,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#FFF9F5',
     marginTop: "10%",
-    height:"20%",
-    
+    height:"25%",
+    minWidth:'10%',
+    textAlign: 'center'
   },
   validateButton: {
     marginBottom: "-100%",

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, StatusBar, ScrollView } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 import PlantGrid from './src/plantGrid'
@@ -36,45 +36,49 @@ const CreateGarden = (props: CreateGardenProps) => {
             </View>);
     }
     return (
-        <View style={styles.container}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: "15%", marginLeft: "10%" }}>
-                <FontAwesome5 name="arrow-left" size={24} color="black" style={styles.quitIcon} onPress={() => props.navigation.goBack()} />
-                <Text style={styles.titlePage}>Créer un potager</Text>
-            </View>
-            {TitleFunction("Mesures", "7.5%")}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <View style={{ flex: 1, }} />
-                <TextInput style={styles.Input} placeholder="Longueur" placeholderTextColor="#000" keyboardType="number-pad" onChangeText={text => setLengthSize(parseInt(text))}></TextInput>
-                <View style={{ flex: 1, }} />
-                <TextInput style={styles.Input} placeholder="Largeur" placeholderTextColor="#000" keyboardType="number-pad" onChangeText={text => setWidthSize(parseInt(text))}></TextInput>
-                <View style={{ flex: 1, }} />
-            </View>
-            {TitleFunction("Plantes", "5%")}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: '5%' }}>
-                <View style={{ flex: 2, }} />
-                <TouchableOpacity style={styles.PlantButton}
-                    onPress={() => props.navigation.navigate("Camera")}>
-                    <FontAwesome5 name="camera" size={24} color="#65C18C" />
-                    <Text>Photo</Text>
-                </TouchableOpacity>
-                <View style={{ flex: 1, }} />
-                <TouchableOpacity style={styles.PlantButton}
-                    onPress={() => props.navigation.navigate("ListOfPlants")}>
-                    <FontAwesome5 name="book" size={24} color="#65C18C" />
-                    <Text>Glossaire</Text>
-                </TouchableOpacity>
-                <View style={{ flex: 2, }} />
-            </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        
+                <View style={styles.container}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: "15%", marginLeft: "10%" }}>
+                        <FontAwesome5 name="arrow-left" size={24} color="black" style={styles.quitIcon} onPress={() => props.navigation.goBack()} />
+                        <Text style={styles.titlePage}>Créer un potager</Text>
+                    </View>
+                    {TitleFunction("Mesures", "7.5%")}
+                    
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ flex: 1, }} />
+                        <TextInput style={styles.Input} placeholder="Longueur" placeholderTextColor="#000" keyboardType="number-pad" onChangeText={text => setLengthSize(parseInt(text))}></TextInput>
+                        <View style={{ flex: 1, }} />
+                        <TextInput style={styles.Input} placeholder="Largeur" placeholderTextColor="#000" keyboardType="number-pad" onChangeText={text => setWidthSize(parseInt(text))}></TextInput>
+                        <View style={{ flex: 1, }} />
+                    </View>
+                    {TitleFunction("Plantes", "5%")}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: '5%' }}>
+                        <View style={{ flex: 2, }} />
+                        <TouchableOpacity style={styles.PlantButton}
+                            onPress={() => props.navigation.navigate("Camera")}>
+                            <FontAwesome5 name="camera" size={24} color="#65C18C" />
+                            <Text>Photo</Text>
+                        </TouchableOpacity>
+                        <View style={{ flex: 1, }} />
+                        <TouchableOpacity style={styles.PlantButton}
+                            onPress={() => props.navigation.navigate("ListOfPlants")}>
+                            <FontAwesome5 name="book" size={24} color="#65C18C" />
+                            <Text>Glossaire</Text>
+                        </TouchableOpacity>
+                        <View style={{ flex: 2, }} />
+                    </View>
 
-            <PlantGrid />
+                    <PlantGrid />
 
-            {/* <View style={[{ position: 'absolute', bottom: 0, }]}>
-                <TouchableOpacity style={[styles.validateButton,]}
-                    onPress={() =>(console.log("valider"))}>
-                    <Text style={{ fontSize: Dimensions.get("screen").height / 25, color: "#FFF", fontWeight: "bold", fontFamily: 'VigaRegular' }}>valider</Text>
-                </TouchableOpacity>
-            </View> */}
-    </View>
+                    {/* <View style={[{ position: 'absolute', bottom: 0, }]}>
+                        <TouchableOpacity style={[styles.validateButton,]}
+                            onPress={() =>(console.log("valider"))}>
+                            <Text style={{ fontSize: Dimensions.get("screen").height / 25, color: "#FFF", fontWeight: "bold", fontFamily: 'VigaRegular' }}>valider</Text>
+                        </TouchableOpacity>
+                    </View> */}
+            </View>
+        </TouchableWithoutFeedback>
 )}
 
 const styles = StyleSheet.create({

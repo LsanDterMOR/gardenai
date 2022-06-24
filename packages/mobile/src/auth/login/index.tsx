@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React, { useState } from 'react';
 import LogoIcon from '../src/LogoIcon';
 import LoginBtn from '../src/LoginBtn';
@@ -30,23 +30,26 @@ const Login = (props: LoginProps) => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.logo}>
-        <LogoIcon 
-          height={150}
-          width={274.23}
-        />
-      </View>
-      <TextInput style={styles.Input} placeholder="email" placeholderTextColor="#000" keyboardType="email-address" onChangeText={text => validateEmail(text)}></TextInput>  
-      <TextInput style={styles.Input} secureTextEntry={true} placeholder="password" placeholderTextColor="#000" onChangeText={setPassword}></TextInput>
-      {
-        !isEmail ? <Text style={styles.errorText}>Ceci n'est pas un mail valide</Text> : null
-      }
-      <View style={styles.loginBtn}>
-        <LoginBtn eventPush={moveToGardenai}/>
-      </View>
-      <Text onPress={moveToRegister} style={styles.register}>Vous n'avez pas encore de compte ?</Text>
-    </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <View style={styles.logo}>
+            <LogoIcon 
+              height={150}
+              width={274.23}
+            />
+          </View>
+          
+          <TextInput style={styles.Input} placeholder="email" placeholderTextColor="#000" keyboardType="email-address" onChangeText={text => validateEmail(text)}></TextInput>  
+          <TextInput style={styles.Input} secureTextEntry={true} placeholder="password" placeholderTextColor="#000" onChangeText={setPassword}></TextInput>
+          {
+            !isEmail ? <Text style={styles.errorText}>Ceci n'est pas un mail valide</Text> : null
+          }
+          <View style={styles.loginBtn}>
+            <LoginBtn eventPush={moveToGardenai}/>
+          </View>
+          <Text onPress={moveToRegister} style={styles.register}>Vous n'avez pas encore de compte ?</Text>
+        </View>
+      </TouchableWithoutFeedback>
   );
 }
 

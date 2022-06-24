@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React, { useState } from 'react';
 import LogoIcon from '../src/LogoIcon';
 import RegisterBtn from '../src/RegisterBtn';
@@ -18,21 +18,23 @@ const Register = (props: RegisterProps) => {
 
 
   return (
-    <View style={styles.container}>
-      <View style={styles.logo}>
-        <LogoIcon 
-          height={150}
-          width={274.23}
-        />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <View style={styles.logo}>
+          <LogoIcon 
+            height={150}
+            width={274.23}
+          />
+        </View>
+        <TextInput style={styles.Input} placeholder="username" placeholderTextColor="#000" onChangeText={setUsername}></TextInput>
+        <TextInput style={styles.Input} secureTextEntry={true} placeholder="password" placeholderTextColor="#000" onChangeText={setPassword}></TextInput>
+        <TextInput style={styles.Input} secureTextEntry={true} placeholder="confirm password" placeholderTextColor="#000" onChangeText={setConfirmPassword}></TextInput>
+        <View style={styles.loginBtn}>
+          <RegisterBtn eventPush={moveToLogin}/>
+        </View>
+        <Text onPress={moveToLogin} style={styles.register}>Vous avez déjà un compte ?</Text>
       </View>
-      <TextInput style={styles.Input} placeholder="username" placeholderTextColor="#000" onChangeText={setUsername}></TextInput>
-      <TextInput style={styles.Input} secureTextEntry={true} placeholder="password" placeholderTextColor="#000" onChangeText={setPassword}></TextInput>
-      <TextInput style={styles.Input} secureTextEntry={true} placeholder="confirm password" placeholderTextColor="#000" onChangeText={setConfirmPassword}></TextInput>
-      <View style={styles.loginBtn}>
-        <RegisterBtn eventPush={moveToLogin}/>
-      </View>
-      <Text onPress={moveToLogin} style={styles.register}>Vous avez déjà un compte ?</Text>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 

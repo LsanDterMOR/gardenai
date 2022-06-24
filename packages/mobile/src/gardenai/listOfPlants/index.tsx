@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, StatusBar, ScrollView, FlatList } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, StatusBar, FlatList, TouchableWithoutFeedback, Keyboard  } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 
@@ -19,23 +19,24 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
         { name: 'PARKER', code: '#9b59b6' },    
     ])
     return (
-        <View
-        style={styles.container}>
-            
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: "15%", marginLeft: "10%" }}>
-                <FontAwesome5 name="arrow-left" size={24} color="black" style={styles.quitIcon} onPress={() => props.navigation.goBack()} />
-                <Text style={styles.titlePage}>Liste des plantes</Text>
-            </View>
-            <View style={{ paddingTop:"15%", height:"14%"}}>
-                <TextInput style={styles.Input} placeholder="recherche" placeholderTextColor="#000" onChangeText={text => console.log(text)}></TextInput>
-            </View>
-            <FlatList
-                data={listOfPlants}
-                keyExtractor={(items, i) => i.toString()}
-                renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>}
-                />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: "15%", marginLeft: "10%" }}>
+                    <FontAwesome5 name="arrow-left" size={24} color="black" style={styles.quitIcon} onPress={() => props.navigation.goBack()} />
+                    <Text style={styles.titlePage}>Liste des plantes</Text>
+                </View>
+                <View style={{ paddingTop:"15%", height:"14%"}}>
+                    <TextInput style={styles.Input} placeholder="recherche" placeholderTextColor="#000" onChangeText={text => console.log(text)}></TextInput>
+                </View>
+                <FlatList
+                    data={listOfPlants}
+                    keyExtractor={(items, i) => i.toString()}
+                    renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>}
+                    />
 
-        </View>
+            </View>
+        </TouchableWithoutFeedback>
     );
 }
 
