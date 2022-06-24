@@ -16,6 +16,9 @@ const Gardenai = (props: GardenaiProps) => {
           <Button
             title="Press me"
             onPress={()=> props.navigation.navigate("CreateGarden")}/>
+          <Button
+            title="Garden"
+            onPress={()=> props.navigation.navigate("Garden")}/>
       </View>
     );
   }

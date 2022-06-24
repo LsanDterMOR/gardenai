@@ -7,6 +7,7 @@ import Gardenai from './gardenai/index';
 import CameraGardenai from './gardenai/camera';
 import CreateGarden from './gardenai/createGarden'
 import ListOfPlants from './gardenai/listOfPlants'
+import Garden from './gardenai/garden'
 
 const Stack = createNativeStackNavigator();
 const AppNavigator = () => (
@@ -18,6 +19,7 @@ const AppNavigator = () => (
          <Stack.Screen name="Camera" component={CameraGardenai} />
          <Stack.Screen name="CreateGarden" component={CreateGarden} />
          <Stack.Screen name="ListOfPlants" component={ListOfPlants} />
+         <Stack.Screen name="Garden" component={Garden} />
       </Stack.Navigator>
    </NavigationContainer>
 )
