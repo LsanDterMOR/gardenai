@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, StatusBar, TouchableWithoutFeedback, Keyboard, Image  } from "react-native";
+import { StyleSheet, Text, View, StatusBar, TouchableWithoutFeedback, Keyboard, Image, Dimensions   } from "react-native";
+import ImageZoom from 'react-native-image-pan-zoom';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 
@@ -9,20 +10,16 @@ interface GardenProps {
 
 const Garden = (props: GardenProps) => {
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-            <Text style={styles.text}>{"Mon jardin"}</Text>
-            <Image
-                style={styles.field}
-                source={require('./ressource/field.png')}
-            />
-            <Image
-                style={styles.image}
-                source={require('./ressource/plante.png')}
-            />
-            
-            </View>
-        </TouchableWithoutFeedback>
+        <View style={styles.container}>
+        <Text style={styles.text}>{"Mon jardin"}</Text>
+        <ImageZoom style={styles.imageHolder} cropWidth={Dimensions.get('window').width}
+                    cropHeight={Dimensions.get('window').height}
+                    imageWidth={Dimensions.get('window').width}
+                    imageHeight={Dimensions.get('window').height}>
+             <Image style={styles.field} source={require('./ressource/field.png')}/>
+             <Image style={styles.plant} source={require('./ressource/plante.png')}/>
+         </ImageZoom>
+         </View>
     );
 }
 
@@ -35,15 +32,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: StatusBar.currentHeight,
     },
-    image: {
+    imageHolder: {
+        backgroundColor: "red",
    },
     text: {
-        marginTop: 30,
-        fontSize: 30
+        fontSize: 40
     },
     field: {
         position: "absolute",
-        top: 90,
+        top: "25%",
+        left: "10%",
+        width: 300,
+        height: 300,
+    },
+    plant: {
+        position: "absolute",
+        top: "25%",
+        left: "10%",
+        width: 100,
+        height: 100,
     }
 });
 

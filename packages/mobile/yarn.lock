@@ -4833,6 +4833,11 @@
     "lodash" "^4.17.21"
     "prop-types" "^15.7.2"
 
+"react-native-image-pan-zoom@^2.1.12":
+  "integrity" "sha512-BF66XeP6dzuANsPmmFsJshM2Jyh/Mo1t8FsGc1L9Q9/sVP8MJULDabB1hms+eAoqgtyhMr5BuXV3E1hJ5U5H6Q=="
+  "resolved" "https://registry.npmjs.org/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz"
+  "version" "2.1.12"
+
 "react-native-safe-area-context@>= 3.0.0", "react-native-safe-area-context@3.3.2":
   "integrity" "sha512-yOwiiPJ1rk+/nfK13eafbpW6sKW0jOnsRem2C1LPJjM3tfTof6hlvV5eWHATye3XOpu2cJ7N+HdkUvUDGwFD2Q=="
   "resolved" "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-3.3.2.tgz"
