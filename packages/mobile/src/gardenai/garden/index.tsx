@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, StatusBar, TouchableWithoutFeedback, Keyboard, 
 import ImageZoom from 'react-native-image-pan-zoom';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
+import DisplayGarden from './src/displayGarden'
 
 interface GardenProps {
     navigation: any;
@@ -14,10 +15,9 @@ const Garden = (props: GardenProps) => {
         <Text style={styles.text}>{"Mon jardin"}</Text>
         <ImageZoom style={styles.imageHolder} cropWidth={Dimensions.get('window').width}
                     cropHeight={Dimensions.get('window').height}
-                    imageWidth={Dimensions.get('window').width}
+                    imageWidth={Dimensions.get('window').width + Dimensions.get('window').width / 5}
                     imageHeight={Dimensions.get('window').height}>
-             <Image style={styles.field} source={require('./ressource/field.png')}/>
-             <Image style={styles.plant} source={require('./ressource/plante.png')}/>
+             <DisplayGarden/>
          </ImageZoom>
          </View>
     );
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
         paddingTop: StatusBar.currentHeight,
     },
     imageHolder: {
-        backgroundColor: "red",
    },
     text: {
         fontSize: 40
