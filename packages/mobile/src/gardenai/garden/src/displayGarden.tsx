@@ -15,7 +15,7 @@ interface GardenProps {
   }
 
 const mapTest = [[1, 0, 0, 0, 0], 
-[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0], [1, 0, 0, 0, 0]]
+[0, 0, 0, 0, 0], [0, 0, 0, 0, 1], [0, 0, 1, 0, 0], [0, 0, 0, 0, 0]]
 
 function DisplayPlant(props: GardenProps) {
     let i = props.i;
@@ -23,7 +23,7 @@ function DisplayPlant(props: GardenProps) {
     if (props.map[y - 1][i - 1] == 1) {
         return (
             <View key = {"plant_" + y * 10 + i}>
-                <Image style={{top: 55 + (i * 15 + y * 15), left: -43 + (y * 40 - i * 40), position: "absolute", width: 100, height: 100}} source={require('../ressource/plante.png')}/>
+                <Image style={{top: 10 + (i * 35 + y * 34), left: -45 + (y * 45 - i * 46), position: "absolute", width: 100, height: 100}} source={require('../ressource/plante.png')}/>
             </View>
         )
     }
@@ -41,7 +41,7 @@ const displayGarden = () => {
         for (let i = 1; i < 6; i++) {
 		    gardenField.push(
 			    <View key = {"field_" + y * 10 + i}>
-                    <Image style={{top: 100 + (i * 15 + y * 15), left: -50 + (y * 40 - i * 40), position: "absolute", width: 100, height: 100}} source={require('../ressource/field_block.png')}/>
+                    <Image style={{top: 50 + (i * 35 + y * 35), left: -50 + (y * 45 - i * 46), position: "absolute", width: 90, height: 90}} source={require('../ressource/field_block.png')}/>
                     <DisplayPlant i={i} y={y} map={mapTest}/>
 			    </View>
 		    );

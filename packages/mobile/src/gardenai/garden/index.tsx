@@ -15,7 +15,7 @@ const Garden = (props: GardenProps) => {
         <Text style={styles.text}>{"Mon jardin"}</Text>
         <ImageZoom style={styles.imageHolder} cropWidth={Dimensions.get('window').width}
                     cropHeight={Dimensions.get('window').height}
-                    imageWidth={Dimensions.get('window').width + Dimensions.get('window').width / 5}
+                    imageWidth={Dimensions.get('window').width + Dimensions.get('window').width / 2}
                     imageHeight={Dimensions.get('window').height}>
              <DisplayGarden/>
          </ImageZoom>
