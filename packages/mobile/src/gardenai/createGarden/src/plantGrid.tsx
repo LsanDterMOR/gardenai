@@ -29,11 +29,12 @@ const plantGrid = () => {
 }, []);
 
   useEffect(() => {
-    console.log("useEffect cartItems => ")
-    console.log(cartItems);
+    // console.log("useEffect cartItems => ")
+    // console.log(cartItems);
   }, [cartItems]);
 
 function removeCart(e : number) {
+  console.log("wesh ??")
   var array = cartItems; // make a separate copy of the array
   if (e !== -1) {
     array.splice(e, 1);
@@ -58,7 +59,7 @@ function removeCart(e : number) {
                   <Text style={{color:"white", position:'absolute', right: -1,top: -7, }} onPress={() => {removeCart(i)}} >x</Text>
                   <Text style={{color:"white", }}>{item.name}</Text>
               </View>
-              <TextInput style={[styles.Input,]} placeholder="1" placeholderTextColor="#000" keyboardType="number-pad" onChangeText={() => removeCart(i)}></TextInput>          
+              <TextInput style={[styles.Input,]} placeholder="1" placeholderTextColor="#000" keyboardType="number-pad" ></TextInput>          
           </View>
         )}
       </SafeAreaView>
