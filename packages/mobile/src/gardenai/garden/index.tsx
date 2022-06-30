@@ -36,20 +36,6 @@ const styles = StyleSheet.create({
    },
     text: {
         fontSize: 40
-    },
-    field: {
-        position: "absolute",
-        top: "25%",
-        left: "10%",
-        width: 300,
-        height: 300,
-    },
-    plant: {
-        position: "absolute",
-        top: "25%",
-        left: "10%",
-        width: 100,
-        height: 100,
     }
 });
 
