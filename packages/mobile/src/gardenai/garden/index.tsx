@@ -16,7 +16,8 @@ const Garden = (props: GardenProps) => {
         <ImageZoom style={styles.imageHolder} cropWidth={Dimensions.get('window').width}
                     cropHeight={Dimensions.get('window').height}
                     imageWidth={Dimensions.get('window').width + Dimensions.get('window').width / 2}
-                    imageHeight={Dimensions.get('window').height}>
+                    imageHeight={Dimensions.get('window').height}
+                    >
              <DisplayGarden/>
          </ImageZoom>
          </View>

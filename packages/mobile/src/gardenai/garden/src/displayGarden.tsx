@@ -20,8 +20,48 @@ interface PlantProps {
     plant: any;
 }
 
-const mapTest = [[3, 3, 0, 0, 1], 
-[3, 0, 0, 0, 1], [0, 0, 6, 0, 1], [0, 0, 0, 0, 0], [0, 7, 7, 0, 0]]
+/*const mapTest = [[3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 6, 0, 1, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 6, 0, 1, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 7, 0, 0]
+]*/
+
+const mapTest = [[3, 3, 0, 0, 1, 0, 0],
+[3, 0, 0, 0, 1, 0, 0],
+[0, 0, 6, 0, 1, 0, 0],
+[0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 7, 7, 0, 0],
+[0, 0, 0, 7, 7, 0, 0]
+]
+
+/*const mapTest = [[3, 3, 0, 0],
+[3, 0, 0, 0],
+[0, 0, 6, 0],
+[0, 0, 0, 0],
+]*/
+
+const plant = {
+    width: 80 / (mapTest.length /5),
+    height: 80 / (mapTest.length /5)
+}
+
+const field = {
+    width: 90 / (mapTest.length /5),
+    height: 90 / (mapTest.length /5)
+}
+
+var background = require('../ressource/background.png');
 
 var field_grass = require('../ressource/field_grass.png');
 var field_dirt = require('../ressource/field_dirt.png');
@@ -39,21 +79,22 @@ var plant9 = require('../ressource/plant9.png');
 function ParseMap(props: GardenProps) {
     let i = props.i;
     let y = props.y;
+    var width = plant.width / 2;
     let plantNumber = props.map[y - 1][i - 1];
-    var plant;
+    var plantImg;
     if (plantNumber != 0) {
-        plantNumber == 1 ? plant = plant1 : plant;
-        plantNumber == 2 ? plant = plant2 : plant;
-        plantNumber == 3 ? plant = plant3 : plant;
-        plantNumber == 4 ? plant = plant4 : plant;
-        plantNumber == 5 ? plant = plant5 : plant;
-        plantNumber == 6 ? plant = plant6 : plant;
-        plantNumber == 7 ? plant = plant7 : plant;
-        plantNumber == 8 ? plant = plant8 : plant;
-        plantNumber == 9 ? plant = plant9 : plant;
+        plantNumber == 1 ? plantImg = plant1 : plantImg;
+        plantNumber == 2 ? plantImg = plant2 : plantImg;
+        plantNumber == 3 ? plantImg = plant3 : plantImg;
+        plantNumber == 4 ? plantImg = plant4 : plantImg;
+        plantNumber == 5 ? plantImg = plant5 : plantImg;
+        plantNumber == 6 ? plantImg = plant6 : plantImg;
+        plantNumber == 7 ? plantImg = plant7 : plantImg;
+        plantNumber == 8 ? plantImg = plant8 : plantImg;
+        plantNumber == 9 ? plantImg = plant9 : plantImg;
         return (
             <View key = {"plant_" + y * 10 + i}>
-                <Image style={{top: 35 + (i * 35 + y * 34), left: -45 + (y * 45 - i * 46), position: "absolute", width: 80, height: 80, resizeMode: "contain"}} source={plant}/>
+                <Image style={{top: 80 + (i * width + y * width), left: - width + (y * width  - i * width), position: "absolute", width: plant.width, height: plant.height, resizeMode: "contain"}} source={plantImg}/>
             </View>
         )
     }
@@ -67,18 +108,19 @@ function ParseMap(props: GardenProps) {
 const displayGarden = () => {
     var gardenField = [];
     var plantField = [];
+    var width = field.width / 2;
 
-    for (let y = 1; y < 6; y++) {
-        for (let i = 1; i < 6; i++) {
+    for (let y = 1; y < mapTest.length; y++) {
+        for (let i = 1; i < mapTest.length; i++) {
 		    gardenField.push(
 			    <View key = {"field_" + y * 10 + i}>
-                    <Image style={{top: 50 + (i * 35 + y * 35), left: -50 + (y * 45 - i * 46), position: "absolute", width: 90, height: 90}} source={field_dirt}/>
+                    <Image style={{top: 80 + width + (i * (width - width / 5) + y * (width - width / 5)), left: - width + (y * width - i * width), position: "absolute", width: field.width, height: field.height, resizeMode: "contain"}} source={field_dirt}/>
 			    </View>
 		    );
 	    }
     }
-    for (let y = 1; y < 6; y++) {
-        for (let i = 1; i < 6; i++) {
+    for (let y = 1; y < mapTest.length; y++) {
+        for (let i = 1; i < mapTest.length; i++) {
 		    plantField.push(
 			    <View key = {"plant_" + y * 10 + i}>
                     <ParseMap i={i} y={y} map={mapTest}/>
@@ -89,6 +131,9 @@ const displayGarden = () => {
 
     return (
         <View style={styles.container}>
+            <View>
+                <Image style={{top: 0, left: -500, position: "absolute"}} source={background}/>
+            </View>
             { gardenField }
             { plantField }
         </View>
@@ -97,7 +142,6 @@ const displayGarden = () => {
 
 const styles = StyleSheet.create({
     container: {
-        height: "100%",
         display: 'flex',
         backgroundColor: "#FFFBF9",
         alignItems: 'center',
