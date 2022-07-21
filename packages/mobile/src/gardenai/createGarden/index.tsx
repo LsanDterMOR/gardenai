@@ -129,13 +129,6 @@ const CreateGarden = (props: CreateGardenProps) => {
         </View>
 
         <PlantGrid />
-
-        {/* <View style={[{ position: 'absolute', bottom: 0, }]}>
-                        <TouchableOpacity style={[styles.validateButton,]}
-                            onPress={() =>(console.log("valider"))}>
-                            <Text style={{ fontSize: Dimensions.get("screen").height / 25, color: "#FFF", fontWeight: "bold", fontFamily: 'VigaRegular' }}>valider</Text>
-                        </TouchableOpacity>
-                    </View> */}
       </View>
     </TouchableWithoutFeedback>
   );
