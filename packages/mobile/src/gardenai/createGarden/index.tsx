@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,6 +14,7 @@ import {
 import { useFonts } from "expo-font";
 import PlantGrid from "./src/plantGrid";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useCartItem } from "../../store/cartItems";
 
 interface CreateGardenProps {
   navigation: any;
@@ -24,6 +25,8 @@ const CreateGarden = (props: CreateGardenProps) => {
   const [WidthSize, setWidthSize] = useState(50);
   const moveToGardenai = () => props.navigation.navigate("Gardenai");
 
+  const setCartItems = useCartItem((state) => state.setCartItems);
+
   const [loaded] = useFonts({
     VigaRegular: require("../src/font/Viga-Regular.ttf"),
   });
@@ -31,6 +34,15 @@ const CreateGarden = (props: CreateGardenProps) => {
   useEffect(() => {
     const screenWidth = Dimensions.get("screen").width;
     const screenHeight = Dimensions.get("screen").height;
+    setCartItems([
+      { name: "TOMATE", code: "#1abc9c" },
+      { name: "MAÏS", code: "#2ecc71" },
+      { name: "PATATE", code: "#3498db" },
+      { name: "TONY", code: "#9b59b6" },
+      { name: "SALADE", code: "#1abc9c" },
+      { name: "BLE", code: "#3498db" },
+      { name: "PARKER", code: "#9b59b6" },
+    ]);
   }, []);
 
   if (!loaded) {
@@ -62,13 +74,6 @@ const CreateGarden = (props: CreateGardenProps) => {
             color="#65C18C"
             onPress={() => props.navigation.goBack()}
           />
-          {/* <FontAwesome5
-            name="arrow-left"
-            size={24}
-            color="#65C18C"
-            style={styles.quitIcon}
-            onPress={() => props.navigation.goBack()}
-          /> */}
           <Text style={styles.titlePage}>Créer un potager</Text>
         </View>
         {TitleFunction("Mesures", "7.5%")}
@@ -112,7 +117,9 @@ const CreateGarden = (props: CreateGardenProps) => {
           <View style={{ flex: 1 }} />
           <TouchableOpacity
             style={styles.PlantButton}
-            onPress={() => props.navigation.navigate("ListOfPlants")}
+            onPress={() =>
+              props.navigation.navigate("ListOfPlants")
+            }
           >
             <Ionicons name="library-outline" size={24} color="#65C18C" />
             {/* <FontAwesome5 name="book" size={24} color="#65C18C" /> */}

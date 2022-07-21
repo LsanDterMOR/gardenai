@@ -10,36 +10,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Entypo,FontAwesome5 } from '@expo/vector-icons';
+import { useCartItem } from "../../../store/cartItems";
 
-const plantGrid = () => {
+interface PlantGrid {
+}
 
-  const [cartItems, setCartItems] = useState([
-    { name: 'TOMATE', code: '#1abc9c' },
-    { name: 'MAÏS', code: '#2ecc71' },
-    { name: 'PATATE', code: '#3498db' },
-    { name: 'TONY', code: '#9b59b6' },
-    { name: 'SALADE', code: '#1abc9c' },
-    { name: 'BLE', code: '#3498db' },
-    { name: 'PARKER', code: '#9b59b6' },
-  ]);
-
-  useEffect(() => {
-    // const screenWidth = Dimensions.get('screen').width;
-    // const screenHeight = Dimensions.get('screen').height;
-}, []);
-
-  useEffect(() => {
-    // console.log("useEffect cartItems => ")
-    // console.log(cartItems);
-  }, [cartItems]);
+const plantGrid = (props: PlantGrid) => {
+  const setCartItems = useCartItem((state) => state.setCartItems);
+  const cartItems = useCartItem((state) => state.items)
 
 function removeCart(e : number) {
-  console.log("wesh ??")
-  var array = cartItems; // make a separate copy of the array
+  let array = cartItems;
   if (e !== -1) {
     array.splice(e, 1);
-    setCartItems(cartItems => ([...array]));
-
+    setCartItems(array);
   }
 };
 
