@@ -13,10 +13,11 @@ func main() {
 
 	app := fiber.New()
 	api := app.Group("/api")
-	v1 := api.Group("/v1")
+	version := api.Group("/v1")
 
-	routes.User.Init(v1)
-	routes.Plant.Init(v1)
+	routes.User.Init(version)
+	routes.Plant.Init(version)
+	routes.Garden.Init(version)
 
 	log.Fatal(app.Listen(":4000"))
 }
