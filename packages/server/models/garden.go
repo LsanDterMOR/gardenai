@@ -19,7 +19,7 @@ type Position struct {
 type Garden struct {
 	gorm.Model
 	Id              uint `gorm:"uniqueIndex"`
-	Name            *string
+	Name            string
 	Width           int
 	Height          int
 	Paths           Position `gorm:"embedded"`

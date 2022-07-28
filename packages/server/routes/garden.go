@@ -18,10 +18,11 @@ func (garden) Init(v1 fiber.Router) {
 		return controllers.Garden.GetAll(c)
 	})
 
-	apiv1.Get("/GetById", func(c *fiber.Ctx) error {
+	apiv1.Get("/GetById/:id", func(c *fiber.Ctx) error {
 		return controllers.Garden.GetById(c)
 	})
 
+	// body: {name: "Garden n15", Width: 50, Height: 50}
 	apiv1.Post("/Create", func(c *fiber.Ctx) error {
 		return controllers.Garden.CreateGarden(c)
 	})

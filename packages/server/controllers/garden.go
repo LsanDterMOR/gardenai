@@ -5,6 +5,7 @@ import (
 	"gardenai/server/models"
 	"strconv"
 
+	gonanoid "github.com/matoous/go-nanoid/v2"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -13,14 +14,14 @@ type garden struct{}
 var Garden garden
 
 func (garden) GetAll(c *fiber.Ctx) error {
-	result := database.DB.Find(&Garden)
-	println("all")
+	var result []models.Garden
+	database.DB.Model(&models.Garden{}).Find(&result)
 	return c.JSON(fiber.Map{"result": result})
 }
 
 func (garden) GetById(c *fiber.Ctx) error {
 	result := map[string]interface{}{}
-	var param = c.Params("id")
+	param := c.Params("id")
 	intVar, err := strconv.Atoi(param)
 	println(intVar)
 	switch err {
@@ -33,31 +34,47 @@ func (garden) GetById(c *fiber.Ctx) error {
 }
 
 func (garden) CreateGarden(c *fiber.Ctx) error {
-	/*garden := new(validators.UserValidator)
-
-	if err := c.BodyParser(garden); err != nil {
+	gardenReq := models.GardenRequest{}
+	if err := c.BodyParser(gardenReq); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"success": false,
 			"reason":  err.Error(),
 		})
-	}*/
-	/*garden := Garden{Id: 10, Name: "ahaha", Width: 15, Height: 15}
+	}
 
-result := database.DB.Create(&garden) // pass pointer of data to Create
+	// function algo
 
-user.ID             // returns inserted data's primary key
-result.Error        // returns error
-result.RowsAffected // returns inserted records count
+	dbGarden := models.Garden{
+		Name: gardenReq.Name,
+		Width: gardenReq.Width,
+		Height: gardenReq.Height,
+	}
 
-type Garden struct {
-	gorm.Model
-	Id              uint `gorm:"uniqueIndex"`
-	Name            *string
-	Width           int
-	Height          int
-	Paths           Position `gorm:"embedded"`
-	VectorPositions VectorPosition `gorm:"embedded"`
-	PlantList       int
-}*/
-	return nil
+	id, err := gonanoid.Generate("0123456789", 9)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"reason":  "Couldn't generate id"})
+	} else {
+		u64, err := strconv.ParseUint(id, 10, 32)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"success": false,
+				"reason":  "Couldn't parse id"})
+		}
+		dbGarden.ID = uint(u64)
+	}
+
+	if err := database.DB.Create(&dbGarden).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"success":   false,
+			"reason":    "Couldn't create garden",
+			"db.reason": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
+		"result":  dbGarden.ID,
+	})
 }
