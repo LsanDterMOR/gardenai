@@ -1,9 +1,32 @@
 services:
-  postgres:
+  gardenai-db:
     build: ./postgres
     container_name: postgres
-    restart: "always"
+    restart: always
     ports:
       - 5432:5432
     volumes:
       - ./postgres/data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - gardenai-network
+
+  gardenai-server:
+    build: ../packages/server
+    container_name: server
+    restart: always
+    ports:
+      - 4000:4000
+    depends_on:
+      gardenai-db:
+        condition: service_healthy
+    networks:
+      - gardenai-network
+
+networks:
+  gardenai-network:
+    driver: bridge
