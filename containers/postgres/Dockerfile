@@ -1,5 +1,5 @@
 FROM postgres:14.2-alpine
 
-ENV POSTGRES_USER=admin
+ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=password123
 ENV POSTGRES_DB=gardenai
