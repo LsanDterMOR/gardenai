@@ -5,23 +5,24 @@ import (
 )
 
 type VectorPosition struct {
-    X int
-    Y int
-    A int
-    B int
+    x int
+    y int
+    a int
+    b int
 }
 
 type Position struct {
-    X int
-    Y int
+    x int
+    y int
 }
 
 type Garden struct {
 	gorm.Model
-	Name       *string
-	Width		int
-	Height		int
-	Paths		[]Position
-	VectorPositions []VectorPosition
-	PlantsId	[]int
+	Id              uint `gorm:"uniqueIndex"`
+	Name            *string
+	Width           int
+	Height          int
+	Paths           Position `gorm:"embedded"`
+	VectorPositions VectorPosition `gorm:"embedded"`
+	PlantList       int
 }
