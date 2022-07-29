@@ -1,7 +1,6 @@
 package main
 
 import (
-	"gardenai/server/database"
 	"gardenai/server/routes"
 	"log"
 
@@ -9,7 +8,7 @@ import (
 )
 
 func main() {
-	database.Configure()
+	// database.Configure()
 
 	app := fiber.New()
 	api := app.Group("/api")
