@@ -40,7 +40,7 @@ jobs:
 
           # (Optional, default: "")
           # Additional options of docker build command.
-          docker_options: "--build-arg PORT_VAR=$PORT --no-cache"
+          docker_options: "--build-arg PORT_VAR=$PORT DB_HOST=$DB_HOST DB_USER=$DB_USER DB_PASSWORD=$DB_PASSWORD DB_NAME=$DB_NAME DB_PORT=$DB_PORT --no-cache"
 
           # (Optional, default: "web")
           # Select the process type for which you want the docker container to be uploaded.
