@@ -20,7 +20,7 @@ func (garden) GetAll(c *fiber.Ctx) error {
 }
 
 func (garden) GetById(c *fiber.Ctx) error {
-	result := map[string]interface{}{}
+	result := models.GardenResult{}
 	param := c.Params("id")
 	intVar, err := strconv.Atoi(param)
 	println(intVar)
@@ -31,7 +31,7 @@ func (garden) GetById(c *fiber.Ctx) error {
 		database.DB.Model(&models.Garden{}).First(&result, "id = ?", param)
 	}
 
-	database.DB.Model(&models.GardenPlant{}).First(&result, "garden = ?", param)
+	database.DB.Model(&models.GardenPlant{}).Find(&result.PlantList, "garden = ?", param)
 
 	return c.JSON(fiber.Map{"result": result})
 }
