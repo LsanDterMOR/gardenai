@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"gardenai/server/routes"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -16,6 +18,8 @@ func main() {
 
 	routes.User.Init(v1)
 	routes.Plant.Init(v1)
+
+	fmt.Println(os.Getenv("PORT"))
 
 	log.Fatal(app.Listen(":4000"))
 }
