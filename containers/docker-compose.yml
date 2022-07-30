@@ -16,7 +16,15 @@ services:
       - gardenai-network
 
   gardenai-server:
-    build: ../packages/server
+    build:
+      context: ../packages/server
+      args:
+        - PORT_VAR=4000
+        - DB_HOST=gardenai-db
+        - DB_USER=postgres
+        - DB_PASSWORD=password123
+        - DB_NAME=gardenai
+        - DB_PORT=5432
     container_name: server
     restart: always
     ports:
