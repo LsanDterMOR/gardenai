@@ -15,12 +15,12 @@ func (user) Init(v1 fiber.Router) {
 	apiv1 := v1.Group("/user")
 
 	// body: {email: "some-email", password: "some-password"}
-	apiv1.Post("/", func(c *fiber.Ctx) error {
+	apiv1.Post("/signup", func(c *fiber.Ctx) error {
 		return controllers.User.Create(c)
 	})
 
 	// body: {email: "some-email", password: "some-password"}
-	apiv1.Get("/", func(c *fiber.Ctx) error {
+	apiv1.Post("/signin", func(c *fiber.Ctx) error {
 		return controllers.User.GetUserWithEmailAndPassword(c)
 	})
 }
