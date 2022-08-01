@@ -90,7 +90,7 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 		})
 	}
 
-	for _, element := range Algo(dbGarden.ID, garden.PlantList) {
+	for _, element := range CreatePlants(dbGarden, garden.PlantList) {
 		dbGardenPlant := element
 
 		if err := database.DB.Create(&dbGardenPlant).Error; err != nil {
@@ -108,21 +108,41 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 	})
 }
 
-func Algo(GardenID uint, plantList []validators.ReqPlant) []models.GardenPlant {
-	var result []models.GardenPlant
+func CreatePlants(garden models.Garden, plantList []validators.ReqPlant) []models.GardenPlant {
+	var gardenPlantList []models.GardenPlant
 
 	for _, element := range plantList {
 		for  i := 0 ; i < element.Quantity; i++ {
 			var plant models.Plant
 			database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", element.Name)
 
-			result = append(result,
+			gardenPlantList = append(gardenPlantList,
 				models.GardenPlant {
 					Size: 1,
-					GardenID: GardenID,
+					GardenID: garden.ID,
 					Plant: plant,
 				})
 		}
 	}
-	return result
+
+	return SetPlantPosition(garden, gardenPlantList)
+}
+
+func SetPlantPosition(garden models.Garden, gardenPlantList []models.GardenPlant) []models.GardenPlant {
+	tempGardenPlant := gardenPlantList
+	X := 1
+	Y := 0
+	
+	for i := range tempGardenPlant {
+		gardenPlantList[i].PosX = X;
+		gardenPlantList[i].PosX = Y;
+		if X < garden.Width {
+			X++
+		} else {
+			X = 0
+			Y++
+		}
+	}
+	gardenPlantList[1].PosX = X;
+	return gardenPlantList
 }
