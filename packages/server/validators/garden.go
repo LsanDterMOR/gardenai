@@ -1,17 +1,25 @@
 package validators
 
-type garden struct{}
+type gardenCreateRequest struct{}
+var GardenCreateRequest gardenCreateRequest
 
-var Garden garden
+type ReqPlant struct {
+	Name            string
+	Quantity        int
+	Code            string
+}
 
 type GardenValidator struct {
 	Name            string  `validate:"required,min=3,max=32"`
 	Width           int		`validate:"required"`
 	Height          int		`validate:"required"`
 	UserId 			uint	`validate:"required"`
+	PlantList       []ReqPlant
 }
 
-func (garden) ValidateStruct(garden GardenValidator) error {
-	err := validate.Struct(garden)
+
+
+func (gardenCreateRequest) ValidateStruct(gardenCreateRequest GardenValidator) error {
+	err := validate.Struct(gardenCreateRequest)
 	return err
 }

@@ -52,7 +52,7 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 		})
 	}
 
-	err := validators.Garden.ValidateStruct(*garden)
+	err := validators.GardenCreateRequest.ValidateStruct(*garden)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"success": false,
@@ -90,7 +90,7 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 		})
 	}
 
-	for _, element := range Algo(dbGarden.ID) {
+	for _, element := range Algo(dbGarden.ID, garden.PlantList) {
 		dbGardenPlant := element
 
 		if err := database.DB.Create(&dbGardenPlant).Error; err != nil {
@@ -108,16 +108,22 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 	})
 }
 
-func Algo(GardenID uint/*, PlantList []models.GardenPlant */) []models.GardenPlant {
+func Algo(GardenID uint, plantList []validators.ReqPlant) []models.GardenPlant {
 	var result []models.GardenPlant
 
-	result = append(result,
-		models.GardenPlant {
-			PosX: 1,
-			PosY: 2,
-			Size: 1,
-			GardenID: GardenID,
-		},
+	for _, element := range plantList {
+		var plant models.Plant
+		database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", element.Name)
+
+		result = append(result,
+			models.GardenPlant {
+				Size: 1,
+				GardenID: GardenID,
+				Plant: plant,
+			})
+	}
+
+	/*result = append(result,
 		models.GardenPlant {
 			PosX: 3,
 			PosY: 4,
@@ -129,7 +135,7 @@ func Algo(GardenID uint/*, PlantList []models.GardenPlant */) []models.GardenPla
 			PosY: 6,
 			Size: 1,
 			GardenID: GardenID,
-		})
+		})*/
 
 	return result
 }

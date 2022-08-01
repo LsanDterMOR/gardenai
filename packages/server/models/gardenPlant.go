@@ -10,5 +10,6 @@ type GardenPlant struct {
 	PosY            int
 	Size            int
 	GardenID        uint
-	Plant           Plant `gorm:"embedded"`
+	PlantID         int
+	Plant           Plant
 }

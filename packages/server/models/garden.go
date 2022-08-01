@@ -10,4 +10,5 @@ type Garden struct {
 	Width           int
 	Height          int
 	UserId          uint
+//	PlantList       []GardenPlant
 }
