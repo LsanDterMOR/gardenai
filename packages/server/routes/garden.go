@@ -14,7 +14,7 @@ func (garden) Init(v1 fiber.Router) {
 	// /api/v1/garden
 	apiv1 := v1.Group("/garden")
 
-	apiv1.Get("/GetAll", func(c *fiber.Ctx) error {
+	apiv1.Get("/GetAll/:id", func(c *fiber.Ctx) error {
 		return controllers.Garden.GetAll(c)
 	})
 

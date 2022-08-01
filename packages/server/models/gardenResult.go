@@ -9,5 +9,5 @@ type GardenResult struct {
 	Name            string
 	Width           int
 	Height          int
-	PlantList           []GardenPlant
+	PlantList       []GardenPlant `gorm:"foreignKey:GardenID"`
 }

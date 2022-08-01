@@ -9,4 +9,5 @@ type Garden struct {
 	Name            string
 	Width           int
 	Height          int
+	UserId          uint
 }
