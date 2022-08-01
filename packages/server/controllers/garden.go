@@ -90,40 +90,46 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 		})
 	}
 
-	// function algo
+	for _, element := range Algo(dbGarden.ID) {
+		dbGardenPlant := element
 
-	dbGardenPlant := models.GardenPlant{
-		PosX: 0,
-		PosY: 2,
-		Size: 1,
-		GardenID: dbGarden.ID,
-	}
-
-	dbGardenPlant2 := models.GardenPlant{
-		PosX: 1,
-		PosY: 3,
-		Size: 1,
-		GardenID: dbGarden.ID,
-	}
-
-	if err := database.DB.Create(&dbGardenPlant).Error; err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"success":   false,
-			"reason":    "Couldn't create gardenPlant",
-			"db.reason": err.Error(),
-		})
-	}
-
-	if err := database.DB.Create(&dbGardenPlant2).Error; err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"success":   false,
-			"reason":    "Couldn't create gardenPlant",
-			"db.reason": err.Error(),
-		})
+		if err := database.DB.Create(&dbGardenPlant).Error; err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"success":   false,
+				"reason":    "Couldn't create gardenPlant",
+				"db.reason": err.Error(),
+			})
+		}
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"success": true,
 		"result":  dbGarden.ID,
 	})
+}
+
+func Algo(GardenID uint/*, PlantList []models.GardenPlant */) []models.GardenPlant {
+	var result []models.GardenPlant
+
+	result = append(result,
+		models.GardenPlant {
+			PosX: 1,
+			PosY: 2,
+			Size: 1,
+			GardenID: GardenID,
+		},
+		models.GardenPlant {
+			PosX: 3,
+			PosY: 4,
+			Size: 1,
+			GardenID: GardenID,
+		},
+		models.GardenPlant {
+			PosX: 5,
+			PosY: 6,
+			Size: 1,
+			GardenID: GardenID,
+		})
+
+	return result
 }
