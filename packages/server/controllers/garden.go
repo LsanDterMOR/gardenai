@@ -112,30 +112,17 @@ func Algo(GardenID uint, plantList []validators.ReqPlant) []models.GardenPlant {
 	var result []models.GardenPlant
 
 	for _, element := range plantList {
-		var plant models.Plant
-		database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", element.Name)
+		for  i := 0 ; i < element.Quantity; i++ {
+			var plant models.Plant
+			database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", element.Name)
 
-		result = append(result,
-			models.GardenPlant {
-				Size: 1,
-				GardenID: GardenID,
-				Plant: plant,
-			})
+			result = append(result,
+				models.GardenPlant {
+					Size: 1,
+					GardenID: GardenID,
+					Plant: plant,
+				})
+		}
 	}
-
-	/*result = append(result,
-		models.GardenPlant {
-			PosX: 3,
-			PosY: 4,
-			Size: 1,
-			GardenID: GardenID,
-		},
-		models.GardenPlant {
-			PosX: 5,
-			PosY: 6,
-			Size: 1,
-			GardenID: GardenID,
-		})*/
-
 	return result
 }
