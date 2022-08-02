@@ -115,7 +115,7 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant) []model
 		for  i := 0 ; i < element.Quantity; i++ {
 			var plant models.Plant
 			database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", element.Name)
-
+			
 			gardenPlantList = append(gardenPlantList,
 				models.GardenPlant {
 					Size: 1,
@@ -129,20 +129,10 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant) []model
 }
 
 func SetPlantPosition(garden models.Garden, gardenPlantList []models.GardenPlant) []models.GardenPlant {
-	tempGardenPlant := gardenPlantList
-	X := 1
-	Y := 0
-	
-	for i := range tempGardenPlant {
+	for X, Y, i := 0, 0, 0 ; i < len(gardenPlantList) ; i++ {
 		gardenPlantList[i].PosX = X;
-		gardenPlantList[i].PosX = Y;
-		if X < garden.Width {
-			X++
-		} else {
-			X = 0
-			Y++
-		}
+		gardenPlantList[i].PosY = Y;
+		if X + 1 < garden.Width { X++ } else { X = 0; Y++ }
 	}
-	gardenPlantList[1].PosX = X;
 	return gardenPlantList
 }
