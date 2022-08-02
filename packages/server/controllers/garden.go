@@ -107,32 +107,3 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 		"result":  dbGarden.ID,
 	})
 }
-
-func CreatePlants(garden models.Garden, plantList []validators.ReqPlant) []models.GardenPlant {
-	var gardenPlantList []models.GardenPlant
-
-	for _, element := range plantList {
-		for  i := 0 ; i < element.Quantity; i++ {
-			var plant models.Plant
-			database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", element.Name)
-			
-			gardenPlantList = append(gardenPlantList,
-				models.GardenPlant {
-					Size: 1,
-					GardenID: garden.ID,
-					Plant: plant,
-				})
-		}
-	}
-
-	return SetPlantPosition(garden, gardenPlantList)
-}
-
-func SetPlantPosition(garden models.Garden, gardenPlantList []models.GardenPlant) []models.GardenPlant {
-	for X, Y, i := 0, 0, 0 ; i < len(gardenPlantList) ; i++ {
-		gardenPlantList[i].PosX = X;
-		gardenPlantList[i].PosY = Y;
-		if X + 1 < garden.Width { X++ } else { X = 0; Y++ }
-	}
-	return gardenPlantList
-}
