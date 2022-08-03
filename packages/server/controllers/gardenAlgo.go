@@ -4,7 +4,9 @@ import (
 	"gardenai/server/database"
 	"gardenai/server/models"
 	"gardenai/server/validators"
-
+	"math/rand"
+	"time"
+	
 	"fmt"
 )
 
@@ -26,8 +28,8 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant) []model
 				})
 		}
 	}
-
-	return SetPlantPosition(garden, gardenPlantList)
+	gar,_ := SetPlantPosition(garden, gardenPlantList)
+	return gar
 }
 func IsPlacedPlant(gardenPlant models.GardenPlant) bool {
 	if (gardenPlant.PosX == -1 && gardenPlant.PosY == -1) {
@@ -71,19 +73,53 @@ func getDisponiblePos(garden models.Garden, gardenPlantList []models.GardenPlant
 	return dispoPosList
 }
 
-func SetPlantPosition(garden models.Garden, gardenPlantList []models.GardenPlant) []models.GardenPlant {
-
+func getDisponiblePlant(gardenPlantList []models.GardenPlant) []int {
+	var result []int
 	for i := 0 ; i < len(gardenPlantList) ; i++ {
-		for _,pos := range getDisponiblePos(garden, gardenPlantList) {
-			if !IsPlacedPlant(gardenPlantList[i]) {
-				gardenPlantList[i].PosX = pos.x
-				gardenPlantList[i].PosY = pos.y
-				SetPlantPosition(garden, gardenPlantList);
-			}
+		if gardenPlantList[i].PosX == -1 && gardenPlantList[i].PosY == -1 {
+			result = append(result, i)
 		}
 	}
-	gardenPlantList = SetPlantBasicPosition(garden, gardenPlantList)
-	return gardenPlantList
+	return result
+}
+
+func EvaluateGarden(gardenPlantList []models.GardenPlant) int {
+	rand.Seed(time.Now().UnixNano())
+    return rand.Intn(100)
+}
+
+func SetPlantPosition(garden models.Garden, EXgardenPlantList []models.GardenPlant) ([]models.GardenPlant, int) {
+	gardenPlantList := make([]models.GardenPlant, len(EXgardenPlantList))
+	copy(gardenPlantList, EXgardenPlantList)
+	
+	//fmt.Printf("address: %[1]p\n", gardenPlantList)
+
+	dispPlantIndex := getDisponiblePlant(gardenPlantList)
+	dispPos := getDisponiblePos(garden, gardenPlantList)
+	if (len(dispPlantIndex) == 0 || len(dispPos) == 0) {
+		return gardenPlantList, EvaluateGarden(gardenPlantList)
+	}
+	note := 0
+	currentBestNote := -1000000
+	currentBestGarden := make([]models.GardenPlant, len(gardenPlantList))
+	copy(currentBestGarden, gardenPlantList)
+
+	for _,pos := range dispPos {
+			gardenPlantList[dispPlantIndex[0]].PosX = pos.x
+			gardenPlantList[dispPlantIndex[0]].PosY = pos.y
+			gardenPlantList, note = SetPlantPosition(garden, gardenPlantList);
+			/*fmt.Print("dispPlantIndex : ")
+			fmt.Println(dispPlantIndex)
+			fmt.Print("dispPos : ")
+			fmt.Println(dispPos)
+			fmt.Print("planting at : ")
+			fmt.Println(pos)
+			fmt.Print("currentBestNote : ")
+			fmt.Println(currentBestNote)
+			fmt.Println("----------------------------")*/
+			if (currentBestNote < note) { currentBestNote = note; copy(currentBestGarden, gardenPlantList)}
+	}
+	return currentBestGarden, currentBestNote
 }
 
 func SetPlantBasicPosition(garden models.Garden, gardenPlantList []models.GardenPlant) []models.GardenPlant {
