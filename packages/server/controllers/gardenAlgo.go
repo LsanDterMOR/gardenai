@@ -28,8 +28,7 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant) []model
 				})
 		}
 	}
-	gar,_ := SetPlantPosition(garden, gardenPlantList)
-	return gar
+	return SetPlantPosition(garden, gardenPlantList)
 }
 func IsPlacedPlant(gardenPlant models.GardenPlant) bool {
 	if (gardenPlant.PosX == -1 && gardenPlant.PosY == -1) {
@@ -88,16 +87,14 @@ func EvaluateGarden(gardenPlantList []models.GardenPlant) int {
     return rand.Intn(100)
 }
 
-func SetPlantPosition(garden models.Garden, EXgardenPlantList []models.GardenPlant) ([]models.GardenPlant, int) {
+func SetPlantPosition(garden models.Garden, EXgardenPlantList []models.GardenPlant) []models.GardenPlant {
 	gardenPlantList := make([]models.GardenPlant, len(EXgardenPlantList))
 	copy(gardenPlantList, EXgardenPlantList)
 	
-	//fmt.Printf("address: %[1]p\n", gardenPlantList)
-
 	dispPlantIndex := getDisponiblePlant(gardenPlantList)
 	dispPos := getDisponiblePos(garden, gardenPlantList)
 	if (len(dispPlantIndex) == 0 || len(dispPos) == 0) {
-		return gardenPlantList, EvaluateGarden(gardenPlantList)
+		return gardenPlantList
 	}
 	note := 0
 	currentBestNote := -1000000
@@ -107,19 +104,10 @@ func SetPlantPosition(garden models.Garden, EXgardenPlantList []models.GardenPla
 	for _,pos := range dispPos {
 			gardenPlantList[dispPlantIndex[0]].PosX = pos.x
 			gardenPlantList[dispPlantIndex[0]].PosY = pos.y
-			gardenPlantList, note = SetPlantPosition(garden, gardenPlantList);
-			/*fmt.Print("dispPlantIndex : ")
-			fmt.Println(dispPlantIndex)
-			fmt.Print("dispPos : ")
-			fmt.Println(dispPos)
-			fmt.Print("planting at : ")
-			fmt.Println(pos)
-			fmt.Print("currentBestNote : ")
-			fmt.Println(currentBestNote)
-			fmt.Println("----------------------------")*/
+			note = EvaluateGarden(gardenPlantList)
 			if (currentBestNote < note) { currentBestNote = note; copy(currentBestGarden, gardenPlantList)}
 	}
-	return currentBestGarden, currentBestNote
+	return SetPlantPosition(garden, currentBestGarden);
 }
 
 func SetPlantBasicPosition(garden models.Garden, gardenPlantList []models.GardenPlant) []models.GardenPlant {
