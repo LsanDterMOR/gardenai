@@ -28,9 +28,6 @@ const plantGrid = (props: PlantGrid) => {
     }
     return false;
   });
-  console.log("uniqueEmployees ->");
-  console.log(uniqueEmployees);
-
   // useEffect(() => {
   //   setCartItems(uniqueEmployees);
   // }, [uniqueEmployees]);

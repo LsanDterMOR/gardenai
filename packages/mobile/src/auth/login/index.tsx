@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import LogoIcon from "../src/LogoIcon";
 import LoginBtn from "../src/LoginBtn";
+import { useUser } from "../../store/user";
 
 interface LoginProps {
   navigation: any;
@@ -21,10 +22,10 @@ const Login = (props: LoginProps) => {
   const [isError, setIsError] = useState(false);
   const moveToRegister = () => props.navigation.navigate("Register");
   const moveToGardenai = () => props.navigation.navigate("Gardenai");
+  const setUser = useUser((state) => state.setUser);
 
   const startLogin = async () => {
     try {
-      console.log(email);
       if (isEmail) {
         const login = await fetch(
           "https://gardenai-backend.herokuapp.com/api/v1/user/signin",
@@ -39,11 +40,11 @@ const Login = (props: LoginProps) => {
               password: password,
             }),
           }
-        );
-        console.log(login.status);
-        console.log(login);
-        if (login.status == 200) {
+        ).then((r) => r.json());
+        setUser({ id: login.result.id });
+        if (login.success) {
           setIsError(false);
+
           moveToGardenai();
         } else {
           setIsError(true);

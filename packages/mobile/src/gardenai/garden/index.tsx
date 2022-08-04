@@ -156,24 +156,31 @@ var data_old = {
   },
 };
 
-const Garden = (props: GardenProps) => {
-  const moveToGardenai = () => props.navigation.navigate("Gardenai");
+const Garden = ({ route, navigation }) => {
   var PlantList = [{ name: "plant", pos: { x: 0, y: 0, size: 0 } }];
   const [data, setData] = useState([]);
+
   useEffect(() => {
+    console.log("Call USEEFFECT");
     const getGardenById = async () => {
+      console.log("-- TEST --");
+      const { garden_id } = route.params;
+      console.log(garden_id);
+      // console.log(props.garden_id);
       try {
         const res = await axios.get(
           "https://gardenai-backend.herokuapp.com/api/v1/garden/GetById/" +
-            props.garden_id
+            garden_id
         );
         setData(res.data.result);
       } catch (e) {
         console.log(e);
       }
     };
+
     getGardenById();
   }, []);
+  if (data.length == 0) return null;
 
   data.PlantList.forEach((plant) => {
     PlantList.push({
@@ -181,8 +188,6 @@ const Garden = (props: GardenProps) => {
       pos: { x: plant.PosX, y: plant.PosY, size: plant.Size },
     });
   });
-
-  console.log(data);
 
   return (
     <View style={styles.container}>

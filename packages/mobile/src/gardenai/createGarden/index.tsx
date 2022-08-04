@@ -14,6 +14,7 @@ import PlantGrid from "./src/plantGrid";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useCartItem } from "../../store/cartItems";
 import axios from "axios";
+import { useUser } from "../../store/user";
 
 interface CreateGardenProps {
   navigation: any;
@@ -23,9 +24,9 @@ const CreateGarden = (props: CreateGardenProps) => {
   const [LengthSize, setLengthSize] = useState(20);
   const [WidthSize, setWidthSize] = useState(50);
   const [Name, setName] = useState("");
-  const moveToGardenai = () => props.navigation.navigate("Gardenai");
   const cartItems = useCartItem((state) => state.items);
   const setCartItems = useCartItem((state) => state.setCartItems);
+  const userId = useUser((state) => state.user);
 
   useEffect(() => {
     const screenWidth = Dimensions.get("screen").width;
@@ -129,19 +130,23 @@ const CreateGarden = (props: CreateGardenProps) => {
             style={[styles.validateButton]}
             onPress={async () => {
               try {
-                console.log("click");
-                console.log(cartItems);
                 const createGarden = await axios.post(
-                  //                  "http://localhost:4000/api/v1/garden/create",
-                  "https://gardenai-backend.herokuapp.com/api/v1/garden/create",
+                  "https://gardenai-backend.herokuapp.com/api/v1/garden/Create",
                   {
                     Name: Name,
-                    Length: LengthSize,
+                    Height: LengthSize,
                     Width: WidthSize,
-                    Plant: cartItems,
+                    PlantList: cartItems,
+                    UserId: userId?.id,
                   }
                 );
                 console.log("createGarden -> ", createGarden.status);
+                console.log(createGarden.data);
+                if (createGarden.status == 200) {
+                  props.navigation.navigate("Garden", {
+                    garden_id: createGarden.data.result,
+                  });
+                }
               } catch (e) {
                 console.log("e -> " + e);
               }

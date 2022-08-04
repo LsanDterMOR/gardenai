@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import LogoIcon from "../src/LogoIcon";
 import RegisterBtn from "../src/RegisterBtn";
 import axios from "axios";
+import { useUser } from "../../store/user";
 
 interface RegisterProps {
   navigation: any;
@@ -23,6 +24,7 @@ const Register = (props: RegisterProps) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isEmail, setIsEmail] = useState(true);
+  const setUser = useUser((state) => state.setUser);
 
   const moveToLogin = () => {
     props.navigation.navigate("Login");
@@ -58,10 +60,11 @@ const Register = (props: RegisterProps) => {
             password: password,
           }
         );
-        console.log("register -> " + register.status);
         if (register.status == 200) {
+          setError(false);
           startLogin();
         } else {
+          setError(true);
         }
       }
     } catch (e) {
@@ -85,9 +88,9 @@ const Register = (props: RegisterProps) => {
             password: password,
           }),
         }
-      );
-      console.log("login -> " + login.status);
-      if (login.status == 200) {
+      ).then((r) => r.json());
+      setUser({ id: login.result.id });
+      if (login.success) {
         moveToGardenai();
       }
     } catch (e) {
@@ -133,6 +136,10 @@ const Register = (props: RegisterProps) => {
         {!isEmail ? (
           <Text style={{ color: "red" }}>Ceci n'est pas un mail valide</Text>
         ) : null}
+        {error ? (
+          <Text style={{ color: "red" }}>le mot de passe n'est pas valide</Text>
+        ) : null}
+
         <Text onPress={moveToLogin} style={styles.register}>
           Vous avez déjà un compte ?
         </Text>
