@@ -26,6 +26,7 @@ const Gardenai = (props: GardenaiProps) => {
       const requestData = async () => {
         console.log("userGarden");
         const userGarden = await axios.get(
+          //"http://localhost:4000/api/v1/garden/GetAll"
           "https://gardenai-backend.herokuapp.com/api/v1/garden/GetAll"
         );
         console.log("userGarden -->");
