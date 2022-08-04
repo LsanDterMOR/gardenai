@@ -37,7 +37,12 @@ func (garden) GetById(c *fiber.Ctx) error {
 		})
 	}
 
-	database.DB.Model(&models.GardenPlant{}).Find(&result.PlantList, "garden_id = ?", c.Params("id"))
+	if err := database.DB.Preload("Plant").Model(&models.GardenPlant{}).Find(&result.PlantList, "garden_id = ?", c.Params("id")).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"reason":  err.Error(),
+		})
+	}
 
 	return c.JSON(fiber.Map{"result": result})
 }
