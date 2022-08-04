@@ -6,7 +6,7 @@ import (
 
 type Association struct {
 	gorm.Model
-	Plant2      string
-	Plant1 	    string
-	note        int
+	Plant1      string
+	Plant2 	    string
+	Note        int
 }

@@ -80,14 +80,6 @@ func getDisponiblePlant(gardenPlantList []models.GardenPlant) []int {
 	return result
 }
 
-func EvaluateGarden(gardenPlantList []models.GardenPlant) int {
-	note := 0
-	for i := 0 ; i < len(gardenPlantList) ; i++ {
-		//gardenPlantList[i]
-	}
-	return note
-}
-
 func SetPlantPosition(garden models.Garden, EXgardenPlantList []models.GardenPlant) []models.GardenPlant {
 	gardenPlantList := make([]models.GardenPlant, len(EXgardenPlantList))
 	copy(gardenPlantList, EXgardenPlantList)
