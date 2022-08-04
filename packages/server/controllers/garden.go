@@ -38,6 +38,7 @@ func (garden) GetById(c *fiber.Ctx) error {
 	}
 
 	database.DB.Model(&models.GardenPlant{}).Find(&result.PlantList, "garden_id = ?", c.Params("id"))
+	//database.DB.Model(&models.GardenPlant{}).Find(&result.PlantID, "plant_id = ?", result.PlantList)
 
 	return c.JSON(fiber.Map{"result": result})
 }

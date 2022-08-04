@@ -4,8 +4,6 @@ import (
 	"gardenai/server/database"
 	"gardenai/server/models"
 	"gardenai/server/validators"
-	"math/rand"
-	"time"
 	
 	"fmt"
 )
@@ -83,8 +81,11 @@ func getDisponiblePlant(gardenPlantList []models.GardenPlant) []int {
 }
 
 func EvaluateGarden(gardenPlantList []models.GardenPlant) int {
-	rand.Seed(time.Now().UnixNano())
-    return rand.Intn(100)
+	note := 0
+	for i := 0 ; i < len(gardenPlantList) ; i++ {
+		//gardenPlantList[i]
+	}
+	return note
 }
 
 func SetPlantPosition(garden models.Garden, EXgardenPlantList []models.GardenPlant) []models.GardenPlant {
