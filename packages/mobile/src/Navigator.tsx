@@ -14,7 +14,7 @@ const AppNavigator = () => (
   <NavigationContainer>
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="CreateGarden"
+      initialRouteName="Garden"
     >
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
