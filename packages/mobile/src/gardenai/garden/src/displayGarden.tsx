@@ -8,19 +8,33 @@ import {
   StatusBar,
 } from "react-native";
 
+interface Plant {
+    name: string;
+    pos: Pos;
+  }
+
+interface Pos {
+    x: number;
+    y: number;
+    size: number;
+}
+
+interface PlantInfo {
+    name: string;
+    size: number;
+}
+
 interface GardenProps {
     i: number;
     y: number;
-    map: Array<Array<Array<number>>>;
+    map: Array<Array<PlantInfo>>;
   }
 
 interface DisplayProps {
-    Size: Array<number>;
+    Width: number;
+    Height: number;
     Path: Array<Array<number>>;
-    Plant: Array<{
-        id: number;
-        pos: Array<number>;
-    }>;
+    PlantList: Array<Plant>;
 }
 
 const plant = {
@@ -45,36 +59,27 @@ var field_grass = require('../ressource/field_grass.png');
 var field_dirt = require('../ressource/field_dirt.png');
 var field_rock = require('../ressource/field_rock.png');
 
-var plant1 = require('../ressource/plant1.png');
-var plant2 = require('../ressource/plant2.png');
-var plant3 = require('../ressource/plant3.png');
-var plant4 = require('../ressource/plant4.png');
-var plant5 = require('../ressource/plant5.png');
-var plant6 = require('../ressource/plant6.png');
-var plant7 = require('../ressource/plant7.png');
-var plant8 = require('../ressource/plant8.png');
-var plant9 = require('../ressource/plant9.png');
+var tomato = require('../ressource/tomato.png');
+var carot = require('../ressource/carot.png');
+var lettuce = require('../ressource/lettuce.png');
+var apple_tree = require('../ressource/apple_tree.png');
 
 function ParseMap(props: GardenProps) {
     let i = props.i;
     let y = props.y;
     var height = plant.height;
     var width = plant.width;
-    let plantNumber = props.map[y - 1][i - 1][0];
-    var plantImg = 0;
-    if (plantNumber != 0) {
-        plantNumber == 1 ? plantImg = plant1 : plantImg;
-        plantNumber == 2 ? plantImg = plant2 : plantImg;
-        plantNumber == 3 ? plantImg = plant3 : plantImg;
-        plantNumber == 4 ? plantImg = plant4 : plantImg;
-        plantNumber == 5 ? plantImg = plant5 : plantImg;
-        plantNumber == 6 ? plantImg = plant6 : plantImg;
-        plantNumber == 7 ? plantImg = plant7 : plantImg;
-        plantNumber == 8 ? plantImg = plant8 : plantImg;
-        plantNumber == 9 ? plantImg = plant9 : plantImg;
+    var plantname = ""
+    plantname = props.map[y - 1][i - 1].name;
+    var plantImg;
+    if (plantname != null) {
+        plantImg = plantname == "tomato" ? tomato : plantImg;
+        plantImg = plantname == "carot" ? carot : plantImg;
+        plantImg = plantname == "lettuce" ? lettuce : plantImg;
+        plantImg = plantname == "apple_tree" ? apple_tree : plantImg;
         return (
             <View key = {"plant_" + y * 10 + i}>
-                <Image style={{top: topMargin + (i * height + y * height) - (50 * (props.map[y-1][i-1][1] - 1)), left:- width + (y * width  - i * width) - (50 * (props.map[y-1][i-1][1] - 1)), position: "absolute", width: plant.size * props.map[y-1][i-1][1] , height: plant.size * props.map[y-1][i-1][1], resizeMode: "contain"}} source={plantImg}/>
+                <Image style={{top: topMargin + (i * height + y * height) - (50 * (props.map[y-1][i-1].size - 1)), left:- width + (y * width  - i * width) - (50 * (props.map[y-1][i-1].size - 1)), position: "absolute", width: plant.size * props.map[y-1][i-1].size , height: plant.size * props.map[y-1][i-1].size, resizeMode: "contain"}} source={plantImg}/>
             </View>
         )
     }
@@ -88,20 +93,19 @@ function ParseMap(props: GardenProps) {
 
 
 const displayGarden = (props: DisplayProps) => {
-    var ids = "";
-    var size = props.Size;
+    var garden = {
+        width: props.Width,
+        height: props.Height
+    }
     var path = props.Path;
-    var plant = props.Plant;
-    var map = Array(size[0]).fill(1).map(_ => Array(size[1]).fill([0,0]));
-    var biggerSize = size[0] > size[1] ? size[0] : size[1]
-    var scale = 1.0 / (biggerSize/4)
+    var PlantList = props.PlantList;
+    var map = Array(garden.width).fill({name: "", size: 0}).map(_ => Array(garden.height).fill({name: "field_dirt", size: 1}));
+    var biggerSize = garden.width > garden.height ? garden.width : garden.height
+    var scale = 1.0 / (biggerSize / 4)
     topMargin = 50 * biggerSize;
-    plant.forEach(plantElem => {
-        ids += plantElem.id + ",";
-    });
     path.forEach(pathElem => {
-        if (pathElem[0] < size[0] && pathElem[1] < size[1]) {
-            map[pathElem[0]][pathElem[1]] = [-1, 1];
+        if (pathElem[0] < garden.width && pathElem[1] < garden.height) {
+            map[pathElem[0]][pathElem[1]] = {name: "field_rock", size: 1};
         }
     })
 
@@ -110,16 +114,16 @@ const displayGarden = (props: DisplayProps) => {
     var height = field.height;
     var width = field.width;
 
-    for (let y = 1; y <= size[0]; y++) {
-        for (let i = 1; i <=  size[1]; i++) {
-            if (map[y-1][i-1][0] == 0) {
+    for (let y = 1; y <= garden.width; y++) {
+        for (let i = 1; i <=  garden.height; i++) {
+            if (map[y-1][i-1].name == "field_dirt") {
 		    gardenField.push(
 			    <View key = {"field_" + y * 10 + i}>
                     <Image style={{top: topMargin + (i * height + y * height), left: - width + (y * width  - i * width), position: "absolute", width: field.size, height: field.size, resizeMode: "contain"}} source={field_dirt}/>
 			    </View>
 		    );
             }
-            else if (map[y-1][i-1][0] == -1) {
+            else if (map[y-1][i-1].name == "field_rock") {
                 gardenField.push(
                     <View key = {"field_" + y * 10 + i}>
                         <Image style={{top: topMargin + (i * height + y * height), left: - width + (y * width  - i * width), position: "absolute", width: field.size, height: field.size, resizeMode: "contain"}} source={field_rock}/>
@@ -129,14 +133,14 @@ const displayGarden = (props: DisplayProps) => {
 	    }
     }
 
-    plant.forEach(plantElem => {
-        if (plantElem.pos[0] < size[0] && plantElem.pos[1] < size[1]) {
-            map[plantElem.pos[0]][plantElem.pos[1]] = [plantElem.id,plantElem.pos[2]];
+    PlantList.forEach(plantElem => {
+        if (plantElem.pos.x < garden.width && plantElem.pos.y < garden.height) {
+            map[plantElem.pos.x][plantElem.pos.y] = {name: plantElem.name, size: plantElem.pos.size}
         }
     })
 
-    for (let y = 1; y <= size[0]; y++) {
-        for (let i = 1; i <= size[1]; i++) {
+    for (let y = 1; y <= garden.width; y++) {
+        for (let i = 1; i <= garden.height; i++) {
 		    plantField.push(
 			    <View key = {"plant_" + y * 10 + i}>
                     <ParseMap i={i} y={y} map={map}/>
