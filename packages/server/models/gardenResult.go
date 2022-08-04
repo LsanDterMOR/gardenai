@@ -4,10 +4,10 @@ import (
 	"gorm.io/gorm"
 )
 
-type Garden struct {
+type GardenResult struct {
 	gorm.Model
 	Name            string
 	Width           int
 	Height          int
-	UserId          uint
+	PlantList       []GardenPlant `gorm:"foreignKey:GardenID"`
 }
