@@ -3,6 +3,7 @@ package main
 import (
 	"gardenai/server/database"
 	"gardenai/server/routes"
+	"gardenai/server/utilities"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -19,5 +20,7 @@ func main() {
 	routes.Plant.Init(version)
 	routes.Garden.Init(version)
 
-	log.Fatal(app.Listen(":4000"))
+	port := utilities.GetEnv("PORT", "4000")
+
+	log.Fatal(app.Listen(":" + port))
 }

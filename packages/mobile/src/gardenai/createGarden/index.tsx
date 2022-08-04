@@ -9,12 +9,12 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
 } from "react-native";
 import { useFonts } from "expo-font";
 import PlantGrid from "./src/plantGrid";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useCartItem } from "../../store/cartItems";
+import axios from "axios";
 
 interface CreateGardenProps {
   navigation: any;
@@ -23,10 +23,10 @@ interface CreateGardenProps {
 const CreateGarden = (props: CreateGardenProps) => {
   const [LengthSize, setLengthSize] = useState(20);
   const [WidthSize, setWidthSize] = useState(50);
+  const [Name, setName] = useState("");
   const moveToGardenai = () => props.navigation.navigate("Gardenai");
-
+  const cartItems = useCartItem((state) => state.items);
   const setCartItems = useCartItem((state) => state.setCartItems);
-
   const [loaded] = useFonts({
     VigaRegular: require("../src/font/Viga-Regular.ttf"),
   });
@@ -34,16 +34,9 @@ const CreateGarden = (props: CreateGardenProps) => {
   useEffect(() => {
     const screenWidth = Dimensions.get("screen").width;
     const screenHeight = Dimensions.get("screen").height;
-    setCartItems([
-      { name: "TOMATE", code: "#1abc9c" },
-      { name: "MAÏS", code: "#2ecc71" },
-      { name: "PATATE", code: "#3498db" },
-      { name: "TONY", code: "#9b59b6" },
-      { name: "SALADE", code: "#1abc9c" },
-      { name: "BLE", code: "#3498db" },
-      { name: "PARKER", code: "#9b59b6" },
-    ]);
   }, []);
+
+  useEffect(() => {});
 
   if (!loaded) {
     return null;
@@ -63,7 +56,7 @@ const CreateGarden = (props: CreateGardenProps) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            marginTop: "15%",
+            marginTop: "10%",
             marginLeft: "10%",
           }}
         >
@@ -76,7 +69,20 @@ const CreateGarden = (props: CreateGardenProps) => {
           />
           <Text style={styles.titlePage}>Créer un potager</Text>
         </View>
-        {TitleFunction("Mesures", "7.5%")}
+        {TitleFunction("Jardin", "0%")}
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{ flex: 1 }} />
+          <TextInput
+            style={styles.InputGardenName}
+            placeholder="Nom du jardin"
+            placeholderTextColor="#000"
+            keyboardType="number-pad"
+            onChangeText={setName}
+          ></TextInput>
+          <View style={{ flex: 1 }} />
+        </View>
+
+        {TitleFunction("Mesures", "2%")}
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flex: 1 }} />
@@ -97,12 +103,12 @@ const CreateGarden = (props: CreateGardenProps) => {
           ></TextInput>
           <View style={{ flex: 1 }} />
         </View>
-        {TitleFunction("Plantes", "5%")}
+        {TitleFunction("Plantes", "2%")}
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            marginTop: "5%",
+            marginTop: "3%",
           }}
         >
           <View style={{ flex: 2 }} />
@@ -117,9 +123,7 @@ const CreateGarden = (props: CreateGardenProps) => {
           <View style={{ flex: 1 }} />
           <TouchableOpacity
             style={styles.PlantButton}
-            onPress={() =>
-              props.navigation.navigate("ListOfPlants")
-            }
+            onPress={() => props.navigation.navigate("ListOfPlants")}
           >
             <Ionicons name="library-outline" size={24} color="#65C18C" />
             {/* <FontAwesome5 name="book" size={24} color="#65C18C" /> */}
@@ -129,6 +133,40 @@ const CreateGarden = (props: CreateGardenProps) => {
         </View>
 
         <PlantGrid />
+        <View style={[styles.setValidateBtn]}>
+          <TouchableOpacity
+            style={[styles.validateButton]}
+            onPress={async () => {
+              try {
+                console.log("click");
+                console.log(cartItems);
+                const createGarden = await axios.post(
+                  "https://gardenai-backend.herokuapp.com/api/v1/garden/create ",
+                  {
+                    Name: Name,
+                    Length: LengthSize,
+                    Width: WidthSize,
+                    Plant: cartItems,
+                  }
+                );
+                console.log("createGarden -> ", createGarden.status);
+              } catch (e) {
+                console.log("e -> " + e);
+              }
+            }}
+          >
+            <Text
+              style={{
+                fontSize: Dimensions.get("screen").height / 25,
+                color: "#FFF",
+                fontWeight: "bold",
+                fontFamily: "VigaRegular",
+              }}
+            >
+              valider
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -164,8 +202,8 @@ const styles = StyleSheet.create({
     top: 13,
   },
   PlantButton: {
-    flex: 8,
-    height: Dimensions.get("screen").height / 6, //Dimensions.get("window").height /5,
+    flex: 7,
+    height: Dimensions.get("screen").height / 10, //Dimensions.get("window").height /5,
     borderWidth: 2,
     borderColor: "rgba(54, 34, 34, 0.25)",
     backgroundColor: "#FFF9F5",
@@ -182,7 +220,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#FFF9F5",
     paddingLeft: 20,
-    marginTop: "5%",
+    marginTop: "3%",
+  },
+  InputGardenName: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "rgba(54, 34, 34, 0.25)",
+    minWidth: "80%",
+    minHeight: "5%",
+    borderRadius: 10,
+    backgroundColor: "#FFF9F5",
+    paddingLeft: 20,
+    marginTop: "3%",
+  },
+  setValidateBtn: {
+    justifyContent: "flex-end",
+    marginBottom: 30,
+    marginTop: "0%",
   },
   validateButton: {
     marginTop: "5%",

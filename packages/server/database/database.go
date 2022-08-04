@@ -1,9 +1,10 @@
 package database
 
 import (
+	"fmt"
 	"gardenai/server/migrations"
+	"gardenai/server/utilities"
 	"log"
-	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -11,24 +12,27 @@ import (
 
 var DB *gorm.DB
 
-func getDBHost() string {
-	devStage := os.Getenv("DEV_STAGE")
-	var env string
+type dbVars struct {
+	host     string
+	user     string
+	password string
+	dbname   string
+	port     string
+}
 
-	switch devStage {
-	case "docker":
-		env = "gardenai-db"
-	default:
-		env = "localhost"
+func getDbVars() dbVars {
+	return dbVars{
+		host:     utilities.GetEnv("DB_HOST", "localhost"),
+		user:     utilities.GetEnv("DB_USER", "postgres"),
+		password: utilities.GetEnv("DB_PASSWORD", "password123"),
+		dbname:   utilities.GetEnv("DB_NAME", "gardenai"),
+		port:     utilities.GetEnv("DB_PORT", "5432"),
 	}
-
-	return env
 }
 
 func connect() {
-	host := getDBHost()
-
-	dsn := "host=" + host + " user=postgres password=password123 dbname=gardenai port=5432"
+	vars := getDbVars()
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", vars.host, vars.user, vars.password, vars.dbname, vars.port)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,

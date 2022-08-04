@@ -1,0 +1,30 @@
+name: Deploy backend to heroku
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build, Push and Release a Docker container to Heroku.
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          dockerfile_directory: ./packages/server/
+          dockerfile_name: Dockerfile
+          docker_options: "--no-cache
+            --build-arg PORT_VAR=$PORT
+            --build-arg DB_HOST=$DB_HOST 
+            --build-arg DB_USER=$DB_USER 
+            --build-arg DB_PASSWORD=$DB_PASSWORD 
+            --build-arg DB_NAME=$DB_NAME 
+            --build-arg DB_PORT=$DB_PORT"
+          process_type: web
