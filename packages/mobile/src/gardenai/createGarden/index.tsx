@@ -76,7 +76,6 @@ const CreateGarden = (props: CreateGardenProps) => {
             style={styles.InputGardenName}
             placeholder="Nom du jardin"
             placeholderTextColor="#000"
-            keyboardType="number-pad"
             onChangeText={setName}
           ></TextInput>
           <View style={{ flex: 1 }} />

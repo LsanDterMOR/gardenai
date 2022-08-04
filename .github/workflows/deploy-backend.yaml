@@ -22,9 +22,10 @@ jobs:
           dockerfile_name: Dockerfile
           docker_options: "--no-cache
             --build-arg PORT_VAR=$PORT
-            --build-arg DB_HOST=$DB_HOST 
-            --build-arg DB_USER=$DB_USER 
-            --build-arg DB_PASSWORD=$DB_PASSWORD 
-            --build-arg DB_NAME=$DB_NAME 
-            --build-arg DB_PORT=$DB_PORT"
+            --build-arg DB_HOST=$DB_HOST
+            --build-arg DB_USER=$DB_USER
+            --build-arg DB_PASSWORD=$DB_PASSWORD
+            --build-arg DB_NAME=$DB_NAME
+            --build-arg DB_PORT=$DB_PORT
+            "
           process_type: web

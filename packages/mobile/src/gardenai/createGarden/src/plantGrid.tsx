@@ -57,7 +57,7 @@ const plantGrid = (props: PlantGrid) => {
           { flexDirection: "row", flexWrap: "wrap", justifyContent: "center" },
         ]}
       >
-        {uniqueEmployees.map((item, i) => {
+        {cartItems.map((item, i) => {
           return (
             <View
               key={i}
