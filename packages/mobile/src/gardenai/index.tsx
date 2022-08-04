@@ -7,7 +7,6 @@ import {
   Dimensions,
   StatusBar,
 } from "react-native";
-import { useFonts } from "expo-font";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import axios from "axios";
 
@@ -16,9 +15,6 @@ interface GardenaiProps {
 }
 
 const Gardenai = (props: GardenaiProps) => {
-  const [loaded] = useFonts({
-    VigaRegular: require("./src/font/Viga-Regular.ttf"),
-  });
   const [Garden, setGarden] = useState(null);
   const [tmp, setTmp] = useState([
     { name: "TOMATE", code: "#1abc9c" },
@@ -42,9 +38,6 @@ const Gardenai = (props: GardenaiProps) => {
       console.log(e);
     }
   }, []);
-  if (!loaded) {
-    return null;
-  }
   return (
     <View style={styles.container}>
       <View style={styles.setPositionTitlePage}>

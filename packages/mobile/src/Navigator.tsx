@@ -14,7 +14,11 @@ const AppNavigator = () => (
   <NavigationContainer>
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
+<<<<<<< HEAD
       initialRouteName="Login"
+=======
+      initialRouteName="Garden"
+>>>>>>> c82cc20308fc774be1a8996ebfe8ba542ff84139
     >
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />

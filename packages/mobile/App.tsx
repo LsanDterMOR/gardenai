@@ -1,12 +1,20 @@
-import { AppRegistry, View } from 'react-native';
-import Navigator from './src/Navigator'
-import React, { Component, useState } from 'react';
-class Gardenai extends Component {
-   render() {   
-     return (
-        <Navigator />
-     )
-  }
-}
-export default Gardenai 
-AppRegistry.registerComponent('Gardenai', () => Gardenai)
+import React from "react";
+import { AppRegistry } from "react-native";
+import Navigator from "./src/Navigator";
+import { useFonts } from 'expo-font';
+
+
+const App = () => {
+   const [loaded] = useFonts({
+      VigaRegular: require('./font/Viga-Regular.ttf'),
+    });
+
+    if (!loaded) {
+      return null;
+    }
+  return <Navigator />;
+};
+
+export default App;
+
+AppRegistry.registerComponent("Gardenai", () => App);

@@ -10,7 +10,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useFonts } from "expo-font";
 import PlantGrid from "./src/plantGrid";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useCartItem } from "../../store/cartItems";
@@ -27,9 +26,6 @@ const CreateGarden = (props: CreateGardenProps) => {
   const moveToGardenai = () => props.navigation.navigate("Gardenai");
   const cartItems = useCartItem((state) => state.items);
   const setCartItems = useCartItem((state) => state.setCartItems);
-  const [loaded] = useFonts({
-    VigaRegular: require("../src/font/Viga-Regular.ttf"),
-  });
 
   useEffect(() => {
     const screenWidth = Dimensions.get("screen").width;
@@ -37,10 +33,6 @@ const CreateGarden = (props: CreateGardenProps) => {
   }, []);
 
   useEffect(() => {});
-
-  if (!loaded) {
-    return null;
-  }
 
   function TitleFunction(text: string, marginTopValue: string) {
     return (
