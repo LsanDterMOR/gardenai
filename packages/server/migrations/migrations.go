@@ -7,4 +7,5 @@ func Run(DB *gorm.DB) {
 	UpPlant(DB)
 	UpGarden(DB)
 	UpGardenPlant(DB)
+	UpAssociation(DB)
 }
