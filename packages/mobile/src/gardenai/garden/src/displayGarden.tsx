@@ -62,12 +62,7 @@ var field_rock = require('../ressource/field_rock.png');
 var tomato = require('../ressource/tomato.png');
 var carot = require('../ressource/carot.png');
 var lettuce = require('../ressource/lettuce.png');
-// var plant4 = require('../ressource/plant4.png');
-// var plant5 = require('../ressource/plant5.png');
-// var plant6 = require('../ressource/plant6.png');
-// var plant7 = require('../ressource/plant7.png');
-// var plant8 = require('../ressource/plant8.png');
-// var plant9 = require('../ressource/plant9.png');
+var apple_tree = require('../ressource/apple_tree.png');
 
 function ParseMap(props: GardenProps) {
     let i = props.i;
@@ -80,13 +75,8 @@ function ParseMap(props: GardenProps) {
     if (plantname != null) {
         plantImg = plantname == "tomato" ? tomato : plantImg;
         plantImg = plantname == "carot" ? carot : plantImg;
-        // plantNumber == 3 ? plantImg = plant3 : plantImg;
-        // plantNumber == 4 ? plantImg = plant4 : plantImg;
-        // plantNumber == 5 ? plantImg = plant5 : plantImg;
-        // plantNumber == 6 ? plantImg = plant6 : plantImg;
-        // plantNumber == 7 ? plantImg = plant7 : plantImg;
-        // plantNumber == 8 ? plantImg = plant8 : plantImg;
-        // plantNumber == 9 ? plantImg = plant9 : plantImg;
+        plantImg = plantname == "lettuce" ? lettuce : plantImg;
+        plantImg = plantname == "apple_tree" ? apple_tree : plantImg;
         return (
             <View key = {"plant_" + y * 10 + i}>
                 <Image style={{top: topMargin + (i * height + y * height) - (50 * (props.map[y-1][i-1].size - 1)), left:- width + (y * width  - i * width) - (50 * (props.map[y-1][i-1].size - 1)), position: "absolute", width: plant.size * props.map[y-1][i-1].size , height: plant.size * props.map[y-1][i-1].size, resizeMode: "contain"}} source={plantImg}/>
