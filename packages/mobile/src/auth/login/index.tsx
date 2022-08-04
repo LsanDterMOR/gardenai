@@ -9,7 +9,6 @@ import {
 import React, { useState } from "react";
 import LogoIcon from "../src/LogoIcon";
 import LoginBtn from "../src/LoginBtn";
-import axios from "axios";
 
 interface LoginProps {
   navigation: any;
@@ -25,6 +24,7 @@ const Login = (props: LoginProps) => {
 
   const startLogin = async () => {
     try {
+      console.log(email);
       if (isEmail) {
         const login = await fetch(
           "https://gardenai-backend.herokuapp.com/api/v1/user/signin",
@@ -40,6 +40,8 @@ const Login = (props: LoginProps) => {
             }),
           }
         );
+        console.log(login.status);
+        console.log(login);
         if (login.status == 200) {
           setIsError(false);
           moveToGardenai();
@@ -55,12 +57,10 @@ const Login = (props: LoginProps) => {
   function validateEmail(text: React.SetStateAction<string>) {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(email) === false) {
-      console.log("Email is Not Correct");
       setEmail(text);
       setIsEmail(false);
     } else {
       setEmail(text);
-      console.log("Email is Correct");
       setIsEmail(true);
     }
   }
@@ -88,7 +88,7 @@ const Login = (props: LoginProps) => {
         {!isEmail ? (
           <Text style={styles.errorText}>Ceci n'est pas un mail valide</Text>
         ) : null}
-        {!isError ? (
+        {isError ? (
           <Text style={styles.errorText}>Email ou mot de passe invalide</Text>
         ) : null}
 
