@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   Dimensions,
   TextInput,
   StatusBar,
@@ -17,18 +16,23 @@ import { useCartItem } from "../../store/cartItems";
 
 interface ListOfPlantsProps {
   navigation: any;
-  route : any
+  route: any;
 }
 const ListOfPlants = (props: ListOfPlantsProps) => {
   const [search, setSearch] = useState("");
   const setCartItems = useCartItem((state) => state.setCartItems);
-  const cartItems = useCartItem((state) => state.items)
-
-  function addPlant(item : any) {
-    setCartItems([...cartItems, item])
-    console.log("cartItem")
-    console.log(cartItems)
-      
+  const cartItems = useCartItem((state) => state.items);
+  const data = [
+    { name: "TOMATE", code: "#1abc9c", quantity: 1 },
+    { name: "MAÏS", code: "#2ecc71", quantity: 1 },
+    { name: "PATATE", code: "#3498db", quantity: 1 },
+    { name: "TONY", code: "#9b59b6", quantity: 1 },
+    { name: "SALADE", code: "#1abc9c", quantity: 1 },
+    { name: "BLE", code: "#3498db", quantity: 1 },
+    { name: "PARKER", code: "#9b59b6", quantity: 1 },
+  ];
+  function addPlant(item: any) {
+    setCartItems([...cartItems, item]);
   }
 
   return (
@@ -61,10 +65,12 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
           ></TextInput>
         </View>
         <FlatList
-          data={cartItems}
+          data={data}
           keyExtractor={(items, i) => i.toString()}
           renderItem={({ item }) => (
-            <Text style={styles.item} onPress={() => addPlant(item)} >{item.name}</Text>
+            <Text style={styles.item} onPress={() => addPlant(item)}>
+              {item.name}
+            </Text>
           )}
         />
       </View>
