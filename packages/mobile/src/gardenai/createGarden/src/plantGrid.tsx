@@ -18,7 +18,6 @@ const plantGrid = (props: PlantGrid) => {
   const setCartItems = useCartItem((state) => state.setCartItems);
   const cartItems = useCartItem((state) => state.items);
   const setPlantQuantity = useCartItem((state) => state.setPlantQuantity);
-  const quanti = useCartItem((state) => state.quantity);
 
   const uniqueName: any[] = [];
   const uniqueEmployees = cartItems.filter((element) => {
@@ -91,12 +90,11 @@ const plantGrid = (props: PlantGrid) => {
               </View>
               <TextInput
                 style={[styles.Input]}
-                placeholder="Quantity"
+                placeholder="1"
                 placeholderTextColor="#000"
                 keyboardType="number-pad"
                 onChangeText={(text) => {
-                  setPlantQuantity(parseInt(text));
-                  console.log("quanti -> " + quanti);
+                  setPlantQuantity(parseInt(text), i);
                 }}
               ></TextInput>
             </View>

@@ -132,7 +132,8 @@ const CreateGarden = (props: CreateGardenProps) => {
                 console.log("click");
                 console.log(cartItems);
                 const createGarden = await axios.post(
-                  "https://gardenai-backend.herokuapp.com/api/v1/garden/create ",
+                  //                  "http://localhost:4000/api/v1/garden/create",
+                  "https://gardenai-backend.herokuapp.com/api/v1/garden/create",
                   {
                     Name: Name,
                     Length: LengthSize,
