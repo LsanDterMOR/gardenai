@@ -15,6 +15,18 @@ type user struct{}
 
 var User user
 
+// Create godoc
+// @Summary      Create a user
+// @Description  Create a user with data
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Param        object   path    	object  true  "User JSON"
+// @Success      200  {object}  user
+// @Failure      400  {object}  error
+// @Failure      404  {object}  error
+// @Failure      500  {object}  error
+// @Router       /user/signup/ [post]
 func (user) Create(c *fiber.Ctx) error {
 	user := new(validators.UserValidator)
 
@@ -75,6 +87,18 @@ func (user) Create(c *fiber.Ctx) error {
 	})
 }
 
+// GetUserWithEmailAndPassword godoc
+// @Summary      Get a user
+// @Description  Get a user with user and password
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Param        object   path    	object  true  "User JSON"
+// @Success      200  {object}  user
+// @Failure      400  {object}  error
+// @Failure      404  {object}  error
+// @Failure      500  {object}  error
+// @Router       /user/signin/ [post]
 func (user) GetUserWithEmailAndPassword(c *fiber.Ctx) error {
 	user := new(validators.UserValidator)
 

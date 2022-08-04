@@ -14,6 +14,18 @@ type garden struct{}
 
 var Garden garden
 
+// GetAll godoc
+// @Summary      Show all garden
+// @Description  Get all garden by user ID
+// @Tags         garden
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Account ID"
+// @Success      200  {array}  	garden
+// @Failure      400  {object}  error
+// @Failure      404  {object}  error
+// @Failure      500  {object}  error
+// @Router       /GetAll/{id} [get]
 func (garden) GetAll(c *fiber.Ctx) error {
 	var result []models.Garden
 
@@ -27,6 +39,18 @@ func (garden) GetAll(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"result": result})
 }
 
+// GetById godoc
+// @Summary      Show garden
+// @Description  Get garden by ID
+// @Tags         garden
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Garden ID"
+// @Success      200  {object}  garden
+// @Failure      400  {object}  error
+// @Failure      404  {object}  error
+// @Failure      500  {object}  error
+// @Router       /GetById/{id} [get]
 func (garden) GetById(c *fiber.Ctx) error {
 	result := models.GardenResult{}
 
@@ -47,6 +71,18 @@ func (garden) GetById(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"result": result})
 }
 
+// CreateGarden godoc
+// @Summary      Create a garden
+// @Description  Create a garden with data
+// @Tags         garden
+// @Accept       json
+// @Produce      json
+// @Param        object   path    	object  true  "Garden JSON"
+// @Success      200  {object}  garden
+// @Failure      400  {object}  error
+// @Failure      404  {object}  error
+// @Failure      500  {object}  error
+// @Router       /CreateGarden/ [post]
 func (garden) CreateGarden(c *fiber.Ctx) error {
 	garden := new(validators.GardenValidator)
 

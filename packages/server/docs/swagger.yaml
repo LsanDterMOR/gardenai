@@ -1,0 +1,236 @@
+basePath: /api/v1
+definitions:
+  controllers.garden:
+    type: object
+  controllers.plant:
+    type: object
+  controllers.user:
+    type: object
+host: https://gardenai-backend.herokuapp.com/
+info:
+  contact: {}
+  description: This is the server of the Gardenai project.
+  termsOfService: http://swagger.io/terms/
+  title: Gardenai Backend
+  version: "1.0"
+paths:
+  /CreateGarden/:
+    post:
+      consumes:
+      - application/json
+      description: Create a garden with data
+      parameters:
+      - description: Garden JSON
+        in: path
+        name: object
+        required: true
+        type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.garden'
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Create a garden
+      tags:
+      - garden
+  /GetAll/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get all garden by user ID
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.garden'
+            type: array
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Show all garden
+      tags:
+      - garden
+  /GetById/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get garden by ID
+      parameters:
+      - description: Garden ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.garden'
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Show garden
+      tags:
+      - garden
+  /plant:
+    get:
+      consumes:
+      - application/json
+      description: Get all plants
+      parameters:
+      - description: Plant JSON
+        in: path
+        name: object
+        required: true
+        type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.plant'
+            type: array
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Get all plants
+      tags:
+      - plant
+  /plant/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get one plant by ID
+      parameters:
+      - description: Plant JSON
+        in: path
+        name: object
+        required: true
+        type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.plant'
+            type: array
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Get one plant
+      tags:
+      - plant
+  /user/signin/:
+    post:
+      consumes:
+      - application/json
+      description: Get a user with user and password
+      parameters:
+      - description: User JSON
+        in: path
+        name: object
+        required: true
+        type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.user'
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Get a user
+      tags:
+      - user
+  /user/signup/:
+    post:
+      consumes:
+      - application/json
+      description: Create a user with data
+      parameters:
+      - description: User JSON
+        in: path
+        name: object
+        required: true
+        type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.user'
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Create a user
+      tags:
+      - user
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
