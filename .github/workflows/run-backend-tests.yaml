@@ -16,6 +16,10 @@ jobs:
         uses: actions/setup-go@v3
       - run: go version
 
+      - name: Tidy packages
+        working-directory: ./packages/server
+        run: go mod tidy
+
       - name: Run backend tests
         working-directory: ./packages/server
         run: go test
