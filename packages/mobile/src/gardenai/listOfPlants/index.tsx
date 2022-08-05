@@ -23,13 +23,9 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
   const setCartItems = useCartItem((state) => state.setCartItems);
   const cartItems = useCartItem((state) => state.items);
   const data = [
-    { name: "TOMATE", code: "#1abc9c", quantity: 1 },
-    { name: "MAÏS", code: "#2ecc71", quantity: 1 },
-    { name: "PATATE", code: "#3498db", quantity: 1 },
-    { name: "TONY", code: "#9b59b6", quantity: 1 },
-    { name: "SALADE", code: "#1abc9c", quantity: 1 },
-    { name: "BLE", code: "#3498db", quantity: 1 },
-    { name: "PARKER", code: "#9b59b6", quantity: 1 },
+    { name: "tomato", code: "#1abc9c", quantity: 1 },
+    { name: "lettuce", code: "#2ecc71", quantity: 1 },
+    { name: "carot", code: "#3498db", quantity: 1 },
   ];
   function addPlant(item: any) {
     setCartItems([...cartItems, item]);

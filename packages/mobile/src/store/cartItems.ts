@@ -8,16 +8,17 @@ interface Item {
 
 interface CartItemsState {
   items: Item[];
-  quantity: Item["quantity"];
   setCartItems: (newItems: Item[]) => void;
-  setPlantQuantity: (newQuantity: number) => void;
+  setPlantQuantity: (newQuantity: number, index: number) => void;
 }
 
-export const useCartItem = create<CartItemsState>()((set) => ({
+export const useCartItem = create<CartItemsState>()((set, get) => ({
   items: [],
   quantity: 0,
   setCartItems: (newItems) => set({ items: newItems }),
-  setPlantQuantity(newQuantity) {
-    set({ quantity: newQuantity });
+  setPlantQuantity(newQuantity, index: number) {
+    const items = get().items;
+    items[index].quantity = newQuantity;
+    set({ items: items });
   },
 }));

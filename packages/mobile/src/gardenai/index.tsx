@@ -3,48 +3,38 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Dimensions,
   StatusBar,
+  FlatList,
+  TouchableHighlight,
 } from "react-native";
-import { useFonts } from "expo-font";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import axios from "axios";
+import { useUser } from "../store/user";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface GardenaiProps {
   navigation: any;
 }
 
 const Gardenai = (props: GardenaiProps) => {
-  const [loaded] = useFonts({
-    VigaRegular: require("./src/font/Viga-Regular.ttf"),
-  });
-  const [Garden, setGarden] = useState(null);
-  const [tmp, setTmp] = useState([
-    { name: "TOMATE", code: "#1abc9c" },
-    { name: "MAÏS", code: "#2ecc71" },
-    { name: "PATATE", code: "#3498db" },
-  ]);
+  const user = useUser((state) => state.user);
+  const [Garden, setGarden] = useState([]);
+
   useEffect(() => {
     try {
       const requestData = async () => {
-        console.log("userGarden");
         const userGarden = await axios.get(
-          "https://gardenai-backend.herokuapp.com/api/v1/garden/GetAll"
+          "https://gardenai-backend.herokuapp.com/api/v1/garden/GetAll/" +
+            user?.id
         );
-        console.log("userGarden -->");
-        console.log(userGarden);
-        console.log(userGarden.status);
+        setGarden(userGarden.data.result);
       };
-      console.log("request data");
       requestData();
     } catch (e) {
       console.log(e);
     }
   }, []);
-  if (!loaded) {
-    return null;
-  }
   return (
     <View style={styles.container}>
       <View style={styles.setPositionTitlePage}>
@@ -56,28 +46,30 @@ const Gardenai = (props: GardenaiProps) => {
           size={30}
           onPress={() => props.navigation.navigate("CreateGarden")}
         />
-        {/* <FontAwesome5
-          name={"plus-circle"}
-          style={styles.addIcon}
-          size={24}
-          onPress={() => props.navigation.navigate("CreateGarden")}
-        /> */}
       </View>
-      {tmp.map((elem, i) => {
-        return (
-          <View style={styles.setAllGarden} key={i}>
-            <View style={{ flexDirection: "row" }}>
-              <View
-                style={[styles.plantCart, { backgroundColor: elem.code }]}
-              />
+      <FlatList
+        data={Garden}
+        keyExtractor={(items, i) => i.toString()}
+        renderItem={({ item, index }) => (
+          <View style={styles.setAllGarden} key={index}>
+            <TouchableHighlight
+              onPress={() => {
+                props.navigation.navigate("Garden", {
+                  garden_id: item["ID"],
+                });
+              }}
+              style={{ flexDirection: "row" }}
+            >
               <View>
-                <Text style={styles.setTitleGarden}> title </Text>
-                <Text style={styles.setDescriptionGarden}> Description </Text>
+                <Text style={styles.setTitleGarden}> {item["Name"]} </Text>
+                <Text style={styles.setDescriptionGarden}>
+                  Hauteur {item["Height"]} Largeur {item["Width"]}{" "}
+                </Text>
               </View>
-            </View>
+            </TouchableHighlight>
           </View>
-        );
-      })}
+        )}
+      />
     </View>
   );
 };
@@ -108,7 +100,6 @@ const styles = StyleSheet.create({
   },
   setAllGarden: {
     marginTop: "10%",
-    height: Dimensions.get("screen").height / 8,
     width: Dimensions.get("screen").width / 1.2,
     marginHorizontal: 5,
     borderRadius: 5,
@@ -125,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: "2%",
   },
   setTitleGarden: {
-    marginTop: "20%",
+    marginTop: "2%",
     fontSize: Dimensions.get("screen").width / 18,
     fontWeight: "bold",
   },
