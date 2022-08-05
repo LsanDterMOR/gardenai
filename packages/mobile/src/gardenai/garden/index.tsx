@@ -159,6 +159,7 @@ var data_old = {
 const Garden = ({ route, navigation }) => {
   var PlantList = [{ name: "plant", pos: { x: 0, y: 0, size: 0 } }];
   const [data, setData] = useState([]);
+  const moveToGardenai = () => navigation.navigate("Gardenai");
 
   useEffect(() => {
     console.log("Call USEEFFECT");
