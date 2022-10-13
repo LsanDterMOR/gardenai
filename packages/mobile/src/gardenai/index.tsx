@@ -32,7 +32,7 @@ const Gardenai = (props: GardenaiProps) => {
       };
       requestData();
     } catch (e) {
-      console.log(e);
+      console.log("Error get all: " + e);
     }
   }, []);
   return (
