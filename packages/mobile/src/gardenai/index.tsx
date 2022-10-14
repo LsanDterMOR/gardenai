@@ -51,7 +51,7 @@ const Gardenai = (props: GardenaiProps) => {
           style={styles.logoutIcon}
           onPress={logout}
         />
-        <Text style={styles.titlePage}>vos potagers</Text>
+        <Text style={styles.titlePage}>À vos potagers !</Text>
         <Ionicons
           name="add-circle-outline"
           color="#65C18C"
