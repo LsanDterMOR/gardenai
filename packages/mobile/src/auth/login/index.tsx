@@ -41,12 +41,15 @@ const Login = (props: LoginProps) => {
             }),
           }
         ).then((r) => r.json());
-        setUser({ id: login.result.id });
+        console.log("login");
+        console.log(login);
         if (login.success) {
+          setUser({ id: login.result.id });
           setIsError(false);
-
+          console.log("Login success");
           moveToGardenai();
         } else {
+          console.log("Login failed");
           setIsError(true);
         }
       }

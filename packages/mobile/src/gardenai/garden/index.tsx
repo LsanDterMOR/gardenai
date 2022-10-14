@@ -162,11 +162,8 @@ const Garden = ({ route, navigation }) => {
   const moveToGardenai = () => navigation.navigate("Gardenai");
 
   useEffect(() => {
-    console.log("Call USEEFFECT");
     const getGardenById = async () => {
-      console.log("-- TEST --");
       const { garden_id } = route.params;
-      console.log(garden_id);
       // console.log(props.garden_id);
       try {
         const res = await axios.get(

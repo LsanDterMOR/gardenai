@@ -68,7 +68,7 @@ const Register = (props: RegisterProps) => {
         }
       }
     } catch (e) {
-      console.log(e);
+      console.log("e -> ", e);
     }
   };
 
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFF9F5",
+    backgroundColor: "#FFFBF9",
   },
   Input: {
     borderWidth: 1,

@@ -58,7 +58,7 @@ const CreateGarden = (props: CreateGardenProps) => {
             style={styles.quitIcon}
             size={28}
             color="#65C18C"
-            onPress={() => props.navigation.goBack()}
+            onPress={() => props.navigation.push("Gardenai")}
           />
           <Text style={styles.titlePage}>Créer un potager</Text>
         </View>
@@ -141,7 +141,7 @@ const CreateGarden = (props: CreateGardenProps) => {
                   }
                 );
                 console.log("createGarden -> ", createGarden.status);
-                console.log(createGarden.data);
+                console.log(createGarden);
                 if (createGarden.status == 200) {
                   props.navigation.navigate("Garden", {
                     garden_id: createGarden.data.result,
