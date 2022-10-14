@@ -18,153 +18,77 @@ import React from "react";
 
 interface GardenProps {
   navigation: any;
-  garden_id: number;
+  route: any;
 }
 
-//   garden_id: number;
+interface GardenData {
+  ID: number;
+  Name: string;
+  Width: number;
+  Height: number;
+  PlantList: Array<PlantList>;
+  Path: Array<Array<number>>;
+}
 
-var data_old = {
-  result: {
-    ID: 39710644,
-    Name: "Jardin cool",
-    Width: 8,
-    Height: 8,
-    PlantList: [
-      {
-        ID: 236,
-        PosX: 5,
-        PosY: 3,
-        Size: 1,
-        GardenID: 39710644,
-        PlantID: 1,
-        Plant: {
-          ID: 0,
-          CommonName: "tomato",
-          ScientificName: "",
-          PlantType: "",
-          PlantCategory: "",
-          MinHeight: 0,
-          MaxHeight: 0,
-          MinSpreadRoot: 0,
-          MaxSpreadRoot: 0,
-          GrowthRate: 0,
-          SunExposure: 0,
-          MinimumRootDepth: 0,
-          MinpH: 0,
-          MaxpH: 0,
-          MinUSDAZone: 0,
-          MaxUSDAZone: 0,
-          RootType: 0,
-        },
-      },
-      {
-        ID: 237,
-        PosX: 3,
-        PosY: 3,
-        Size: 1,
-        GardenID: 39710644,
-        PlantID: 1,
-        Plant: {
-          ID: 0,
-          CommonName: "carot",
-          ScientificName: "",
-          PlantType: "",
-          PlantCategory: "",
-          MinHeight: 0,
-          MaxHeight: 0,
-          MinSpreadRoot: 0,
-          MaxSpreadRoot: 0,
-          GrowthRate: 0,
-          SunExposure: 0,
-          MinimumRootDepth: 0,
-          MinpH: 0,
-          MaxpH: 0,
-          MinUSDAZone: 0,
-          MaxUSDAZone: 0,
-          RootType: 0,
-        },
-      },
-      {
-        ID: 237,
-        PosX: 0,
-        PosY: 0,
-        Size: 2,
-        GardenID: 39710644,
-        PlantID: 1,
-        Plant: {
-          ID: 0,
-          CommonName: "apple_tree",
-          ScientificName: "",
-          PlantType: "",
-          PlantCategory: "",
-          MinHeight: 0,
-          MaxHeight: 0,
-          MinSpreadRoot: 0,
-          MaxSpreadRoot: 0,
-          GrowthRate: 0,
-          SunExposure: 0,
-          MinimumRootDepth: 0,
-          MinpH: 0,
-          MaxpH: 0,
-          MinUSDAZone: 0,
-          MaxUSDAZone: 0,
-          RootType: 0,
-        },
-      },
-      {
-        ID: 237,
-        PosX: 2,
-        PosY: 6,
-        Size: 1,
-        GardenID: 39710644,
-        PlantID: 1,
-        Plant: {
-          ID: 0,
-          CommonName: "lettuce",
-          ScientificName: "",
-          PlantType: "",
-          PlantCategory: "",
-          MinHeight: 0,
-          MaxHeight: 0,
-          MinSpreadRoot: 0,
-          MaxSpreadRoot: 0,
-          GrowthRate: 0,
-          SunExposure: 0,
-          MinimumRootDepth: 0,
-          MinpH: 0,
-          MaxpH: 0,
-          MinUSDAZone: 0,
-          MaxUSDAZone: 0,
-          RootType: 0,
-        },
-      },
-    ],
-    Path: [
-      [2, 0],
-      [2, 1],
-      [2, 2],
-      [2, 3],
-      [2, 4],
-      [2, 5],
-      [3, 5],
-      [4, 5],
-      [5, 5],
-      [6, 5],
-      [7, 5],
-      [8, 5],
-    ],
-  },
-};
+interface PlantList {
+  ID: number;
+  Name: string;
+  PosX: number;
+  PosY: number;
+  Size: number;
+  GardenID: number;
+  PlantID: number;
+  Plant: Plant;
+}
 
-const Garden = ({ route, navigation }) => {
+interface Plant {
+  ID: number;
+  CommonName: string;
+  ScientificName: string;
+  PlantType: string;
+  PlantCategory: string;
+  MinHeight: number;
+  MaxHeight: number;
+  MinSpreadRoot: number;
+  MaxSpreadRoot: number;
+  GrowthRate: number;
+  SunExposure: number;
+  MinimumRootDepth: number;
+  MinpH: number;
+  MaxpH: number;
+  MinUSDAZone: number;
+  MaxUSDAZone: number;
+  RootType: number;
+}
+
+const Path = [
+  [2, 0],
+  [2, 1],
+  [2, 2],
+  [2, 3],
+  [2, 4],
+  [2, 5],
+  [3, 5],
+  [4, 5],
+  [5, 5],
+  [6, 5],
+  [7, 5],
+  [8, 5],
+];
+
+const Garden = (props: GardenProps) => {
   var PlantList = [{ name: "plant", pos: { x: 0, y: 0, size: 0 } }];
-  const [data, setData] = useState([]);
-  const moveToGardenai = () => navigation.navigate("Gardenai");
+  const [data, setData] = useState<GardenData>();
 
   useEffect(() => {
     const getGardenById = async () => {
+<<<<<<< HEAD
       const { garden_id } = route.params;
       // console.log(props.garden_id);
+=======
+      const { garden_id } = props.route.params;
+      console.log("garden id" + garden_id);
+>>>>>>> 9f8d4a95272b259e1b1ff835854e7b4a837ccd65
       try {
         const res = await axios.get(
           "https://gardenai-backend.herokuapp.com/api/v1/garden/GetById/" +
@@ -172,13 +96,13 @@ const Garden = ({ route, navigation }) => {
         );
         setData(res.data.result);
       } catch (e) {
-        console.log(e);
+        console.log("Error get by id: " + e);
       }
     };
 
     getGardenById();
   }, []);
-  if (data.length == 0) return null;
+  if (data == undefined) return null;
 
   data.PlantList.forEach((plant) => {
     PlantList.push({
@@ -200,7 +124,7 @@ const Garden = ({ route, navigation }) => {
           style={styles.quitIcon}
           size={28}
           color="#65C18C"
-          onPress={() => moveToGardenai()}
+          onPress={() => props.navigation.navigate("Gardenai")}
         />
         <Text style={styles.titlePage}>{data.Name}</Text>
       </View>
@@ -214,7 +138,7 @@ const Garden = ({ route, navigation }) => {
         <DisplayGarden
           Width={data.Width}
           Height={data.Height}
-          Path={data_old.result.Path}
+          Path={Path}
           PlantList={PlantList.slice(1)}
         />
       </ImageZoom>

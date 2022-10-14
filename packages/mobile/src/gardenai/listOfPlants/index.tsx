@@ -40,7 +40,11 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
         const listOfPLants = await axios.get(
           "https://gardenai-backend.herokuapp.com/api/v1/plant/"
         );
-        console.log(listOfPLants);
+        console.log("listOfPLants.data -> ");
+        console.log(listOfPLants.data.result);
+        console.log(typeof listOfPLants.data.result);
+        // setPlant([listOfPLants.data]);
+        console.log("plant -> \n", Plant);
       };
       requestPlant();
     } catch (e) {
@@ -77,15 +81,16 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
             onChangeText={(text) => console.log(text)}
           ></TextInput>
         </View>
-        {/* <FlatList
+        <FlatList
           data={Plant}
           keyExtractor={(items, i) => i.toString()}
           renderItem={({ item }) => (
-            <Text style={styles.item} onPress={() => addPlant(item)}>
-              {item.name}
-            </Text>
+            <Text>{{ item }}</Text>
+            // <Text style={styles.item} onPress={() => addPlant(item)}>
+            //   {item.name}
+            // </Text>
           )}
-        /> */}
+        />
       </View>
     </TouchableWithoutFeedback>
   );
