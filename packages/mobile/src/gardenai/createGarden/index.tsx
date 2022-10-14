@@ -20,6 +20,21 @@ interface CreateGardenProps {
   navigation: any;
 }
 
+axios.interceptors.request.use((response) => {
+  console.log("request sent, waiting ...");
+  return response;
+}, (error) => {
+  console.log("request error");
+  return Promise.reject(error);
+});
+axios.interceptors.response.use((response) => {
+  console.log("response received !");
+  return response;
+}, (error) => {
+  console.log("response error");
+  return Promise.reject(error);
+});
+
 const CreateGarden = (props: CreateGardenProps) => {
   const [LengthSize, setLengthSize] = useState(20);
   const [WidthSize, setWidthSize] = useState(50);
@@ -148,7 +163,7 @@ const CreateGarden = (props: CreateGardenProps) => {
                   });
                 }
               } catch (e) {
-                console.log("e -> " + e);
+                console.log("Garden creation failed: " + e);
               }
             }}
           >
