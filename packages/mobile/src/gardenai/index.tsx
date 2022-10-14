@@ -54,8 +54,9 @@ const Gardenai = (props: GardenaiProps) => {
           <View style={styles.setAllGarden} key={index}>
             <TouchableHighlight
               onPress={() => {
+                console.log(item["ID"])
                 props.navigation.navigate("Garden", {
-                  garden_id: item["ID"],
+                  garden_id: item["ID"]
                 });
               }}
               style={{ flexDirection: "row" }}

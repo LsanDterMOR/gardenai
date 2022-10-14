@@ -41,6 +41,12 @@ const Login = (props: LoginProps) => {
             }),
           }
         ).then((r) => r.json());
+        if (login.result === undefined) {
+          setIsError(true);
+          console.log("User id is undefined");
+          return;
+
+        }
         setUser({ id: login.result.id });
         if (login.success) {
           setIsError(false);

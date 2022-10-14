@@ -18,7 +18,7 @@ import React from "react";
 
 interface GardenProps {
   navigation: any;
-  garden_id: number;
+  route: any;
 }
 
 interface GardenData {
@@ -29,7 +29,6 @@ interface GardenData {
   PlantList: Array<PlantList>;
   Path: Array<Array<number>>;
 }
-
 
 interface PlantList {
   ID: number;
@@ -43,26 +42,26 @@ interface PlantList {
 }
 
 interface Plant {
-  ID: number,
-  CommonName: string,
-  ScientificName: string,
-  PlantType: string,
-  PlantCategory: string,
-  MinHeight: number,
-  MaxHeight: number,
-  MinSpreadRoot: number,
-  MaxSpreadRoot: number,
-  GrowthRate: number,
-  SunExposure: number,
-  MinimumRootDepth: number,
-  MinpH: number,
-  MaxpH: number,
-  MinUSDAZone: number,
-  MaxUSDAZone: number,
-  RootType: number,
+  ID: number;
+  CommonName: string;
+  ScientificName: string;
+  PlantType: string;
+  PlantCategory: string;
+  MinHeight: number;
+  MaxHeight: number;
+  MinSpreadRoot: number;
+  MaxSpreadRoot: number;
+  GrowthRate: number;
+  SunExposure: number;
+  MinimumRootDepth: number;
+  MinpH: number;
+  MaxpH: number;
+  MinUSDAZone: number;
+  MaxUSDAZone: number;
+  RootType: number;
 }
 
-const Path =  [
+const Path = [
   [2, 0],
   [2, 1],
   [2, 2],
@@ -75,16 +74,16 @@ const Path =  [
   [6, 5],
   [7, 5],
   [8, 5],
-]
+];
 
-const Garden = ( {route}: {route: any}, {navigation}: {navigation: any}) => {
+const Garden = (props: GardenProps) => {
   var PlantList = [{ name: "plant", pos: { x: 0, y: 0, size: 0 } }];
   const [data, setData] = useState<GardenData>();
-  const moveToGardenai = () => navigation.navigate("Gardenai");
 
   useEffect(() => {
     const getGardenById = async () => {
-      const { garden_id } = route.params;
+      const { garden_id } = props.route.params;
+      console.log("garden id" + garden_id);
       try {
         const res = await axios.get(
           "https://gardenai-backend.herokuapp.com/api/v1/garden/GetById/" +
@@ -120,7 +119,7 @@ const Garden = ( {route}: {route: any}, {navigation}: {navigation: any}) => {
           style={styles.quitIcon}
           size={28}
           color="#65C18C"
-          onPress={() => moveToGardenai()}
+          onPress={() => props.navigation.navigate("Gardenai")}
         />
         <Text style={styles.titlePage}>{data.Name}</Text>
       </View>
