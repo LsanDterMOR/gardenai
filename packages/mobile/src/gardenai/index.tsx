@@ -56,7 +56,7 @@ const Gardenai = (props: GardenaiProps) => {
           name="add-circle-outline"
           color="#65C18C"
           style={styles.addIcon}
-          size={34}
+          size={45}
           onPress={() => props.navigation.navigate("CreateGarden")}
         />
       </View>
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   titlePage: {
     fontWeight: "bold",
-    fontSize: Dimensions.get("screen").width / 10,
+    fontSize: Dimensions.get("screen").width / 12,
     fontFamily: "VigaRegular",
     bottom: 5,
   },
@@ -109,11 +109,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   logoutIcon: {
-    top: 12,
+    top: 2,
     transform: [{ rotateY: "180deg" }],
   },
   addIcon: {
-    top: 12,
+    top: 0,
   },
   setAllGarden: {
     marginTop: "10%",

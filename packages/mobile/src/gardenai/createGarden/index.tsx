@@ -175,7 +175,13 @@ const styles = StyleSheet.create({
     display: "flex",
     backgroundColor: "#FFFBF9",
     alignItems: "center",
-    paddingTop: StatusBar.currentHeight,
+  },
+  setPositionTitlePage: {
+    marginTop: 20,
+    flex: 1,
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   scrollView: {
     marginHorizontal: 20,
@@ -184,6 +190,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: Dimensions.get("screen").width / 10,
     fontFamily: "VigaRegular",
+    justifyContent: "center",
   },
   titleStep: {
     fontWeight: "bold",
@@ -194,9 +201,8 @@ const styles = StyleSheet.create({
     fontFamily: "VigaRegular",
   },
   quitIcon: {
-    position: "absolute",
     left: -Dimensions.get("screen").width / 10,
-    top: 13,
+    top: 12,
   },
   PlantButton: {
     flex: 7,
