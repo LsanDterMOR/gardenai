@@ -112,7 +112,6 @@ const Gardenai = (props: GardenaiProps) => {
                     }}
                   >
                     <TouchableOpacity
-                      style={styles.setGardenDelete}
                       onPress={() => {
                         removeGarden(item["ID"]);
                       }}
@@ -121,7 +120,7 @@ const Gardenai = (props: GardenaiProps) => {
                         name="circle"
                         size={25}
                         color="black"
-                        style={[styles.quitIcon, { color: "#FF6565" }]}
+                        style={{ color: "#FF6565" }}
                         solid
                       />
                       <Text
@@ -222,7 +221,8 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("screen").width / 18,
     fontWeight: "bold",
   },
-  setGardenDelete: {},
+  setGardenDelete: {
+  },
   setDescriptionGarden: {
     width: "100%",
   },
@@ -236,9 +236,6 @@ const styles = StyleSheet.create({
     marginRight: "5%",
   },
   quitIcon: {
-    // position: "absolute",
-    // right: 15,
-    // top: 0,
   },
 });
 
