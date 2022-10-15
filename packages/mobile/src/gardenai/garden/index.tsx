@@ -83,7 +83,6 @@ const Garden = (props: GardenProps) => {
   useEffect(() => {
     const getGardenById = async () => {
       const { garden_id } = props.route.params;
-      console.log("garden id" + garden_id);
       try {
         const res = await axios.get(
           "https://gardenai-backend.herokuapp.com/api/v1/garden/GetById/" +
@@ -109,19 +108,16 @@ const Garden = (props: GardenProps) => {
   return (
     <View style={styles.container}>
       <View
-        style={{
-          flexDirection: "row",
-          marginTop: "10%",
-        }}
+        style={styles.pageHeader}
       >
         <Ionicons
           name="return-up-back-outline"
-          style={styles.quitIcon}
+          style={styles.pageReturn}
           size={28}
           color="#65C18C"
           onPress={() => props.navigation.navigate("Gardenai")}
         />
-        <Text style={styles.titlePage}>{data.Name}</Text>
+        <Text style={styles.pageTitle}>{data.Name}</Text>
       </View>
       <ImageZoom
         style={styles.imageHolder}
@@ -150,14 +146,20 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
   },
   imageHolder: {},
-  titlePage: {
+  pageHeader: {
+    flexDirection: "row",
+    marginTop: "10%",
+    width: "100%",
+    borderBottomWidth: 2,
+  },
+  pageTitle: {
     fontWeight: "bold",
     fontSize: Dimensions.get("screen").width / 10,
     fontFamily: "VigaRegular",
+    marginLeft: "5%",
   },
-  quitIcon: {
-    position: "absolute",
-    left: -50,
+  pageReturn: {
+    marginLeft: "5%",
     top: 10,
   },
 });

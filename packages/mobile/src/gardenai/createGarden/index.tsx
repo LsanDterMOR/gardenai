@@ -20,21 +20,6 @@ interface CreateGardenProps {
   navigation: any;
 }
 
-axios.interceptors.request.use((response) => {
-  console.log("request sent, waiting ...");
-  return response;
-}, (error) => {
-  console.log("request error");
-  return Promise.reject(error);
-});
-axios.interceptors.response.use((response) => {
-  console.log("response received !");
-  return response;
-}, (error) => {
-  console.log("response error");
-  return Promise.reject(error);
-});
-
 const CreateGarden = (props: CreateGardenProps) => {
   const [LengthSize, setLengthSize] = useState(20);
   const [WidthSize, setWidthSize] = useState(50);
@@ -42,13 +27,7 @@ const CreateGarden = (props: CreateGardenProps) => {
   const cartItems = useCartItem((state) => state.items);
   const setCartItems = useCartItem((state) => state.setCartItems);
   const userId = useUser((state) => state.user);
-
-  useEffect(() => {
-    const screenWidth = Dimensions.get("screen").width;
-    const screenHeight = Dimensions.get("screen").height;
-  }, []);
-
-  useEffect(() => {});
+  const [Loading, setLoading] = useState(false);
 
   function TitleFunction(text: string, marginTopValue: string) {
     return (
@@ -57,7 +36,11 @@ const CreateGarden = (props: CreateGardenProps) => {
       </View>
     );
   }
-  return (
+  return Loading ? (
+    <View style={styles.container}>
+      <Text style={styles.loadingText}>Chargement...</Text>
+    </View>
+  ) : (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View
@@ -145,6 +128,7 @@ const CreateGarden = (props: CreateGardenProps) => {
             style={[styles.validateButton]}
             onPress={async () => {
               try {
+                setLoading(true);
                 const createGarden = await axios.post(
                   "https://gardenai-backend.herokuapp.com/api/v1/garden/Create",
                   {
@@ -155,6 +139,7 @@ const CreateGarden = (props: CreateGardenProps) => {
                     UserId: userId?.id,
                   }
                 );
+                setLoading(false);
                 console.log("createGarden -> ", createGarden.status);
                 console.log(createGarden.data);
                 if (createGarden.status == 200) {
@@ -163,6 +148,7 @@ const CreateGarden = (props: CreateGardenProps) => {
                   });
                 }
               } catch (e) {
+                setLoading(false);
                 console.log("Garden creation failed: " + e);
               }
             }}
@@ -207,6 +193,13 @@ const styles = StyleSheet.create({
     position: "relative",
     left: -Dimensions.get("screen").width / 3,
     fontFamily: "VigaRegular",
+  },
+  loadingText: {
+    fontWeight: "bold",
+    fontSize: Dimensions.get("screen").width / 10,
+    marginTop: Dimensions.get("screen").height / 3,
+    textAlign: "center",
+    color: "green",
   },
   quitIcon: {
     position: "absolute",
