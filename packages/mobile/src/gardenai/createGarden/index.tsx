@@ -56,7 +56,7 @@ const CreateGarden = (props: CreateGardenProps) => {
             style={styles.quitIcon}
             size={28}
             color="#65C18C"
-            onPress={() => props.navigation.goBack()}
+            onPress={() => props.navigation.push("Gardenai")}
           />
           <Text style={styles.titlePage}>Créer un potager</Text>
         </View>
@@ -141,7 +141,7 @@ const CreateGarden = (props: CreateGardenProps) => {
                 );
                 setLoading(false);
                 console.log("createGarden -> ", createGarden.status);
-                console.log(createGarden.data);
+                console.log(createGarden);
                 if (createGarden.status == 200) {
                   props.navigation.navigate("Garden", {
                     garden_id: createGarden.data.result,
@@ -176,7 +176,13 @@ const styles = StyleSheet.create({
     display: "flex",
     backgroundColor: "#FFFBF9",
     alignItems: "center",
-    paddingTop: StatusBar.currentHeight,
+  },
+  setPositionTitlePage: {
+    marginTop: 20,
+    flex: 1,
+    width: "90%",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   scrollView: {
     marginHorizontal: 20,
@@ -185,6 +191,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: Dimensions.get("screen").width / 10,
     fontFamily: "VigaRegular",
+    justifyContent: "center",
   },
   titleStep: {
     fontWeight: "bold",
@@ -202,9 +209,8 @@ const styles = StyleSheet.create({
     color: "green",
   },
   quitIcon: {
-    position: "absolute",
     left: -Dimensions.get("screen").width / 10,
-    top: 13,
+    top: 12,
   },
   PlantButton: {
     flex: 7,

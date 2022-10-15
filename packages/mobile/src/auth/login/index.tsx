@@ -45,14 +45,14 @@ const Login = (props: LoginProps) => {
           setIsError(true);
           console.log("User id is undefined");
           return;
-
         }
-        setUser({ id: login.result.id });
         if (login.success) {
+          setUser({ id: login.result.id });
           setIsError(false);
-
+          console.log("Login success");
           moveToGardenai();
         } else {
+          console.log("Login failed");
           setIsError(true);
         }
       }

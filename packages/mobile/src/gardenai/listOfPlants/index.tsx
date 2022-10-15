@@ -13,6 +13,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { useCartItem } from "../../store/cartItems";
+import axios from "axios";
 
 interface ListOfPlantsProps {
   navigation: any;
@@ -22,14 +23,34 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
   const [search, setSearch] = useState("");
   const setCartItems = useCartItem((state) => state.setCartItems);
   const cartItems = useCartItem((state) => state.items);
-  const data = [
-    { name: "tomato", code: "#1abc9c", quantity: 1 },
-    { name: "lettuce", code: "#2ecc71", quantity: 1 },
-    { name: "carot", code: "#3498db", quantity: 1 },
-  ];
+  // const data: any[] | null | undefined = [
+  //   // { name: "tomato", code: "#1abc9c", quantity: 1 },
+  //   // { name: "lettuce", code: "#2ecc71", quantity: 1 },
+  //   // { name: "carot", code: "#3498db", quantity: 1 },
+  // ];
+  const [Plant, setPlant] = useState([]);
   function addPlant(item: any) {
     setCartItems([...cartItems, item]);
   }
+
+  useEffect(() => {
+    try {
+      console.log("useEffect dans create garden");
+      const requestPlant = async () => {
+        const listOfPLants = await axios.get(
+          "https://gardenai-backend.herokuapp.com/api/v1/plant/"
+        );
+        console.log("listOfPLants.data -> ");
+        console.log(listOfPLants.data.result);
+        console.log(typeof listOfPLants.data.result);
+        // setPlant([listOfPLants.data]);
+        console.log("plant -> \n", Plant);
+      };
+      requestPlant();
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -61,12 +82,13 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
           ></TextInput>
         </View>
         <FlatList
-          data={data}
+          data={Plant}
           keyExtractor={(items, i) => i.toString()}
           renderItem={({ item }) => (
-            <Text style={styles.item} onPress={() => addPlant(item)}>
-              {item.name}
-            </Text>
+            <Text>{{ item }}</Text>
+            // <Text style={styles.item} onPress={() => addPlant(item)}>
+            //   {item.name}
+            // </Text>
           )}
         />
       </View>

@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 import { useUser } from "../store/user";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -63,6 +64,7 @@ const Gardenai = (props: GardenaiProps) => {
 
   useEffect(() => {
     try {
+      console.log("useEffect dans create garden");
       const requestData = async () => {
         const userGarden = await axios.get(
           "https://gardenai-backend.herokuapp.com/api/v1/garden/GetAll/" +
@@ -75,15 +77,26 @@ const Gardenai = (props: GardenaiProps) => {
       console.log("Error get all: " + e);
     }
   }, []);
+
+  const logout = async () => {
+    props.navigation.navigate("Login");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.setPositionTitlePage}>
-        <Text style={styles.titlePage}>vos potager</Text>
+        <AntDesign
+          name="logout"
+          size={30}
+          color="#65C18C"
+          style={styles.logoutIcon}
+          onPress={logout}
+        />
+        <Text style={styles.titlePage}>À vos potagers !</Text>
         <Ionicons
           name="add-circle-outline"
           color="#65C18C"
           style={styles.addIcon}
-          size={30}
+          size={45}
           onPress={() => props.navigation.navigate("CreateGarden")}
         />
       </View>
@@ -154,26 +167,30 @@ const Gardenai = (props: GardenaiProps) => {
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    display: "flex",
-    paddingTop: StatusBar.currentHeight,
     alignItems: "center",
     backgroundColor: "#FFF9F5",
+    paddingTop: 40,
+    flex: 0,
   },
   titlePage: {
     fontWeight: "bold",
-    fontSize: Dimensions.get("screen").width / 10,
+    fontSize: Dimensions.get("screen").width / 12,
     fontFamily: "VigaRegular",
+    bottom: 5,
   },
   setPositionTitlePage: {
+    marginTop: 20,
+    flex: 1,
+    width: "90%",
     flexDirection: "row",
-    justifyContent: "center",
-    marginTop: "15%",
-    marginLeft: "-10%",
+    justifyContent: "space-between",
+  },
+  logoutIcon: {
+    top: 2,
+    transform: [{ rotateY: "180deg" }],
   },
   addIcon: {
-    position: "absolute",
-    right: -Dimensions.get("screen").width / 4,
-    top: 12,
+    top: 0,
   },
   emptyGardenDiv: {
     marginTop: Dimensions.get("screen").height / 3,
@@ -217,7 +234,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   setTitleGarden: {
-    marginTop: "2%",
     fontSize: Dimensions.get("screen").width / 18,
     fontWeight: "bold",
   },
