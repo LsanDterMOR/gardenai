@@ -33,6 +33,14 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
     setCartItems([...cartItems, item]);
   }
 
+  const renderListEmptyPlantList = () => {
+    return (
+      <View>
+        <Text>No data retrieved</Text>
+      </View>
+    )
+  }
+
   useEffect(() => {
     try {
       console.log("useEffect dans create garden");
@@ -41,10 +49,8 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
           "https://gardenai-backend.herokuapp.com/api/v1/plant/"
         );
         console.log("listOfPLants.data -> ");
-        console.log(listOfPLants.data.result);
-        console.log(typeof listOfPLants.data.result);
-        // setPlant([listOfPLants.data]);
-        console.log("plant -> \n", Plant);
+        console.log(listOfPLants.data.result)
+        setPlant(listOfPLants.data.result);
       };
       requestPlant();
     } catch (e) {
@@ -55,23 +61,15 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: "15%",
-            marginLeft: "10%",
-          }}
-        >
+        <View style={styles.pageHeader}>
           <Ionicons
             name="return-up-back-outline"
-            style={styles.quitIcon}
+            style={styles.pageReturn}
             size={28}
             color="#65C18C"
-            onPress={() => props.navigation.goBack()}
+            onPress={() => props.navigation.navigate("Gardenai")}
           />
-          {/* <FontAwesome5 name="arrow-left" size={24} color="black" style={styles.quitIcon} onPress={() => props.navigation.goBack()} /> */}
-          <Text style={styles.titlePage}>Liste des plantes</Text>
+          <Text style={styles.pageTitle}>Liste des plantes</Text>
         </View>
         <View style={{ paddingTop: "15%", height: "14%" }}>
           <TextInput
@@ -84,15 +82,19 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
         <FlatList
           data={Plant}
           keyExtractor={(items, i) => i.toString()}
-          renderItem={({ item }) => (
-            <Text>{{ item }}</Text>
-            // <Text style={styles.item} onPress={() => addPlant(item)}>
-            //   {item.name}
-            // </Text>
+          ListEmptyComponent={renderListEmptyPlantList}
+          renderItem={({ item, index }) => (
+            <View style={styles.plantList} key={index}>
+              {/* <Text>{item["common_name"]}</Text> */}
+            </View>
           )}
         />
       </View>
     </TouchableWithoutFeedback>
+    //   <Text style={styles.item} onPress={() => addPlant(item)}>
+    //   // {item.name}
+    //   //{" "}
+    // </Text>
   );
 };
 
@@ -112,10 +114,20 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("screen").width / 10,
     fontFamily: "VigaRegular",
   },
-  quitIcon: {
-    position: "absolute",
-    left: -Dimensions.get("screen").width / 10,
-    top: 13,
+  pageHeader: {
+    flexDirection: "row",
+    marginTop: "10%",
+    width: "100%",
+  },
+  pageTitle: {
+    fontWeight: "bold",
+    fontSize: Dimensions.get("screen").width / 10,
+    fontFamily: "VigaRegular",
+    marginLeft: "5%",
+  },
+  pageReturn: {
+    marginLeft: "5%",
+    alignSelf: "center",
   },
   Input: {
     flex: 1,
@@ -126,6 +138,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF9F5",
     paddingLeft: 20,
     marginTop: "5%",
+  },
+  plantList: {
+    width: "100%",
+    borderWidth: 2,
   },
   item: {
     padding: 10,

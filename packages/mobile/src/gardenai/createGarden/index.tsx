@@ -31,8 +31,8 @@ const CreateGarden = (props: CreateGardenProps) => {
 
   function TitleFunction(text: string, marginTopValue: string) {
     return (
-      <View style={{ marginTop: marginTopValue }}>
-        <Text style={styles.titleStep}>{text}</Text>
+      <View style={[styles.pageSubTitle ,{ marginTop: marginTopValue }]}>
+        <Text style={styles.pageSubTitleText}>{text}</Text>
       </View>
     );
   }
@@ -44,22 +44,17 @@ const CreateGarden = (props: CreateGardenProps) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: "10%",
-            marginLeft: "10%",
-          }}
-        >
-          <Ionicons
-            name="return-up-back-outline"
-            style={styles.quitIcon}
-            size={28}
-            color="#65C18C"
-            onPress={() => props.navigation.push("Gardenai")}
-          />
-          <Text style={styles.titlePage}>Créer un potager</Text>
-        </View>
+        style={styles.pageHeader}
+      >
+        <Ionicons
+          name="return-up-back-outline"
+          style={styles.pageReturn}
+          size={28}
+          color="#65C18C"
+          onPress={() => props.navigation.navigate("Gardenai")}
+        />
+        <Text style={styles.pageTitle}>Créer un potager</Text>
+      </View>
         {TitleFunction("Jardin", "0%")}
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flex: 1 }} />
@@ -177,29 +172,34 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFBF9",
     alignItems: "center",
   },
-  setPositionTitlePage: {
-    marginTop: 20,
-    flex: 1,
-    width: "90%",
+  pageHeader: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    marginTop: "10%",
+    width: "100%",
+  },
+  pageTitle: {
+    fontWeight: "bold",
+    fontSize: Dimensions.get("screen").width / 10,
+    fontFamily: "VigaRegular",
+    marginLeft: "5%",
+  },
+  pageReturn: {
+    marginLeft: "5%",
+    alignSelf: "center",
   },
   scrollView: {
     marginHorizontal: 20,
   },
-  titlePage: {
-    fontWeight: "bold",
-    fontSize: Dimensions.get("screen").width / 10,
-    fontFamily: "VigaRegular",
-    justifyContent: "center",
+  pageSubTitle: {
+    width: "100%",
   },
-  titleStep: {
+  pageSubTitleText: {
     fontWeight: "bold",
     fontSize: Dimensions.get("screen").width / 15,
     color: "#65C18C",
-    position: "relative",
-    left: -Dimensions.get("screen").width / 3,
+    textAlign: "left",
     fontFamily: "VigaRegular",
+    marginLeft: "5%",
   },
   loadingText: {
     fontWeight: "bold",
@@ -207,10 +207,6 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get("screen").height / 3,
     textAlign: "center",
     color: "green",
-  },
-  quitIcon: {
-    left: -Dimensions.get("screen").width / 10,
-    top: 12,
   },
   PlantButton: {
     flex: 7,
@@ -223,7 +219,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Input: {
-    flex: 1,
     borderWidth: 1,
     borderColor: "rgba(54, 34, 34, 0.25)",
     minWidth: "40%",

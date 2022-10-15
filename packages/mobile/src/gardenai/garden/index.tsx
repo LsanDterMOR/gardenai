@@ -107,9 +107,7 @@ const Garden = (props: GardenProps) => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={styles.pageHeader}
-      >
+      <View style={styles.pageHeader}>
         <Ionicons
           name="return-up-back-outline"
           style={styles.pageReturn}
@@ -120,7 +118,6 @@ const Garden = (props: GardenProps) => {
         <Text style={styles.pageTitle}>{data.Name}</Text>
       </View>
       <ImageZoom
-        style={styles.imageHolder}
         cropWidth={Dimensions.get("window").width}
         cropHeight={Dimensions.get("window").height}
         imageWidth={Dimensions.get("window").width * 2}
@@ -145,7 +142,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: StatusBar.currentHeight,
   },
-  imageHolder: {},
   pageHeader: {
     flexDirection: "row",
     marginTop: "10%",
@@ -160,7 +156,7 @@ const styles = StyleSheet.create({
   },
   pageReturn: {
     marginLeft: "5%",
-    top: 10,
+    alignSelf: "center",
   },
 });
 

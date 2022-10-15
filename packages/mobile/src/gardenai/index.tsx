@@ -64,7 +64,6 @@ const Gardenai = (props: GardenaiProps) => {
 
   useEffect(() => {
     try {
-      console.log("useEffect dans create garden");
       const requestData = async () => {
         const userGarden = await axios.get(
           "https://gardenai-backend.herokuapp.com/api/v1/garden/GetAll/" +
@@ -83,7 +82,7 @@ const Gardenai = (props: GardenaiProps) => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.setPositionTitlePage}>
+      <View style={styles.pageHeader}>
         <AntDesign
           name="logout"
           size={30}
@@ -91,7 +90,7 @@ const Gardenai = (props: GardenaiProps) => {
           style={styles.logoutIcon}
           onPress={logout}
         />
-        <Text style={styles.titlePage}>À vos potagers !</Text>
+        <Text style={styles.pageTitle}>À vos potagers !</Text>
         <Ionicons
           name="add-circle-outline"
           color="#65C18C"
@@ -172,25 +171,25 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     flex: 0,
   },
-  titlePage: {
+  pageTitle: {
     fontWeight: "bold",
     fontSize: Dimensions.get("screen").width / 12,
     fontFamily: "VigaRegular",
-    bottom: 5,
+    alignSelf: "center",
   },
-  setPositionTitlePage: {
+  pageHeader: {
     marginTop: 20,
-    flex: 1,
+    marginLeft: "5%",
     width: "90%",
     flexDirection: "row",
     justifyContent: "space-between",
   },
   logoutIcon: {
-    top: 2,
+    alignSelf: "center",
     transform: [{ rotateY: "180deg" }],
   },
   addIcon: {
-    top: 0,
+    alignSelf: "center",
   },
   emptyGardenDiv: {
     marginTop: Dimensions.get("screen").height / 3,
