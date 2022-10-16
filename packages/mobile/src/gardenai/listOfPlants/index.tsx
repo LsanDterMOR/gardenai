@@ -37,8 +37,8 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
 
   const renderListEmptyPlantList = () => {
     return (
-      <View>
-        <Text>Aucun résultat...</Text>
+      <View style={styles.plantNotFound}>
+        <Text style={styles.plantNotFoundText}>Aucun résultat...</Text>
       </View>
     );
   };
@@ -303,6 +303,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "VigaRegular",
     alignSelf: "center",
+  },
+  plantNotFound: {
+    textAlign: "center",
+    marginTop: "40%"
+  },
+  plantNotFoundText: {
+    textAlign: "center",
+    fontSize: Dimensions.get("screen").height / 25,
   },
 });
 
