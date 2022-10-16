@@ -277,13 +277,14 @@ const styles = StyleSheet.create({
   plantPopup: {
     backgroundColor: "#FFFBF9",
     position: "absolute",
-    top: Dimensions.get("window").height / 2,
+    top: Dimensions.get("window").height / 2.5,
     left:
       Dimensions.get("window").width / 2 - Dimensions.get("window").width / 5,
     width: "40%",
     height: "15%",
     padding: "2%",
-    borderWidth: 2,
+    borderRadius: 10,
+    borderWidth: 1,
     flexDirection: "row",
   },
   plantPopupContent: {

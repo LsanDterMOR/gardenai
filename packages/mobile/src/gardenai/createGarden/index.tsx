@@ -67,7 +67,7 @@ const CreateGarden = (props: CreateGardenProps) => {
           <View style={{ flex: 1 }} />
         </View>
 
-        {TitleFunction("Mesures", "2%")}
+        {TitleFunction("Mesures (m)", "2%")}
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flex: 1 }} />
@@ -149,12 +149,7 @@ const CreateGarden = (props: CreateGardenProps) => {
             }}
           >
             <Text
-              style={{
-                fontSize: Dimensions.get("screen").height / 25,
-                color: "#FFF",
-                fontWeight: "bold",
-                fontFamily: "VigaRegular",
-              }}
+              style={styles.validateButtonText}
             >
               valider
             </Text>
@@ -245,17 +240,25 @@ const styles = StyleSheet.create({
     marginTop: "0%",
   },
   validateButton: {
-    marginTop: "5%",
-    width: Dimensions.get("screen").width / 1.2,
+    width: Dimensions.get("screen").width / 1.5,
     height: Dimensions.get("screen").height / 20, //Dimensions.get("window").height /5,
     borderWidth: 2,
     borderColor: "rgba(54, 34, 34, 0.25)",
     minWidth: "40%",
-    minHeight: "5%",
+    minHeight: "6%",
     borderRadius: 10,
     backgroundColor: "#65C18C",
     alignItems: "center",
     justifyContent: "center",
+  },
+  validateButtonText: {
+    fontSize: Dimensions.get("screen").height / 25,
+    color: "#FFF",
+    fontWeight: "bold",
+    fontFamily: "VigaRegular",
+    alignSelf: "center",
+    marginBottom: "2%",
+    height: "90%",
   },
   borderRed: {
     borderWidth: 2,

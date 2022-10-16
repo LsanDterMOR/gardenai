@@ -105,7 +105,7 @@ const Gardenai = (props: GardenaiProps) => {
         ListEmptyComponent={renderListEmptyGarden}
         renderItem={({ item, index }) => (
           <View style={styles.setAllGarden} key={index}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 console.log(item);
                 props.navigation.navigate("Garden", {
@@ -155,7 +155,7 @@ const Gardenai = (props: GardenaiProps) => {
                   {renderCreationDate(item["CreatedAt"])}
                 </View>
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         )}
       />
