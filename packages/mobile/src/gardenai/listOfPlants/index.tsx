@@ -29,10 +29,10 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
   const [Filter, setFilter] = useState("");
   const [Plant, setPlant] = useState([]);
   const [PlantInfo, setPlantInfo] = useState<
-    { name: string; quantity: number; show: boolean }[]
+    { name: string; code: string; quantity: number; show: boolean }[]
   >([]);
-  function addPlant(item: any) {
-    setCartItems([...cartItems, item]);
+  function addPlant(items: any) {
+    setCartItems(items);
   }
 
   const renderListEmptyPlantList = () => {
@@ -55,6 +55,7 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
         setPlant(listOfPLants.data.result);
         let plantQuantityData: {
           name: string;
+          code: string;
           quantity: number;
           show: boolean;
         }[] = [];
@@ -62,6 +63,7 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
           plantQuantityData.push({
             name: plant["CommonName"],
             quantity: 0,
+            code: "#FF0000",
             show: false,
           });
         });
@@ -97,6 +99,7 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
           ></TextInput>
           <TouchableOpacity style={[styles.validateButton]} onPress={() => {
             console.log("ADD ITEM IN CART");
+            addPlant(PlantInfo);
             //addPlant()
           }}>
             <Text style={styles.validateButtonText}>+</Text>
@@ -122,6 +125,7 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
                 if (oldPlantInfo.length == 0) return;
                 oldPlantInfo[index] = {
                   name: oldPlantInfo[index].name,
+                  code: oldPlantInfo[index].code,
                   quantity: oldPlantInfo[index].quantity,
                   show: !oldPlantInfo[index].show,
                 };
@@ -143,6 +147,7 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
                     if (oldPlantInfo.length == 0) return;
                     oldPlantInfo[index] = {
                       name: oldPlantInfo[index].name,
+                      code: oldPlantInfo[index].code,
                       quantity:
                         oldPlantInfo[index].quantity > 0
                           ? oldPlantInfo[index].quantity - 1
@@ -163,6 +168,7 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
                     if (oldPlantInfo.length == 0) return;
                     oldPlantInfo[index] = {
                       name: oldPlantInfo[index].name,
+                      code: oldPlantInfo[index].code,
                       quantity: oldPlantInfo[index].quantity + 1,
                       show: oldPlantInfo[index].show,
                     };

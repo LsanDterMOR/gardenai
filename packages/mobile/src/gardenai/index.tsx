@@ -215,12 +215,12 @@ const styles = StyleSheet.create({
   setAllGarden: {
     marginTop: "10%",
     width: Dimensions.get("screen").width / 1.2,
+    height: Dimensions.get("screen").width / 3,
     marginHorizontal: 5,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "green",
     padding: 5,
-    minHeight: Dimensions.get("screen").width / 4.5,
   },
   setGardenContent: {
     width: "100%",
@@ -231,15 +231,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "95%",
     justifyContent: "space-between",
+
   },
   setTitleGarden: {
     fontSize: Dimensions.get("screen").width / 18,
     fontWeight: "bold",
+    marginTop: "5%",
+
   },
   setGardenDelete: {
+
   },
   setDescriptionGarden: {
     width: "100%",
+
   },
   setDescriptionGardenSize: {
     marginTop: "5%",

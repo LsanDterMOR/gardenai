@@ -4,6 +4,7 @@ interface Item {
   name: string;
   code: string;
   quantity: number;
+  show: boolean;
 }
 
 interface CartItemsState {

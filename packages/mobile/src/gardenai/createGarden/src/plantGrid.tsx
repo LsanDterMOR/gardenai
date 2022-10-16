@@ -54,48 +54,59 @@ const plantGrid = (props: PlantGrid) => {
         ]}
       >
         {cartItems.map((item, i) => {
-          return (
-            <View
-              key={i}
-              style={[{ position: "relative", alignItems: "center" }]}
-            >
-              <View style={[styles.plantCart, { backgroundColor: item.code }]}>
-                <FontAwesome5
-                  name="circle"
-                  size={25}
-                  color="black"
-                  style={[styles.quitIcon, { color: "#FF6565" }]}
-                  onPress={() => {
-                    removeCart(item.name);
-                  }}
-                  solid
-                />
-                <Text
-                  style={{
-                    color: "white",
-                    position: "absolute",
-                    right: -1,
-                    top: -7,
-                  }}
-                  onPress={() => {
-                    removeCart(item.name);
-                  }}
+          if (item.quantity == 0) {
+            return <View></View>;
+          } else
+            return (
+              <View
+                key={i}
+                style={[{ position: "relative", alignItems: "center" }]}
+              >
+                <View
+                  style={[styles.plantCart, { backgroundColor: item.code }]}
                 >
-                  x
-                </Text>
-                <Text style={{ color: "white" }}>{item.name}</Text>
+                  <FontAwesome5
+                    name="circle"
+                    size={25}
+                    color="black"
+                    style={[styles.quitIcon, { color: "#FF6565" }]}
+                    onPress={() => {
+                      removeCart(item.name);
+                    }}
+                    solid
+                  />
+                  <Text
+                    style={{
+                      color: "white",
+                      position: "absolute",
+                      right: -1,
+                      top: -7,
+                    }}
+                    onPress={() => {
+                      removeCart(item.name);
+                    }}
+                  >
+                    x
+                  </Text>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: Dimensions.get("screen").height / 50,
+                    }}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: Dimensions.get("screen").height / 40,
+                    }}
+                  >
+                    {item.quantity}
+                  </Text>
+                </View>
               </View>
-              <TextInput
-                style={[styles.Input]}
-                placeholder="1"
-                placeholderTextColor="#000"
-                keyboardType="number-pad"
-                onChangeText={(text) => {
-                  setPlantQuantity(parseInt(text), i);
-                }}
-              ></TextInput>
-            </View>
-          );
+            );
         })}
       </SafeAreaView>
     </ScrollView>
