@@ -15,7 +15,6 @@ var Plant plant
 
 func (plant) GetAll(c *fiber.Ctx) error {
 	result := map[string]interface{}{}
-	println("all")
 	database.DB.Model(&models.Plant{}).Find(&result)
 	return c.JSON(fiber.Map{"result": result})
 }

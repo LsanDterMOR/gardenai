@@ -10,5 +10,5 @@ type Association struct {
 	Plant1      Plant
 	Plant2ID      int
 	Plant2      Plant
-	Note        int
+	Note          int
 }
