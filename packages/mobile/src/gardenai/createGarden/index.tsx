@@ -20,21 +20,6 @@ interface CreateGardenProps {
   navigation: any;
 }
 
-axios.interceptors.request.use((response) => {
-  console.log("request sent, waiting ...");
-  return response;
-}, (error) => {
-  console.log("request error");
-  return Promise.reject(error);
-});
-axios.interceptors.response.use((response) => {
-  console.log("response received !");
-  return response;
-}, (error) => {
-  console.log("response error");
-  return Promise.reject(error);
-});
-
 const CreateGarden = (props: CreateGardenProps) => {
   const [LengthSize, setLengthSize] = useState(20);
   const [WidthSize, setWidthSize] = useState(50);
@@ -42,41 +27,34 @@ const CreateGarden = (props: CreateGardenProps) => {
   const cartItems = useCartItem((state) => state.items);
   const setCartItems = useCartItem((state) => state.setCartItems);
   const userId = useUser((state) => state.user);
-
-  useEffect(() => {
-    const screenWidth = Dimensions.get("screen").width;
-    const screenHeight = Dimensions.get("screen").height;
-  }, []);
-
-  useEffect(() => {});
+  const [Loading, setLoading] = useState(false);
 
   function TitleFunction(text: string, marginTopValue: string) {
     return (
-      <View style={{ marginTop: marginTopValue }}>
-        <Text style={styles.titleStep}>{text}</Text>
+      <View style={[styles.pageSubTitle ,{ marginTop: marginTopValue }]}>
+        <Text style={styles.pageSubTitleText}>{text}</Text>
       </View>
     );
   }
-  return (
+  return Loading ? (
+    <View style={styles.container}>
+      <Text style={styles.loadingText}>Chargement...</Text>
+    </View>
+  ) : (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: "10%",
-            marginLeft: "10%",
-          }}
-        >
-          <Ionicons
-            name="return-up-back-outline"
-            style={styles.quitIcon}
-            size={28}
-            color="#65C18C"
-            onPress={() => props.navigation.goBack()}
-          />
-          <Text style={styles.titlePage}>Créer un potager</Text>
-        </View>
+        style={styles.pageHeader}
+      >
+        <Ionicons
+          name="return-up-back-outline"
+          style={styles.pageReturn}
+          size={28}
+          color="#65C18C"
+          onPress={() => props.navigation.navigate("Gardenai")}
+        />
+        <Text style={styles.pageTitle}>Créer un potager</Text>
+      </View>
         {TitleFunction("Jardin", "0%")}
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flex: 1 }} />
@@ -89,7 +67,7 @@ const CreateGarden = (props: CreateGardenProps) => {
           <View style={{ flex: 1 }} />
         </View>
 
-        {TitleFunction("Mesures", "2%")}
+        {TitleFunction("Mesures (m)", "2%")}
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flex: 1 }} />
@@ -145,6 +123,7 @@ const CreateGarden = (props: CreateGardenProps) => {
             style={[styles.validateButton]}
             onPress={async () => {
               try {
+                setLoading(true);
                 const createGarden = await axios.post(
                   "https://gardenai-backend.herokuapp.com/api/v1/garden/Create",
                   {
@@ -155,25 +134,22 @@ const CreateGarden = (props: CreateGardenProps) => {
                     UserId: userId?.id,
                   }
                 );
+                setLoading(false);
                 console.log("createGarden -> ", createGarden.status);
-                console.log(createGarden.data);
+                console.log(createGarden);
                 if (createGarden.status == 200) {
                   props.navigation.navigate("Garden", {
                     garden_id: createGarden.data.result,
                   });
                 }
               } catch (e) {
+                setLoading(false);
                 console.log("Garden creation failed: " + e);
               }
             }}
           >
             <Text
-              style={{
-                fontSize: Dimensions.get("screen").height / 25,
-                color: "#FFF",
-                fontWeight: "bold",
-                fontFamily: "VigaRegular",
-              }}
+              style={styles.validateButtonText}
             >
               valider
             </Text>
@@ -190,28 +166,42 @@ const styles = StyleSheet.create({
     display: "flex",
     backgroundColor: "#FFFBF9",
     alignItems: "center",
-    paddingTop: StatusBar.currentHeight,
+  },
+  pageHeader: {
+    flexDirection: "row",
+    marginTop: "10%",
+    width: "100%",
+  },
+  pageTitle: {
+    fontWeight: "bold",
+    fontSize: Dimensions.get("screen").width / 10,
+    fontFamily: "VigaRegular",
+    marginLeft: "5%",
+  },
+  pageReturn: {
+    marginLeft: "5%",
+    alignSelf: "center",
   },
   scrollView: {
     marginHorizontal: 20,
   },
-  titlePage: {
-    fontWeight: "bold",
-    fontSize: Dimensions.get("screen").width / 10,
-    fontFamily: "VigaRegular",
+  pageSubTitle: {
+    width: "100%",
   },
-  titleStep: {
+  pageSubTitleText: {
     fontWeight: "bold",
     fontSize: Dimensions.get("screen").width / 15,
     color: "#65C18C",
-    position: "relative",
-    left: -Dimensions.get("screen").width / 3,
+    textAlign: "left",
     fontFamily: "VigaRegular",
+    marginLeft: "5%",
   },
-  quitIcon: {
-    position: "absolute",
-    left: -Dimensions.get("screen").width / 10,
-    top: 13,
+  loadingText: {
+    fontWeight: "bold",
+    fontSize: Dimensions.get("screen").width / 10,
+    marginTop: Dimensions.get("screen").height / 3,
+    textAlign: "center",
+    color: "green",
   },
   PlantButton: {
     flex: 7,
@@ -224,7 +214,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Input: {
-    flex: 1,
     borderWidth: 1,
     borderColor: "rgba(54, 34, 34, 0.25)",
     minWidth: "40%",
@@ -251,17 +240,25 @@ const styles = StyleSheet.create({
     marginTop: "0%",
   },
   validateButton: {
-    marginTop: "5%",
-    width: Dimensions.get("screen").width / 1.2,
+    width: Dimensions.get("screen").width / 1.5,
     height: Dimensions.get("screen").height / 20, //Dimensions.get("window").height /5,
     borderWidth: 2,
     borderColor: "rgba(54, 34, 34, 0.25)",
     minWidth: "40%",
-    minHeight: "5%",
+    minHeight: "6%",
     borderRadius: 10,
     backgroundColor: "#65C18C",
     alignItems: "center",
     justifyContent: "center",
+  },
+  validateButtonText: {
+    fontSize: Dimensions.get("screen").height / 25,
+    color: "#FFF",
+    fontWeight: "bold",
+    fontFamily: "VigaRegular",
+    alignSelf: "center",
+    marginBottom: "2%",
+    height: "90%",
   },
   borderRed: {
     borderWidth: 2,
