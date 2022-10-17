@@ -5,7 +5,6 @@ import (
 	"gardenai/server/models"
 )
 
-//var AllAssociation map[string]interface{}{}
 var AllAssociation []models.Association
 
 func setAllAssociation() {

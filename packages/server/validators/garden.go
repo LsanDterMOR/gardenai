@@ -3,13 +3,16 @@ package validators
 type gardenCreateRequest struct{}
 var GardenCreateRequest gardenCreateRequest
 
+type gardenDeleteRequest struct{}
+var GardenDeleteRequest gardenDeleteRequest
+
 type ReqPlant struct {
 	Name            string
 	Quantity        int
 	Code            string
 }
 
-type GardenValidator struct {
+type CreateGardenValidator struct {
 	Name            string  `validate:"required,min=3,max=32"`
 	Width           int		`validate:"required"`
 	Height          int		`validate:"required"`
@@ -17,9 +20,17 @@ type GardenValidator struct {
 	PlantList       []ReqPlant
 }
 
+type DeleteGardenValidator struct {
+	UserId 			uint	`validate:"required"`
+	GardenId 		uint	`validate:"required"`
+}
 
-
-func (gardenCreateRequest) ValidateStruct(gardenCreateRequest GardenValidator) error {
+func (gardenCreateRequest) ValidateStruct(gardenCreateRequest CreateGardenValidator) error {
 	err := validate.Struct(gardenCreateRequest)
+	return err
+}
+
+func (gardenDeleteRequest) ValidateStruct(gardenDeleteRequest DeleteGardenValidator) error {
+	err := validate.Struct(gardenDeleteRequest)
 	return err
 }
