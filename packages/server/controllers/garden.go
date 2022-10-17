@@ -67,7 +67,8 @@ func (garden) DeleteGarden(c *fiber.Ctx) error {
 	dbGarden := models.Garden{}
 	dbGarden.ID = garden.GardenId
 	
-	if err := database.DB.Where("user_id = ?", garden.UserId).Delete(&dbGarden).Error; err != nil {
+	result := database.DB.Where("user_id = ?", garden.UserId).Delete(&dbGarden)
+	if result.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"success":   false,
 			"reason":    "Couldn't delete garden",
@@ -77,6 +78,7 @@ func (garden) DeleteGarden(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"success": true,
+		"result": result.RowsAffected,
 	})
 }
 
