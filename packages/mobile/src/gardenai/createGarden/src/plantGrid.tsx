@@ -50,7 +50,7 @@ const plantGrid = (props: PlantGrid) => {
     >
       <SafeAreaView
         style={[
-          { flexDirection: "row", flexWrap: "wrap", justifyContent: "center" },
+          { flexDirection: "row", flexWrap: "wrap", marginLeft: "10%" },
         ]}
       >
         {cartItems.map((item, i) => {
@@ -59,12 +59,9 @@ const plantGrid = (props: PlantGrid) => {
           } else
             return (
               <View
+                style={[styles.plantCart, { backgroundColor: item.code }]}
                 key={i}
-                style={[{ position: "relative", alignItems: "center" }]}
               >
-                <View
-                  style={[styles.plantCart, { backgroundColor: item.code }]}
-                >
                   <FontAwesome5
                     name="circle"
                     size={25}
@@ -92,6 +89,7 @@ const plantGrid = (props: PlantGrid) => {
                     style={{
                       color: "white",
                       fontSize: Dimensions.get("screen").height / 50,
+                      fontWeight: "bold"
                     }}
                   >
                     {item.name}
@@ -100,12 +98,12 @@ const plantGrid = (props: PlantGrid) => {
                     style={{
                       color: "white",
                       fontSize: Dimensions.get("screen").height / 40,
+                      marginTop: "5%"
                     }}
                   >
                     {item.quantity}
                   </Text>
                 </View>
-              </View>
             );
         })}
       </SafeAreaView>
@@ -117,13 +115,11 @@ const styles = StyleSheet.create({
   plantCart: {
     height: Dimensions.get("screen").height / 10,
     width: Dimensions.get("screen").height / 10,
-    marginHorizontal: 5,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: "2%",
-    marginTop: "20%",
-    // padding:10,
+    marginRight: "8%",
+    marginTop: "10%",
   },
   quitIcon: {
     position: "absolute",
