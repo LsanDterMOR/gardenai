@@ -55,7 +55,7 @@ const plantGrid = (props: PlantGrid) => {
       >
         {cartItems.map((item, i) => {
           if (item.quantity == 0) {
-            return <View></View>;
+            return null;
           } else
             return (
               <View
