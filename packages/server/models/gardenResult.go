@@ -10,4 +10,5 @@ type GardenResult struct {
 	Width           int
 	Height          int
 	PlantList       []GardenPlant `gorm:"foreignKey:GardenID"`
+	Path       		[]GardenPlant `gorm:"foreignKey:GardenID"`
 }

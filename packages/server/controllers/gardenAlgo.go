@@ -12,7 +12,7 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant, pathLis
 	var gardenPlantList []models.GardenPlant
 
 	var path models.Plant
-	database.DB.Model(&models.Plant{}).Find(&path, "common_name = ?", "path")
+	database.DB.Model(&models.Plant{}).Find(&path, "common_name = path")
 	for _, element := range pathList {
 			gardenPlantList = append(gardenPlantList,
 			models.GardenPlant {
