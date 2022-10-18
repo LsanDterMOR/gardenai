@@ -33,6 +33,7 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
   >([]);
   function addPlant(items: any) {
     setCartItems(items);
+    props.navigation.navigate("CreateGarden");
   }
 
   const renderListEmptyPlantList = () => {
@@ -63,7 +64,7 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
           plantQuantityData.push({
             name: plant["CommonName"],
             quantity: 0,
-            code: "#FF0000",
+            code: "#65C18C",
             show: false,
           });
         });

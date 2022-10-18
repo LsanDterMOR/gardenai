@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   StatusBar,
+  RefreshControl,
   FlatList,
   TouchableHighlight,
 } from "react-native";
@@ -23,6 +24,21 @@ interface GardenaiProps {
 const Gardenai = (props: GardenaiProps) => {
   const user = useUser((state) => state.user);
   const [Garden, setGarden] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const wait = (timeout: number) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    try {
+      requestData();
+    } catch (e) {
+      console.log("Error get all: " + e);
+    }
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
 
   const renderListEmptyGarden = () => (
     <View style={styles.emptyGardenDiv}>
@@ -44,18 +60,28 @@ const Gardenai = (props: GardenaiProps) => {
     );
   };
 
+  const requestData = async () => {
+    const userGarden = await axios.get(
+      "https://gardenai-backend.herokuapp.com/api/v1/garden/GetAll/" + user?.id
+    );
+    setGarden(userGarden.data.result);
+  };
+
   const removeGarden = async (garden_id: string) => {
     if (!garden_id || garden_id === "") return;
     try {
       await axios.post(
-        "https://gardenai-backend.herokuapp.com/api/v1/garden/delete/" +
-          garden_id
+        "https://gardenai-backend.herokuapp.com/api/v1/garden/delete/",
+        {
+          gardenId: garden_id,
+          userId: user?.id,
+        }
       );
-      setGarden(current =>
-        current.filter(garden => {
-          return garden["ID"] !== garden_id;
-        }),
-      );
+      try {
+        requestData();
+      } catch (e) {
+        console.log("Error get all: " + e);
+      }
       console.log("Successfully removed garden : " + garden_id);
     } catch (e) {
       console.log("Error delete garden : " + e);
@@ -64,13 +90,6 @@ const Gardenai = (props: GardenaiProps) => {
 
   useEffect(() => {
     try {
-      const requestData = async () => {
-        const userGarden = await axios.get(
-          "https://gardenai-backend.herokuapp.com/api/v1/garden/GetAll/" +
-            user?.id
-        );
-        setGarden(userGarden.data.result);
-      };
       requestData();
     } catch (e) {
       console.log("Error get all: " + e);
@@ -103,6 +122,10 @@ const Gardenai = (props: GardenaiProps) => {
         data={Garden}
         keyExtractor={(items, i) => i.toString()}
         ListEmptyComponent={renderListEmptyGarden}
+        nestedScrollEnabled
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         renderItem={({ item, index }) => (
           <View style={styles.setAllGarden} key={index}>
             <TouchableOpacity
@@ -231,20 +254,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "95%",
     justifyContent: "space-between",
-
   },
   setTitleGarden: {
     fontSize: Dimensions.get("screen").width / 18,
     fontWeight: "bold",
     marginTop: "5%",
-
   },
-  setGardenDelete: {
-
-  },
+  setGardenDelete: {},
   setDescriptionGarden: {
     width: "100%",
-
   },
   setDescriptionGardenSize: {
     marginTop: "5%",
@@ -255,8 +273,7 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("screen").width / 25,
     marginRight: "5%",
   },
-  quitIcon: {
-  },
+  quitIcon: {},
 });
 
 export default Gardenai;

@@ -41,6 +41,7 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant, pathLis
 	
 	return SetPlantPosition(garden, gardenPlantList)
 }
+
 func IsPlacedPlant(gardenPlant models.GardenPlant) bool {
 	if (gardenPlant.PosX == -1 && gardenPlant.PosY == -1) {
 		return false
@@ -94,9 +95,12 @@ func getDisponiblePlant(gardenPlantList []models.GardenPlant) []int {
 }
 
 func SetPlantPosition(garden models.Garden, EXgardenPlantList []models.GardenPlant) []models.GardenPlant {
+	setAllAssociation()
+
 	gardenPlantList := make([]models.GardenPlant, len(EXgardenPlantList))
 	copy(gardenPlantList, EXgardenPlantList)
 	
+
 	dispPlantIndex := getDisponiblePlant(gardenPlantList)
 	dispPos := getDisponiblePos(garden, gardenPlantList)
 	if (len(dispPlantIndex) == 0 || len(dispPos) == 0) {

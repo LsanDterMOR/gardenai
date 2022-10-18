@@ -47,8 +47,43 @@ func (garden) GetById(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"result": result})
 }
 
+func (garden) DeleteGarden(c *fiber.Ctx) error {
+	garden := new(validators.DeleteGardenValidator)
+	if err := c.BodyParser(garden); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"reason":  err.Error(),
+		})
+	}
+
+	err := validators.GardenDeleteRequest.ValidateStruct(*garden)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"reason":  err.Error(),
+		})
+	}
+	
+	dbGarden := models.Garden{}
+	dbGarden.ID = garden.GardenId
+	
+	result := database.DB.Where("user_id = ?", garden.UserId).Delete(&dbGarden)
+	if result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"success":   false,
+			"reason":    "Couldn't delete garden",
+			"db.reason": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"success": true,
+		"result": result.RowsAffected,
+	})
+}
+
 func (garden) CreateGarden(c *fiber.Ctx) error {
-	garden := new(validators.GardenValidator)
+	garden := new(validators.CreateGardenValidator)
 
 	if err := c.BodyParser(garden); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

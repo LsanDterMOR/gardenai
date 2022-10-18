@@ -5,6 +5,12 @@ import (
 	"gardenai/server/models"
 )
 
+var AllAssociation []models.Association
+
+func setAllAssociation() {
+	database.DB.Preload("Plant1").Preload("Plant2").Model(&models.Association{}).Find(&AllAssociation)
+}
+
 func getPlantAtPos(gardenPlantList []models.GardenPlant, x int, y int) models.GardenPlant {
 	for i := 0 ; i < len(gardenPlantList) ; i++ {
 		if gardenPlantList[i].PosX == x && gardenPlantList[i].PosY == y {
@@ -15,16 +21,13 @@ func getPlantAtPos(gardenPlantList []models.GardenPlant, x int, y int) models.Ga
 }
 
 func getScore(gardenPlant1 models.GardenPlant, gardenPlant2 models.GardenPlant) int {
-	if (gardenPlant1.Plant.ID == 0 || gardenPlant2.Plant.ID == 0) { return 0 }
-	
-	result := models.Association{}
-	
-	database.DB.Preload("Plant1").Preload("Plant2").Model(&models.Association{}).
-	Where("plant1_id = ? AND plant2_id = ?", gardenPlant1.Plant.ID, gardenPlant2.Plant.ID).
-	Or("plant1_id = ? AND plant2_id = ?", gardenPlant2.Plant.ID, gardenPlant1.Plant.ID).
-	First(&result)
-
-	return result.Note
+	for _, elem := range AllAssociation {
+		if (gardenPlant2.Plant.ID == uint(elem.Plant1ID) && gardenPlant1.Plant.ID  == uint(elem.Plant2ID) ||
+			gardenPlant2.Plant.ID == uint(elem.Plant2ID) && gardenPlant1.Plant.ID  == uint(elem.Plant1ID)) {
+				return elem.Note
+			}
+	}
+	return 0
 }
 
 func EvaluateGarden(gardenPlantList []models.GardenPlant) int {
