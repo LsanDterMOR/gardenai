@@ -95,7 +95,7 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 		})
 	}
 
-	for _, element := range CreatePlants(dbGarden, garden.PlantList) {
+	for _, element := range CreatePlants(dbGarden, garden.PlantList, garden.PathList) {
 		dbGardenPlant := element
 
 		if err := database.DB.Create(&dbGardenPlant).Error; err != nil {

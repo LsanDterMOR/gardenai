@@ -8,24 +8,37 @@ import (
 	"fmt"
 )
 
-func CreatePlants(garden models.Garden, plantList []validators.ReqPlant) []models.GardenPlant {
+func CreatePlants(garden models.Garden, plantList []validators.ReqPlant, pathList []validators.ReqPath) []models.GardenPlant {
 	var gardenPlantList []models.GardenPlant
 
-	for _, element := range plantList {
-		for  i := 0 ; i < element.Quantity; i++ {
-			var plant models.Plant
-			database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", element.Name)
-			
+	var path models.Plant
+	database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", "PATH")
+	for _, element := range pathList {
 			gardenPlantList = append(gardenPlantList,
-				models.GardenPlant {
-					PosX: -1,
-					PosY: -1,
-					Size: 1,
-					GardenID: garden.ID,
-					Plant: plant,
-				})
+			models.GardenPlant {
+				PosX: element.PosX,
+				PosY: element.PosY,
+				Size: 1,
+				GardenID: garden.ID,
+				Plant: path,
+			})
+	}
+
+	for _, element := range plantList {
+		var plant models.Plant
+		database.DB.Model(&models.Plant{}).Find(&plant, "common_name = ?", element.Name)
+		for  i := 0 ; i < element.Quantity; i++ {
+			gardenPlantList = append(gardenPlantList,
+			models.GardenPlant {
+				PosX: -1,
+				PosY: -1,
+				Size: 1,
+				GardenID: garden.ID,
+				Plant: plant,
+			})
 		}
 	}
+	
 	return SetPlantPosition(garden, gardenPlantList)
 }
 func IsPlacedPlant(gardenPlant models.GardenPlant) bool {
