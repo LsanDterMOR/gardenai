@@ -253,7 +253,7 @@ const displayGarden = (props: DisplayProps) => {
   }
 
   PlantList.forEach((plantElem) => {
-    if (plantElem.pos.x < garden.width && plantElem.pos.y < garden.height) {
+    if (plantElem.pos.x < garden.width && plantElem.pos.y < garden.height && plantElem.pos.x != -1 && plantElem.pos.y != -1) {
       map[plantElem.pos.x][plantElem.pos.y] = {
         name: plantElem.name,
         size: plantElem.pos.size,
