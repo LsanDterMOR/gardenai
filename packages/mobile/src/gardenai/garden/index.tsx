@@ -27,7 +27,7 @@ interface GardenData {
   Width: number;
   Height: number;
   PlantList: Array<PlantList>;
-  Path: Array<Array<number>>;
+  Path: Array<PlantList>;
 }
 
 interface PlantList {
@@ -61,20 +61,20 @@ interface Plant {
   RootType: number;
 }
 
-const Path = [
-  [2, 0],
-  [2, 1],
-  [2, 2],
-  [2, 3],
-  [2, 4],
-  [2, 5],
-  [3, 5],
-  [4, 5],
-  [5, 5],
-  [6, 5],
-  [7, 5],
-  [8, 5],
-];
+// const Path = [
+//   [2, 0],
+//   [2, 1],
+//   [2, 2],
+//   [2, 3],
+//   [2, 4],
+//   [2, 5],
+//   [3, 5],
+//   [4, 5],
+//   [5, 5],
+//   [6, 5],
+//   [7, 5],
+//   [8, 5],
+// ];
 
 const Garden = (props: GardenProps) => {
   var PlantList = [{ name: "plant", pos: { x: 0, y: 0, size: 0 } }];
@@ -96,6 +96,7 @@ const Garden = (props: GardenProps) => {
 
     getGardenById();
   }, []);
+
   if (data == undefined) return null;
 
   data.PlantList.forEach((plant) => {
@@ -126,7 +127,7 @@ const Garden = (props: GardenProps) => {
         <DisplayGarden
           Width={data.Width}
           Height={data.Height}
-          Path={Path}
+          Path={data.Path}
           PlantList={PlantList.slice(1)}
         />
       </ImageZoom>

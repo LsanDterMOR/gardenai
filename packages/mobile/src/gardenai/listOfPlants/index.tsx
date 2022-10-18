@@ -53,14 +53,17 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
         );
         console.log("listOfPLants.data -> ");
         console.log(listOfPLants.data.result);
-        setPlant(listOfPLants.data.result);
+        const plantList = listOfPLants.data.result.filter((obj: { [x: string]: string; }) => {
+          return obj["CommonName"] != "PATH";
+        });
+        setPlant(plantList);
         let plantQuantityData: {
           name: string;
           code: string;
           quantity: number;
           show: boolean;
         }[] = [];
-        await listOfPLants.data.result.forEach((plant: any) => {
+        await plantList.forEach((plant: any) => {
           plantQuantityData.push({
             name: plant["CommonName"],
             quantity: 0,

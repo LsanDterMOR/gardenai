@@ -50,7 +50,7 @@ const plantGrid = (props: PlantGrid) => {
     >
       <SafeAreaView
         style={[
-          { flexDirection: "row", flexWrap: "wrap", marginLeft: "10%" },
+          { flexDirection: "row", flexWrap: "wrap", marginLeft: "8%" },
         ]}
       >
         {cartItems.map((item, i) => {
@@ -88,7 +88,7 @@ const plantGrid = (props: PlantGrid) => {
                   <Text
                     style={{
                       color: "white",
-                      fontSize: Dimensions.get("screen").height / 50,
+                      fontSize: Dimensions.get("screen").height / 55,
                       fontWeight: "bold"
                     }}
                   >
@@ -97,7 +97,7 @@ const plantGrid = (props: PlantGrid) => {
                   <Text
                     style={{
                       color: "white",
-                      fontSize: Dimensions.get("screen").height / 40,
+                      fontSize: Dimensions.get("screen").height / 45,
                       marginTop: "5%"
                     }}
                   >
@@ -113,13 +113,13 @@ const plantGrid = (props: PlantGrid) => {
 
 const styles = StyleSheet.create({
   plantCart: {
-    height: Dimensions.get("screen").height / 10,
-    width: Dimensions.get("screen").height / 10,
+    height: Dimensions.get("screen").height / 12,
+    width: Dimensions.get("screen").height / 12,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: "8%",
-    marginTop: "10%",
+    marginRight: "4.5%",
+    marginTop: "5%",
   },
   quitIcon: {
     position: "absolute",

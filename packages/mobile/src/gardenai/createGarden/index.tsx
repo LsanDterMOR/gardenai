@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   TouchableOpacity,
   Dimensions,
   TextInput,
@@ -20,6 +21,10 @@ interface CreateGardenProps {
   navigation: any;
 }
 
+var pathConfiguration1 = require("../garden/ressource/pathConfiguration1.png");
+var pathConfiguration2 = require("../garden/ressource/pathConfiguration2.png");
+var pathConfiguration3 = require("../garden/ressource/pathConfiguration3.png");
+
 const CreateGarden = (props: CreateGardenProps) => {
   const [LengthSize, setLengthSize] = useState(0);
   const [WidthSize, setWidthSize] = useState(0);
@@ -28,8 +33,24 @@ const CreateGarden = (props: CreateGardenProps) => {
   const setCartItems = useCartItem((state) => state.setCartItems);
   const userId = useUser((state) => state.user);
   const [Loading, setLoading] = useState(false);
+  const [PathType, setPathType] = useState(0);
   const [isErrorGardenName, setIsErrorGardenName] = useState(false);
   const [isErrorGardenSize, setIsErrorGardenSize] = useState(false);
+
+  function calculateGardenPath(startX: number, startY: number) {
+    let Path: Array<{ PosX: number; PosY: number }> = [];
+    if (PathType == 1 || PathType == 3) {
+      for (let y = 0; y < LengthSize; y++) {
+        Path.push({ PosX: startX, PosY: y });
+      }
+    }
+    if (PathType == 2 || PathType == 3) {
+      for (let x = 0; x < WidthSize; x++) {
+        Path.push({ PosX: x, PosY: startY });
+      }
+    }
+    return Path;
+  }
 
   function TitleFunction(text: string, marginTopValue: string) {
     return (
@@ -123,6 +144,89 @@ const CreateGarden = (props: CreateGardenProps) => {
           <View style={{ flex: 2 }} />
         </View>
 
+        {TitleFunction("Configuration", "2%")}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: "3%",
+          }}
+        >
+          <View style={{ flex: 2 }} />
+          <TouchableOpacity
+            style={styles.PlantButton}
+            onPress={() => {
+              if (PathType == 1) setPathType(0);
+              else setPathType(1);
+            }}
+          >
+            {PathType == 1 ? (
+              <Ionicons
+                name="checkmark-circle-outline"
+                color="#65C18C"
+                style={styles.pathCheckmarkIcon}
+                size={25}
+              />
+            ) : null}
+            <Image
+              style={{
+                width: "150%",
+                height: "150%",
+              }}
+              source={pathConfiguration1}
+            />
+          </TouchableOpacity>
+          <View style={{ flex: 1 }} />
+          <TouchableOpacity
+            style={styles.PlantButton}
+            onPress={() => {
+              if (PathType == 2) setPathType(0);
+              else setPathType(2);
+            }}
+          >
+            {PathType == 2 ? (
+              <Ionicons
+                name="checkmark-circle-outline"
+                color="#65C18C"
+                style={styles.pathCheckmarkIcon}
+                size={25}
+              />
+            ) : null}
+            <Image
+              style={{
+                width: "150%",
+                height: "150%",
+              }}
+              source={pathConfiguration2}
+            />
+          </TouchableOpacity>
+          <View style={{ flex: 1 }} />
+          <TouchableOpacity
+            style={styles.PlantButton}
+            onPress={() => {
+              if (PathType == 3) setPathType(0);
+              else setPathType(3);
+            }}
+          >
+            {PathType == 3 ? (
+              <Ionicons
+                name="checkmark-circle-outline"
+                color="#65C18C"
+                style={styles.pathCheckmarkIcon}
+                size={25}
+              />
+            ) : null}
+            <Image
+              style={{
+                width: "150%",
+                height: "150%",
+              }}
+              source={pathConfiguration3}
+            />
+          </TouchableOpacity>
+          <View style={{ flex: 2 }} />
+        </View>
+
         <PlantGrid />
         <View style={[styles.setValidateBtn]}>
           <TouchableOpacity
@@ -141,6 +245,10 @@ const CreateGarden = (props: CreateGardenProps) => {
                 errorGardenSize = true;
               }
               if (errorGardenName || errorGardenSize) return;
+              let gardenPath = calculateGardenPath(
+                Math.floor(WidthSize / 2),
+                Math.floor(LengthSize / 2)
+              );
               try {
                 setLoading(true);
                 const createGarden = await axios.post(
@@ -150,6 +258,7 @@ const CreateGarden = (props: CreateGardenProps) => {
                     Height: LengthSize,
                     Width: WidthSize,
                     PlantList: cartItems,
+                    PathList: gardenPath,
                     UserId: userId?.id,
                   }
                 );
@@ -275,6 +384,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: "2%",
     height: "90%",
+  },
+  pathCheckmarkIcon: {
+    position: "absolute",
+    right: 0,
+    top: 0,
   },
   errorText: {
     color: "red",

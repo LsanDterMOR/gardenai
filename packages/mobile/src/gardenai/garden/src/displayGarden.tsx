@@ -12,7 +12,7 @@ import {
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-interface Plant {
+interface PlantPos {
   name: string;
   pos: Pos;
 }
@@ -37,8 +37,39 @@ interface GardenProps {
 interface DisplayProps {
   Width: number;
   Height: number;
-  Path: Array<Array<number>>;
-  PlantList: Array<Plant>;
+  Path: Array<PlantList>;
+  PlantList: Array<PlantPos>;
+}
+
+interface PlantList {
+  ID: number;
+  Name: string;
+  PosX: number;
+  PosY: number;
+  Size: number;
+  GardenID: number;
+  PlantID: number;
+  Plant: Plant;
+}
+
+interface Plant {
+  ID: number;
+  CommonName: string;
+  ScientificName: string;
+  PlantType: string;
+  PlantCategory: string;
+  MinHeight: number;
+  MaxHeight: number;
+  MinSpreadRoot: number;
+  MaxSpreadRoot: number;
+  GrowthRate: number;
+  SunExposure: number;
+  MinimumRootDepth: number;
+  MinpH: number;
+  MaxpH: number;
+  MinUSDAZone: number;
+  MaxUSDAZone: number;
+  RootType: number;
 }
 
 const plant = {
@@ -83,7 +114,7 @@ function ParseMap(props: GardenProps) {
     plantImg = plantname == "carot" ? carot : plantImg;
     plantImg = plantname == "lettuce" ? lettuce : plantImg;
     plantImg = plantname == "apple_tree" ? apple_tree : plantImg;
-    if (!plantImg) return <View></View>;
+    if (!plantImg) return null;
     else
       return (
         <View
@@ -155,7 +186,7 @@ function ParseMap(props: GardenProps) {
         </View>
       );
   } else {
-    return <View></View>;
+    return null;
   }
 }
 
@@ -173,8 +204,8 @@ const displayGarden = (props: DisplayProps) => {
   var scale = 1.0 / (biggerSize / 4);
   topMargin = 50 * biggerSize;
   path.forEach((pathElem) => {
-    if (pathElem[0] < garden.width && pathElem[1] < garden.height) {
-      map[pathElem[0]][pathElem[1]] = { name: "field_rock", size: 1 };
+    if (pathElem.PosX < garden.width && pathElem.PosY < garden.height) {
+      map[pathElem.PosX][pathElem.PosY] = { name: "field_rock", size: 1 };
     }
   });
 
