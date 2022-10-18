@@ -37,7 +37,14 @@ func (garden) GetById(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := database.DB.Preload("Plant").Model(&models.GardenPlant{}).Find(&result.PlantList, "garden_id = ?", c.Params("id")).Error; err != nil {
+	if err := database.DB.Preload("Plant").Model(&models.GardenPlant{}).Find(&result.PlantList, "garden_id = ? AND plant_id <> 0", c.Params("id")).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"reason":  err.Error(),
+		})
+	}
+
+	if err := database.DB.Preload("Plant").Model(&models.GardenPlant{}).Find(&result.Path, "garden_id = ? AND plant_id = 0", c.Params("id")).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"success": false,
 			"reason":  err.Error(),
@@ -130,7 +137,7 @@ func (garden) CreateGarden(c *fiber.Ctx) error {
 		})
 	}
 
-	for _, element := range CreatePlants(dbGarden, garden.PlantList) {
+	for _, element := range CreatePlants(dbGarden, garden.PlantList, garden.PathList) {
 		dbGardenPlant := element
 
 		if err := database.DB.Create(&dbGardenPlant).Error; err != nil {

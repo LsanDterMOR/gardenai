@@ -22,12 +22,12 @@ func (garden) Init(v1 fiber.Router) {
 		return controllers.Garden.GetById(c)
 	})
 
-	// body: {gardenId: 245255, userId: 55253}
-	apiv1.Post("/Delete/", func(c *fiber.Ctx) error {
+	// body: {gardenId: 245255, userId: 55254}
+	apiv1.Post("/Delete", func(c *fiber.Ctx) error {
 		return controllers.Garden.DeleteGarden(c)
 	})
 	
-	// body: {name: "Garden n15", Width: 50, Height: 50, userId: 55253, plantList: []}
+	// body: {name: "Garden n15", Width: 25, Height: 25, userId: 55254, plantList: []}
 	apiv1.Post("/Create", func(c *fiber.Ctx) error {
 		return controllers.Garden.CreateGarden(c)
 	})

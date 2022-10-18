@@ -14,12 +14,18 @@ type ReqPlant struct {
 	Code     string
 }
 
+type ReqPath struct {
+	PosX    	    int
+	PosY	        int
+}
+
 type CreateGardenValidator struct {
 	Name      string `validate:"required,min=1,max=32"`
 	Width     int    `validate:"required"`
 	Height    int    `validate:"required"`
 	UserId    uint   `validate:"required"`
 	PlantList []ReqPlant
+	PathList  []ReqPath
 }
 
 type DeleteGardenValidator struct {
