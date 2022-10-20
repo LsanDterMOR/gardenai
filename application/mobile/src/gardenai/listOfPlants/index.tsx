@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { useCartItem } from "../../store/cartItems";
@@ -53,9 +54,11 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
         );
         console.log("listOfPLants.data -> ");
         console.log(listOfPLants.data.result);
-        const plantList = listOfPLants.data.result.filter((obj: { [x: string]: string; }) => {
-          return obj["CommonName"] != "PATH";
-        });
+        const plantList = listOfPLants.data.result.filter(
+          (obj: { [x: string]: string }) => {
+            return obj["CommonName"] != "path";
+          }
+        );
         setPlant(plantList);
         let plantQuantityData: {
           name: string;
@@ -101,12 +104,22 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
             placeholderTextColor="#000"
             onChangeText={(text) => setFilter(text)}
           ></TextInput>
-          <TouchableOpacity style={[styles.validateButton]} onPress={() => {
-            console.log("ADD ITEM IN CART");
-            addPlant(PlantInfo);
-            //addPlant()
-          }}>
-            <Text style={styles.validateButtonText}>+</Text>
+          <TouchableOpacity
+            style={[styles.validateButton]}
+            onPress={() => {
+              console.log("ADD ITEM IN CART");
+              addPlant(PlantInfo);
+              //addPlant()
+            }}
+          >
+            <AntDesign
+              name="check"
+              size={40}
+              color="white"
+              style={styles.validateButtonText}
+            />
+
+            {/* <Text style={styles.validateButtonText}>+</Text> */}
           </TouchableOpacity>
         </View>
         <FlatList
@@ -316,7 +329,7 @@ const styles = StyleSheet.create({
   },
   plantNotFound: {
     textAlign: "center",
-    marginTop: "40%"
+    marginTop: "40%",
   },
   plantNotFoundText: {
     textAlign: "center",

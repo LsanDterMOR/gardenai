@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("screen").width / 15,
     textAlign: "center",
     fontFamily: "VigaRegular",
-    color: "green",
+    color: "#65C18C",
   },
   plantCart: {
     height: Dimensions.get("screen").height / 10,
