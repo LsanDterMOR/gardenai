@@ -20,7 +20,7 @@ type ReqPath struct {
 }
 
 type CreateGardenValidator struct {
-	Name      string `validate:"required,min=1,max=32"`
+	Name      string `validate:"required,min=3,max=32"`
 	Width     int    `validate:"required"`
 	Height    int    `validate:"required"`
 	UserId    uint   `validate:"required"`

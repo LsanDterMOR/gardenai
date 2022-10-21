@@ -31,16 +31,11 @@ type Plant struct {
 	ScientificName   string
 	PlantType        string
 	PlantCategory    string
-	MinHeight        uint
 	MaxHeight        uint
-	MinSpreadRoot    uint
-	MaxSpreadRoot    uint
 	GrowthRate       GrowthRate
 	SunExposure      SunExposure
 	MinimumRootDepth uint
 	MinpH            uint
 	MaxpH            uint
-	MinUSDAZone      uint
-	MaxUSDAZone      uint
 	RootType         RootType
 }
