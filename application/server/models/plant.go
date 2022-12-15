@@ -15,14 +15,9 @@ const (
 )
 
 const (
-	FullSun SunExposure = iota + 1
+	Shade SunExposure = iota + 1
 	PartialShade
-	Shade
-)
-
-const (
-	FibrousDeep RootType = iota + 1
-	FibrousShallow
+	FullSun
 )
 
 type Plant struct {
@@ -37,5 +32,4 @@ type Plant struct {
 	MinimumRootDepth uint
 	MinpH            uint
 	MaxpH            uint
-	RootType         RootType
 }
