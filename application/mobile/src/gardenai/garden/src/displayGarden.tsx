@@ -253,7 +253,12 @@ const displayGarden = (props: DisplayProps) => {
   }
 
   PlantList.forEach((plantElem) => {
-    if (plantElem.pos.x < garden.width && plantElem.pos.y < garden.height && plantElem.pos.x != -1 && plantElem.pos.y != -1) {
+    if (
+      plantElem.pos.x < garden.width &&
+      plantElem.pos.y < garden.height &&
+      plantElem.pos.x != -1 &&
+      plantElem.pos.y != -1
+    ) {
       map[plantElem.pos.x][plantElem.pos.y] = {
         name: plantElem.name,
         size: plantElem.pos.size,
@@ -301,7 +306,7 @@ const displayGarden = (props: DisplayProps) => {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    backgroundColor: "#FFFBF9",
+    backgroundColor: "#FAEEE7",
     alignItems: "center",
     paddingTop: StatusBar.currentHeight,
   },

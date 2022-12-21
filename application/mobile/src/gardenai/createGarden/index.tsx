@@ -125,14 +125,6 @@ const CreateGarden = (props: CreateGardenProps) => {
             marginTop: "3%",
           }}
         >
-          <View style={{ flex: 2 }} />
-          <TouchableOpacity
-            style={styles.PlantButton}
-            onPress={() => props.navigation.navigate("Camera")}
-          >
-            <Ionicons name="camera-outline" size={24} color="#65C18C" />
-            <Text>Photo</Text>
-          </TouchableOpacity>
           <View style={{ flex: 1 }} />
           <TouchableOpacity
             style={styles.PlantButton}
@@ -141,7 +133,7 @@ const CreateGarden = (props: CreateGardenProps) => {
             <Ionicons name="library-outline" size={24} color="#65C18C" />
             <Text>Glossaire</Text>
           </TouchableOpacity>
-          <View style={{ flex: 2 }} />
+          <View style={{ flex: 1 }} />
         </View>
 
         {TitleFunction("Configuration", "2%")}
@@ -289,7 +281,7 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     display: "flex",
-    backgroundColor: "#FFFBF9",
+    backgroundColor: "#FAEEE7",
     alignItems: "center",
   },
   pageHeader: {

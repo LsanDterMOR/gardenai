@@ -55,7 +55,7 @@ const Gardenai = (props: GardenaiProps) => {
     Moment.locale("fr");
     return (
       <Text style={styles.setDescriptionGardenDate}>
-        {Moment(date).format("d MMM YY")}
+        {Moment(date).format("DD MMM YY")}
       </Text>
     );
   };
