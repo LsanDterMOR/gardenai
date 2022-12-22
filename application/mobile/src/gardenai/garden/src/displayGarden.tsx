@@ -94,9 +94,14 @@ var field_grass = require("../ressource/field_grass.png");
 var field_dirt = require("../ressource/field_dirt.png");
 var field_rock = require("../ressource/field_rock.png");
 
-var tomato = require("../ressource/tomato.png");
-var carot = require("../ressource/carot.png");
-var lettuce = require("../ressource/lettuce.png");
+var tomato = require("../ressource/Tomato.png");
+var carrot = require("../ressource/Carrot.png");
+var lettuce = require("../ressource/Lettuce.png");
+var bean = require("../ressource/Bean.png");
+var chilli_pepper = require("../ressource/Chilli-pepper.png");
+var potato = require("../ressource/Potato.png");
+var strawberry = require("../ressource/Strawberry.png");
+var Garlic = require("../ressource/Garlic.png");
 var apple_tree = require("../ressource/apple_tree.png");
 
 function ParseMap(props: GardenProps) {
@@ -110,10 +115,15 @@ function ParseMap(props: GardenProps) {
   var plantImg;
 
   if (plantname != null) {
-    plantImg = plantname == "tomato" ? tomato : plantImg;
-    plantImg = plantname == "carot" ? carot : plantImg;
-    plantImg = plantname == "lettuce" ? lettuce : plantImg;
-    plantImg = plantname == "apple_tree" ? apple_tree : plantImg;
+    plantImg = plantname == "Tomato" ? tomato : plantImg;
+    plantImg = plantname == "Carrot" ? carrot : plantImg;
+    plantImg = plantname == "Lettuce" ? lettuce : plantImg;
+    plantImg = plantname == "Bean" ? bean : plantImg;
+    plantImg = plantname == "Chilli_pepper" ? chilli_pepper : plantImg;
+    plantImg = plantname == "Potato" ? potato : plantImg;
+    plantImg = plantname == "Strawberry" ? strawberry : plantImg;
+    plantImg = plantname == "Apple_tree" ? apple_tree : plantImg;
+    plantImg = plantname == "Garlic" ? Garlic : plantImg;
     if (!plantImg) return null;
     else
       return (
