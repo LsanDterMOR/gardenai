@@ -60,5 +60,4 @@ func SetPlantScore(gardenPlantList []models.GardenPlant) {
 		element.Score = note;
 		note = 0
 	}
-	return note
 }
