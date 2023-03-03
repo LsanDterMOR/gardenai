@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     display: "flex",
-    backgroundColor: "#FFFBF9",
+    backgroundColor: "#FAEEE7",
     alignItems: "center",
     paddingTop: StatusBar.currentHeight,
   },
