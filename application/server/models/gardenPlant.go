@@ -9,6 +9,7 @@ type GardenPlant struct {
 	PosX            int
 	PosY            int
 	Size            int
+	Score           int
 	GardenID        uint
 	PlantID         int
 	Plant           Plant

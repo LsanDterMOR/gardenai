@@ -44,3 +44,21 @@ func EvaluateGarden(gardenPlantList []models.GardenPlant) int {
 	}
 	return note
 }
+
+func SetPlantScore(gardenPlantList []models.GardenPlant) {
+	note := 0
+	for i, element := range gardenPlantList {
+		note += getScore(getPlantAtPos(gardenPlantList, gardenPlantList[i].PosX + 1, gardenPlantList[i].PosX + 1),
+		gardenPlantList[i])
+		note += getScore(getPlantAtPos(gardenPlantList, gardenPlantList[i].PosX + 1, gardenPlantList[i].PosX - 1),
+		gardenPlantList[i])
+		note += getScore(getPlantAtPos(gardenPlantList, gardenPlantList[i].PosX - 1, gardenPlantList[i].PosX - 1),
+		gardenPlantList[i])
+		note += getScore(getPlantAtPos(gardenPlantList, gardenPlantList[i].PosX - 1, gardenPlantList[i].PosX + 1),
+		gardenPlantList[i])
+
+		element.Score = note;
+		note = 0
+	}
+	return note
+}

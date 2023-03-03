@@ -18,6 +18,7 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant, pathLis
 			models.GardenPlant {
 				PosX: element.PosX,
 				PosY: element.PosY,
+				Score: 0,
 				Size: 1,
 				GardenID: garden.ID,
 				Plant: path,
@@ -32,6 +33,7 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant, pathLis
 			models.GardenPlant {
 				PosX: -1,
 				PosY: -1,
+				Score: 0,
 				Size: 1,
 				GardenID: garden.ID,
 				Plant: plant,
@@ -39,7 +41,9 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant, pathLis
 		}
 	}
 	
-	return SetPlantPosition(garden, gardenPlantList)
+	[]models.GardenPlant finalGarden = SetPlantPosition(garden, gardenPlantList)
+	SetPlantScore(finalGarden)
+	return finalGarden
 }
 
 func IsPlacedPlant(gardenPlant models.GardenPlant) bool {
