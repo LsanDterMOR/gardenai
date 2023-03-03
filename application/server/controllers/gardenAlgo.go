@@ -41,7 +41,7 @@ func CreatePlants(garden models.Garden, plantList []validators.ReqPlant, pathLis
 		}
 	}
 	
-	[]models.GardenPlant finalGarden = SetPlantPosition(garden, gardenPlantList)
+	[]models.GardenPlant finalGarden := SetPlantPosition(garden, gardenPlantList)
 	SetPlantScore(finalGarden)
 	return finalGarden
 }
