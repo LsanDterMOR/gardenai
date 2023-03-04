@@ -26,11 +26,11 @@ interface GardenData {
   Name: string;
   Width: number;
   Height: number;
-  PlantList: Array<PlantList>;
-  Path: Array<PlantList>;
+  PlantList: Array<Tile>;
+  Path: Array<Tile>;
 }
 
-interface PlantList {
+interface Tile {
   ID: number;
   Name: string;
   PosX: number;
@@ -38,6 +38,7 @@ interface PlantList {
   Size: number;
   GardenID: number;
   PlantID: number;
+  Score: number;
   Plant: Plant;
 }
 
@@ -77,7 +78,7 @@ interface Plant {
 // ];
 
 const Garden = (props: GardenProps) => {
-  var PlantList = [{ name: "plant", pos: { x: 0, y: 0, size: 0 } }];
+  var PlantList = [{ name: "plant", pos: { x: 0, y: 0, size: 0 }, score: 0 }];
   const [data, setData] = useState<GardenData>();
 
   useEffect(() => {
@@ -103,6 +104,7 @@ const Garden = (props: GardenProps) => {
     PlantList.push({
       name: plant.Plant.CommonName,
       pos: { x: plant.PosX, y: plant.PosY, size: plant.Size },
+      score: plant.Score,
     });
   });
 

@@ -11,10 +11,12 @@ import {
 } from "react-native";
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Double } from "react-native/Libraries/Types/CodegenTypes";
 
 interface PlantPos {
   name: string;
   pos: Pos;
+  score: number;
 }
 
 interface Pos {
@@ -26,6 +28,7 @@ interface Pos {
 interface PlantInfo {
   name: string;
   size: number;
+  score: number;
 }
 
 interface GardenProps {
@@ -94,9 +97,9 @@ var field_grass = require("../ressource/field_grass.png");
 var field_dirt = require("../ressource/field_dirt.png");
 var field_rock = require("../ressource/field_rock.png");
 
-var tomato = require("../ressource/Tomato.png");
+var tomato = require("../ressource/tomato.png");
 var carrot = require("../ressource/Carrot.png");
-var lettuce = require("../ressource/Lettuce.png");
+var lettuce = require("../ressource/lettuce.png");
 var bean = require("../ressource/Bean.png");
 var chilli_pepper = require("../ressource/Chilli-pepper.png");
 var potato = require("../ressource/Potato.png");
@@ -124,6 +127,8 @@ function ParseMap(props: GardenProps) {
     plantImg = plantname == "Strawberry" ? strawberry : plantImg;
     plantImg = plantname == "Apple_tree" ? apple_tree : plantImg;
     plantImg = plantname == "Garlic" ? Garlic : plantImg;
+    const plantScore = props.map[y - 1][i - 1].score;
+    const borderColor = plantScore > 0 ? 'green' : plantScore < 0 ? 'red' : 'gray';
     if (!plantImg) return null;
     else
       return (
@@ -139,7 +144,7 @@ function ParseMap(props: GardenProps) {
             transparent={true}
             visible={modalVisible}
           >
-            <View style={styles.plantPopup}>
+            <View style={[styles.plantPopup, { borderColor }]}>
               <View style={styles.plantPopupContent}>
                 <Text style={styles.plantPopupName}>
                   {props.map[y - 1][i - 1].name}
@@ -147,6 +152,9 @@ function ParseMap(props: GardenProps) {
                 <Text style={styles.plantPopupSize}>
                   Taille :{" "}
                   {props.map[y - 1][i - 1].size == 1 ? "moyenne" : "grande"}
+                </Text>
+                <Text style={styles.plantPopupScore}>
+                  Score : {plantScore}
                 </Text>
               </View>
               <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
@@ -272,6 +280,7 @@ const displayGarden = (props: DisplayProps) => {
       map[plantElem.pos.x][plantElem.pos.y] = {
         name: plantElem.name,
         size: plantElem.pos.size,
+        score: plantElem.score,
       };
     }
   });
@@ -330,7 +339,7 @@ const styles = StyleSheet.create({
     height: "15%",
     padding: "2%",
     borderRadius: 10,
-    borderWidth: 1,
+    borderWidth: 2,
     flexDirection: "row",
   },
   plantPopupContent: {
@@ -342,6 +351,11 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("screen").width / 15,
   },
   plantPopupSize: {
+    textAlign: "center",
+    marginTop: "10%",
+    fontSize: Dimensions.get("screen").width / 25,
+  },
+  plantPopupScore: {
     textAlign: "center",
     marginTop: "10%",
     fontSize: Dimensions.get("screen").width / 25,
