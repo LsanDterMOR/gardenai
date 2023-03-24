@@ -255,8 +255,8 @@ const CreateGarden = (props: CreateGardenProps) => {
                   }
                 );
                 setLoading(false);
-                console.log("createGarden -> ", createGarden.status);
-                console.log(createGarden);
+                console.log("Successfully created garden: ", createGarden.status);
+                //console.log(createGarden);
                 if (createGarden.status == 200) {
                   setCartItems([]);
                   props.navigation.navigate("Garden", {

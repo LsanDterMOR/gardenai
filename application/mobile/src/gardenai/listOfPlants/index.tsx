@@ -47,13 +47,10 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
 
   useEffect(() => {
     try {
-      console.log("useEffect dans create garden");
       const requestPlant = async () => {
         const listOfPLants = await axios.get(
           "https://gardenai-backend.herokuapp.com/api/v1/plant/"
         );
-        console.log("listOfPLants.data -> ");
-        console.log(listOfPLants.data.result);
         const plantList = listOfPLants.data.result.filter(
           (obj: { [x: string]: string }) => {
             return obj["CommonName"] != "path";
@@ -75,8 +72,6 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
           });
         });
         setPlantInfo(plantQuantityData);
-        console.log("Display Plant Number");
-        console.log(PlantInfo);
       };
       requestPlant();
     } catch (e) {
@@ -107,7 +102,6 @@ const ListOfPlants = (props: ListOfPlantsProps) => {
           <TouchableOpacity
             style={[styles.validateButton]}
             onPress={() => {
-              console.log("ADD ITEM IN CART");
               addPlant(PlantInfo);
               //addPlant()
             }}

@@ -28,12 +28,8 @@ const plantGrid = (props: PlantGrid) => {
     }
     return false;
   });
-  // useEffect(() => {
-  //   setCartItems(uniqueEmployees);
-  // }, [uniqueEmployees]);
 
   function removeCart(name: string) {
-    // console.log(array);
     const newItems = cartItems.filter((item) => item.name !== name);
     setCartItems(newItems);
   }

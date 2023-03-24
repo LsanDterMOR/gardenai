@@ -12,6 +12,7 @@ import {
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Double } from "react-native/Libraries/Types/CodegenTypes";
+import sprites from "./spriteConfig.js";
 
 interface PlantPos {
   name: string;
@@ -35,6 +36,11 @@ interface GardenProps {
   i: number;
   y: number;
   map: Array<Array<PlantInfo>>;
+  plantSprites: PlantSprites;
+}
+
+interface PlantSprites {
+  [key: string]: number | { uri: string };
 }
 
 interface DisplayProps {
@@ -89,123 +95,86 @@ const field = {
 
 var topMargin = 0;
 
-var background = require("../ressource/background.png");
-
-var sun = require("../ressource/sun.png");
-
-var field_grass = require("../ressource/field_grass.png");
-var field_dirt = require("../ressource/field_dirt.png");
-var field_rock = require("../ressource/field_rock.png");
-
-var tomato = require("../ressource/tomato.png");
-var carrot = require("../ressource/Carrot.png");
-var lettuce = require("../ressource/lettuce.png");
-var bean = require("../ressource/Bean.png");
-var chilli_pepper = require("../ressource/Chilli-pepper.png");
-var potato = require("../ressource/Potato.png");
-var strawberry = require("../ressource/Strawberry.png");
-var Garlic = require("../ressource/Garlic.png");
-var apple_tree = require("../ressource/apple_tree.png");
-
 function ParseMap(props: GardenProps) {
   const [modalVisible, setModalVisible] = useState(false);
   let i = props.i;
   let y = props.y;
   var height = plant.height;
   var width = plant.width;
-  var plantname = "";
-  plantname = props.map[y - 1][i - 1].name;
-  var plantImg;
-
-  if (plantname != null) {
-    plantImg = plantname == "Tomato" ? tomato : plantImg;
-    plantImg = plantname == "Carrot" ? carrot : plantImg;
-    plantImg = plantname == "Lettuce" ? lettuce : plantImg;
-    plantImg = plantname == "Bean" ? bean : plantImg;
-    plantImg = plantname == "Chilli_pepper" ? chilli_pepper : plantImg;
-    plantImg = plantname == "Potato" ? potato : plantImg;
-    plantImg = plantname == "Strawberry" ? strawberry : plantImg;
-    plantImg = plantname == "Apple_tree" ? apple_tree : plantImg;
-    plantImg = plantname == "Garlic" ? Garlic : plantImg;
-    const plantScore = props.map[y - 1][i - 1].score;
-    const borderColor = plantScore > 0 ? 'green' : plantScore < 0 ? 'red' : 'gray';
-    if (!plantImg) return null;
-    else
-      return (
-        <View
-          key={"plant_" + y * 10 + i}
-          onStartShouldSetResponder={(event) => true}
-          onTouchEnd={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-          >
-            <View style={[styles.plantPopup, { borderColor }]}>
-              <View style={styles.plantPopupContent}>
-                <Text style={styles.plantPopupName}>
-                  {props.map[y - 1][i - 1].name}
-                </Text>
-                <Text style={styles.plantPopupSize}>
-                  Taille :{" "}
-                  {props.map[y - 1][i - 1].size == 1 ? "moyenne" : "grande"}
-                </Text>
-                <Text style={styles.plantPopupScore}>
-                  Score : {plantScore}
-                </Text>
-              </View>
-              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                <FontAwesome5
-                  name="circle"
-                  size={25}
-                  color="black"
-                  style={{ color: "#FF6565" }}
-                  solid
-                />
-                <Text
-                  style={{
-                    color: "white",
-                    position: "absolute",
-                    right: 9,
-                    top: 3,
-                  }}
-                >
-                  x
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <Image
-              style={{
-                top:
-                  topMargin +
-                  (i * height + y * height) -
-                  50 * (props.map[y - 1][i - 1].size - 1),
-                left:
-                  -width +
-                  (y * width - i * width) -
-                  50 * (props.map[y - 1][i - 1].size - 1),
-                position: "absolute",
-                width: plant.size * props.map[y - 1][i - 1].size,
-                height: plant.size * props.map[y - 1][i - 1].size,
-                resizeMode: "contain",
-              }}
-              source={plantImg}
+  var plantName = props.map[y - 1][i - 1].name;
+  if (!plantName) return null;
+  const plantImg =
+    props.plantSprites[plantName] || props.plantSprites.defaultPlant;
+  if (!plantImg) return null;
+  const plantScore = props.map[y - 1][i - 1].score;
+  const borderColor =
+    plantScore > 0 ? "green" : plantScore < 0 ? "red" : "gray";
+  return (
+    <View
+      key={"plant_" + y * 10 + i}
+      onStartShouldSetResponder={(event) => true}
+      onTouchEnd={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View style={[styles.plantPopup, { borderColor }]}>
+          <View style={styles.plantPopupContent}>
+            <Text style={styles.plantPopupName}>
+              {props.map[y - 1][i - 1].name}
+            </Text>
+            <Text style={styles.plantPopupSize}>
+              Taille :{" "}
+              {props.map[y - 1][i - 1].size == 1 ? "moyenne" : "grande"}
+            </Text>
+            <Text style={styles.plantPopupScore}>Score : {plantScore}</Text>
+          </View>
+          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+            <FontAwesome5
+              name="circle"
+              size={25}
+              color="black"
+              style={{ color: "#FF6565" }}
+              solid
             />
-          </TouchableWithoutFeedback>
+            <Text
+              style={{
+                color: "white",
+                position: "absolute",
+                right: 9,
+                top: 3,
+              }}
+            >
+              x
+            </Text>
+          </TouchableOpacity>
         </View>
-      );
-  } else {
-    return null;
-  }
+      </Modal>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <Image
+          style={{
+            top:
+              topMargin +
+              (i * height + y * height) -
+              50 * (props.map[y - 1][i - 1].size - 1),
+            left:
+              -width +
+              (y * width - i * width) -
+              50 * (props.map[y - 1][i - 1].size - 1),
+            position: "absolute",
+            width: plant.size * props.map[y - 1][i - 1].size,
+            height: plant.size * props.map[y - 1][i - 1].size,
+            resizeMode: "contain",
+          }}
+          source={plantImg}
+        />
+      </TouchableWithoutFeedback>
+    </View>
+  );
 }
 
 const displayGarden = (props: DisplayProps) => {
@@ -227,6 +196,12 @@ const displayGarden = (props: DisplayProps) => {
     }
   });
 
+  const plantSprites = { defaultPlant: require("../ressource/default.png") };
+
+  Object.keys(sprites).forEach((key) => {
+    plantSprites[key] = sprites[key];
+  });
+
   var gardenField = [];
   var plantField = [];
   var height = field.height;
@@ -246,7 +221,7 @@ const displayGarden = (props: DisplayProps) => {
                 height: field.size,
                 resizeMode: "contain",
               }}
-              source={field_dirt}
+              source={sprites.field_dirt}
             />
           </View>
         );
@@ -262,7 +237,7 @@ const displayGarden = (props: DisplayProps) => {
                 height: field.size,
                 resizeMode: "contain",
               }}
-              source={field_rock}
+              source={sprites.field_rock}
             />
           </View>
         );
@@ -287,9 +262,10 @@ const displayGarden = (props: DisplayProps) => {
 
   for (let y = 1; y <= garden.width; y++) {
     for (let i = 1; i <= garden.height; i++) {
+      if (map[y - 1][i - 1].name == "field_dirt" || map[y - 1][i - 1].name == "field_rock") continue;
       plantField.push(
         <View key={"plant_" + y * 10 + i}>
-          <ParseMap i={i} y={y} map={map} />
+          <ParseMap i={i} y={y} map={map} plantSprites={plantSprites} />
         </View>
       );
     }
@@ -300,7 +276,7 @@ const displayGarden = (props: DisplayProps) => {
       <View>
         <Image
           style={{ top: -1200, left: -1800, position: "absolute" }}
-          source={background}
+          source={sprites.background}
         />
       </View>
       <View style={{ transform: [{ scale: scale }] }}>
@@ -315,7 +291,7 @@ const displayGarden = (props: DisplayProps) => {
             transform: [{ scale: 0.3 }],
             position: "absolute",
           }}
-          source={sun}
+          source={sprites.sun}
         />
       </View>
     </View>
